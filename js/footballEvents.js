@@ -141,24 +141,8 @@ class Events {
             Events.removeLastChild
         );
 
-        // Nastavíme formulářové prvky:
-        /*
-        Events.createChildElements(
-            count,
-            document.getElementById("player-names").querySelector(line),
-            Events.addPlayerForm
-            *//*
-            (targetEl) => {
-                console.log(targetEl.closest("form"));
-                for (var el of targetEl.closest("form").querySelectorAll("tr")) {
-                    el.setAttribute("class", "")
-                }
-                el.setAttribute("class", "")
-                //var el = targetEl.lastElementChild;
-                //el.parentNode.removeChild(el);
-            }
-            */
-        /*);*/
+        // Spočítáme, zda jich je 11:
+        Events.checkLineCounts();
     }
     static changePositionsDef (e) {
         Events.changePositionLine(e.currentTarget.value, ".line-def");
