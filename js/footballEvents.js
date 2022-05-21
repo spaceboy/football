@@ -205,8 +205,8 @@ class Events {
     // Zkopíruj rozložení barev do sestavy:
     static copyJerseyColors () {
         document.getElementById("style-jersey").textContent =
-            "#lineup .player .jersey i {background-image: " + document.querySelector("#player-field .jersey i").style.backgroundImage + "};" +
-            "#lineup .line-gol .player .jersey i {background-image: " + document.querySelector("#player-goalie .jersey i").style.backgroundImage + ";";
+            "#lineup .player .jersey i {background-image: " + document.querySelector("#player-field .jersey i").style.backgroundImage + ";} " +
+            "#lineup .line-gol .player .jersey i {background-image: " + document.querySelector("#player-goalie .jersey i").style.backgroundImage + ";}";
     }
 
 }

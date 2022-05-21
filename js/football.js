@@ -4,6 +4,9 @@ Evnt.on("#club-players tfoot .add", "click", Events.clickPlayerAdd);
 // Vlož první řádek do formuláře hráčů:
 Evnt.trigger("#club-players tfoot .add", "click");
 
+// Vlož na hřiště figuru brankáře:
+Events.addPlayerFigure(document.querySelector("#lineup .line-gol"));
+
 // Inicializuj Color pickery:
 for (var el of document.querySelectorAll("form input[data-type='color']")) {
     new ColorPicker(el);
