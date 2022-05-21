@@ -21,6 +21,8 @@
     </head>
     <body>
 
+        <style id="style-jersey"></style>
+
         <div class="container align-center">
             <div class="row">
                 <div class="column width-12">
@@ -72,20 +74,25 @@
                             </table>
                         </form><!-- /club-info -->
                     </div><!-- /.column-->
-                    <div class="column width-4">
+                    <div class="column width-4 players">
                         <form name="club-players">
                             <h3>Hráči</h3>
-                            <table>
-                                <tbody>
+                            <table id="club-players" class="player-name">
+                                <thead>
                                     <tr>
-                                        <td><input class="player-number"></td>
-                                        <td><input class="player-name"></td>
+                                        <th>Číslo</th>
+                                        <td>Jméno</td>
+                                        <td colspan="2">Kapitán</td>
                                     </tr>
+                                </thead>
+                                <tbody></tbody>
+                                <tfoot>
                                     <tr>
-                                        <td><input class="player-number"></td>
-                                        <td><input class="player-name"></td>
+                                        <th colspan="3">
+                                            <i class="add fas fa-plus-circle"></i>
+                                        </th>
                                     </tr>
-                                </tbody>
+                                </tfoot>
                             </table>
                         </form>
                     </div><!-- /.column-->
@@ -248,290 +255,6 @@
             </div>
         </div><!-- /#block-jersey -->
 
-        <div class="block" id="block-lineup">
-            <div class="container">
-                <div class="row">
-                    <div class="column width-12 text-center">
-                        <h2>Rozestavení hráčů v poli</h2>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="column width-8 text-right">
-                        <div id="lineup">
-                            <div class="line line-gol">
-                                <div class="player"><i class="fas fa-male" style="align-self: flex-end;"></i></div>
-                            </div>
-                            <div class="line line-def" style="text-align: center;"></div>
-                            <div class="line line-mid" style="text-align: center;"></div>
-                            <div class="line line-str" style="text-align: center;"></div>
-                        </div>
-                    </div><!-- /row -->
-                    <div class="column width-4">
-                        <form id="">
-                            <table>
-                                <tbody>
-                                    <tr>
-                                        <th colspan="2">
-                                            <h3 class="first">Sestava</h3>
-                                        </th>
-                                    </tr>
-                                    <tr>
-                                        <th>
-                                            <label for="positions-preset">Rozestavení</label>
-                                        </th>
-                                        <td>
-                                            <select id="positions-preset" data-default-value="4:4:2">
-                                                <option value="">---</option>
-                                                <option value="3:5:2">3-5-2</option>
-                                                <option value="3:4:3">3-4-3</option>
-                                                <option value="4:4:2">4-4-2</option>
-                                                <option value="4:3:3">4-3-3</option>
-                                                <option value="4:5:1">4-5-1</option>
-                                                <option value="5:3:2">5-3-2</option>
-                                                <option value="5:4:1">5-4-1</option>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th colspan="2">
-                                            <h3>Útok</h3>
-                                        </th>
-                                    </tr>
-                                    <tr>
-                                        <th>
-                                            <label for="positions-str">Počet hráčů</label>
-                                        </th>
-                                        <td>
-                                            <select id="positions-str" data-default-value="2">
-                                                <option value="1">1</option>
-                                                <option value="2">2</option>
-                                                <option value="3">3</option>
-                                                <option value="4">4</option>
-                                                <option value="5">5</option>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th>
-                                            <label for="horizontal-str">Šířka řady</label>
-                                        </th>
-                                        <td>
-                                            <select id="horizontal-str" data-default-value="center">
-                                                <option value="center">Na střed</option>
-                                                <option value="space-around">Do plochy</option>
-                                                <option value="space-between">Do šířky</option>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th colspan="2">
-                                            <h3>Záloha</h3>
-                                        </th>
-                                    </tr>
-                                    <tr>
-                                        <th>
-                                            <label for="positions-mid">Počet hráčů</label>
-                                        </th>
-                                        <td>
-                                            <select id="positions-mid" data-default-value="4">
-                                                <option value="2">2</option>
-                                                <option value="3">3</option>
-                                                <option value="4">4</option>
-                                                <option value="5">5</option>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th>
-                                            <label for="horizontal-mid">Šířka řady</label>
-                                        </th>
-                                        <td>
-                                            <select id="horizontal-mid" data-default-value="center">
-                                                <option value="center">Na střed</option>
-                                                <option value="space-around">Do plochy</option>
-                                                <option value="space-between">Do šířky</option>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th colspan="2">
-                                            <h3>Obrana</h3>
-                                        </th>
-                                    </tr>
-                                    <tr>
-                                        <th>
-                                            <label for="positions-def">Počet hráčů</label>
-                                        </th>
-                                        <td>
-                                            <select id="positions-def" data-default-value="4">
-                                                <option value="2">2</option>
-                                                <option value="3">3</option>
-                                                <option value="4">4</option>
-                                                <option value="5">5</option>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th>
-                                            <label for="horizontal-def">Šířka řady</label>
-                                        </th>
-                                        <td>
-                                            <select id="horizontal-def" data-default-value="center">
-                                                <option value="center">Na střed</option>
-                                                <option value="space-around">Do plochy</option>
-                                                <option value="space-between">Do šířky</option>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </form>
-                    </div>
-                </div><!-- /row -->
-            </div><!-- /container -->
-        </div><!-- /#block-lineup-->
-
-<style>
-
-.container.players table {
-    border-collapse: collapse;
-    /*width: fit-content;*/
-    width: 90%;
-}
-
-.container.players input {
-    border: 1px solid #ccc;
-    padding: .25em .5em;
-}
-
-.container.players .remove {
-    background: white;
-    border-radius: 50%;
-    color: red;
-    cursor: pointer;
-    font-size: 130%;
-    margin-left: .5em;
-}
-
-.container.players table tbody {
-    /* background-color: lightgreen; */
-}
-</style>
-
-        <div id="player-names" class="container players">
-            <div class="row">
-                <h2>Soupiska</h2>
-            </div><!-- /row-->
-            <div class="row">
-                <div class="column width-3">
-                    <form>
-                        <table class="player-name" id="players-gol">
-                            <thead>
-                                <tr>
-                                    <td colspan="3">
-                                        <h3>Brankáři</h3>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>Číslo</th>
-                                    <td colspan="2">Jméno</td>
-                                </tr>
-                            </thead>
-                            <tbody class="line-gol"></tbody>
-                            <tfoot>
-                                <tr>
-                                    <th colspan="3">
-                                        <i class="add fas fa-plus-circle"></i>
-                                    </th>
-                                </tr>
-                            </tfoot>
-                        </table>
-                    </form>
-                </div><!-- /.column-->
-                <div class="column width-3">
-                    <form>
-                        <table class="player-name" id="players-def">
-                            <thead>
-                                <tr>
-                                    <td colspan="3">
-                                        <h3>Obránci</h3>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>Číslo</th>
-                                    <td colspan="2">Jméno</td>
-                                </tr>
-                            </thead>
-                            <tbody class="line-def"></tbody>
-                            <tfoot>
-                                <tr>
-                                    <th colspan="3">
-                                        <i class="add fas fa-plus-circle"></i>
-                                    </th>
-                                </tr>
-                            </tfoot>
-                        </table>
-                    </form>
-                </div><!-- /.column-->
-                <div class="column width-3">
-                    <form>
-                        <table class="player-name" id="players-mid">
-                            <thead>
-                                <tr>
-                                    <td colspan="3">
-                                        <h3>Záložníci</h3>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>Číslo</th>
-                                    <td colspan="2">Jméno</td>
-                                </tr>
-                            </thead>
-                            <tbody class="line-mid"></tbody>
-                            <tfoot>
-                                <tr>
-                                    <th colspan="3">
-                                        <i class="add fas fa-plus-circle"></i>
-                                    </th>
-                                </tr>
-                            </tfoot>
-                        </table>
-                    </form>
-                </div><!-- /.column-->
-                <div class="column width-3">
-                    <form>
-                        <table class="player-name" id="players-str">
-                            <thead>
-                                <tr>
-                                    <td colspan="3">
-                                        <h3>Útočníci</h3>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>Číslo</th>
-                                    <td colspan="2">Jméno</td>
-                                </tr>
-                            </thead>
-                            <tbody class="line-str"></tbody>
-                            <tfoot>
-                                <tr>
-                                    <th colspan="3">
-                                        <i class="add fas fa-plus-circle"></i>
-                                    </th>
-                                </tr>
-                            </tfoot>
-                        </table>
-                    </form>
-                </div><!-- /.column-->
-            </div><!-- /row -->
-        </div><!-- /container -->
-
-
-        <div class="container">
-            <div class="row">
-                <div class="column width-12">
-
-
 <style>
 
 #canvas {
@@ -564,151 +287,636 @@
 #canvas .canvas-lineup {
     flex: 1;
 }
+
 </style>
+        <div class="block" id="block-lineup">
 
+            <div class="container">
+                <div class="row">
+                    <div class="column width-12 text-center">
+                        <div id="canvas">
 
-                    <div id="canvas">
-
-                        <div class="canvas-row">
-                            <div class="canvas-title">
-                                <h2>
-                                    <span class="home">TJ Slavoj Houslice</span>
-                                    vs.
-                                    <span class="away">SK Horní Střední Lhota</span>
-                                </h2>
+                            <div class="canvas-row">
+                                <div class="canvas-title">
+                                    <h2>
+                                        <span class="home">TJ Slavoj Houslice</span>
+                                        vs.
+                                        <span class="away">SK Horní Střední Lhota</span>
+                                    </h2>
+                                </div>
                             </div>
+
+                            <div class="canvas-row" class="canvas-lineup">
+
+                                <div class="lineup" style="/*background: red;*/ flex: 6;">
+                                    <!-- 640 × 480 -- dost malé -- sloupce 5:2 -->
+                                    <!-- 720 × 540 -- malé -- sloupce 5:2 nebo 6:2 (3:1) -->
+                                    <!-- 768 × 576 -- středně velké -- sloupce 4:1 -->
+                                    <!-- platí i pro 780 × 585 -->
+                                    <!-- 800 × 600 -- dost velké -- sloupce 4:1 -->
+                                    <!-- 860 × 645 -- na knap -->
+                                    <!-- 900 × 675 -- moc velké -->
+                                    <!-- 920 × 690 -- moc velké -->
+                                    <!-- 960 × 720 -- moc velké -->
+                                    <div id="lineup" style="width: 720px; height: 540px; /*background: #fff;*/ margin: auto;">
+                                        <div class="line line-gol">
+                                            <div class="player"><i class="fas fa-male" style="align-self: flex-end;"></i></div>
+                                        </div>
+                                        <div class="line line-def" style="text-align: center;"></div>
+                                        <div class="line line-mid" style="text-align: center;"></div>
+                                        <div class="line line-str" style="text-align: center;"></div>
+                                    </div>
+                                </div>
+
+                                <div class="info" style="/*background: grey;*/ flex: 2; display: flex; flex-direction: column; justify-content: space-between; text-align: center;">
+                                    <div id="info-place">
+                                        <h3>Místo</h3>
+                                        <ul>
+                                            <li>Hřiště FC Horní Dolní</li>
+                                        </ul>
+                                    </div>
+                                    <div id="info-time">
+                                        <h3>Výkop</h3>
+                                        <ul>
+                                            <li>Sobota 8.6.</li>
+                                            <li>v 17:00</li>
+                                        </ul>
+                                    </div>
+                                    <div id="info-substituties">
+                                        <h3>Náhradníci</h3>
+                                        <ul>
+                                            <li>Náhradník</li>
+                                            <li>Náhradník</li>
+                                            <li>Náhradník</li>
+                                            <li>Náhradník</li>
+                                        </ul>
+                                    </div>
+                                    <div id="info-referees">
+                                        <h3>Rozhodčí</h3>
+                                        <ul>
+                                            <li>Náhradník</li>
+                                            <li>Náhradník</li>
+                                            <li>Náhradník</li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                            </div>
+
                         </div>
 
-                        <div class="canvas-row" class="canvas-lineup">
+                    </div><!-- /.column -->
+                </div><!-- /.row -->
 
-                            <div class="lineup" style="background: red; flex: 6;">
-                                <!-- 640 × 480 -- dost malé -- sloupce 5:2 -->
-                                <!-- 720 × 540 -- malé -- sloupce 5:2 nebo 6:2 (3:1) -->
-                                <!-- 768 × 576 -- středně velké -- sloupce 4:1 -->
-                                <!-- platí i pro 780 × 585 -->
-                                <!-- 800 × 600 -- dost velké -- sloupce 4:1 -->
-                                <!-- 860 × 645 -- na knap -->
-                                <!-- 900 × 675 -- moc velké -->
-                                <!-- 920 × 690 -- moc velké -->
-                                <!-- 960 × 720 -- moc velké -->
-                                <div style="width: 720px; height: 540px; background: #fff; margin: auto;"></div>
-                            </div>
+                <div class="row">
+                    <form name="formation">
+                        <div class="column width-3">
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <th colspan="2">
+                                            <h3>Rozložení</h3>
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            <label for="positions-preset">Rozestavení</label>
+                                        </th>
+                                        <td>
+                                            <select id="positions-preset" data-default-value="4:4:2">
+                                                <option value="">---</option>
+                                                <option value="3:5:2">3-5-2</option>
+                                                <option value="3:4:3">3-4-3</option>
+                                                <option value="4:4:2">4-4-2</option>
+                                                <option value="4:3:3">4-3-3</option>
+                                                <option value="4:5:1">4-5-1</option>
+                                                <option value="5:3:2">5-3-2</option>
+                                                <option value="5:4:1">5-4-1</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div><!-- /.column -->
 
-                            <div class="info" style="background: grey; flex: 2; display: flex; flex-direction: column; justify-content: space-between; text-align: center;">
-                                <div id="info-place">
-                                    <h3>Místo</h3>
-                                    <ul>
-                                        <li>Hřiště FC Horní Dolní</li>
-                                    </ul>
-                                </div>
-                                <div id="info-time">
-                                    <h3>Výkop</h3>
-                                    <ul>
-                                        <li>Sobota 8.6.</li>
-                                        <li>v 17:00</li>
-                                    </ul>
-                                </div>
-                                <div id="info-substituties">
-                                    <h3>Náhradníci</h3>
-                                    <ul>
-                                        <li>Náhradník</li>
-                                        <li>Náhradník</li>
-                                        <li>Náhradník</li>
-                                        <li>Náhradník</li>
-                                    </ul>
-                                </div>
-                                <div id="info-referees">
-                                    <h3>Rozhodčí</h3>
-                                    <ul>
-                                        <li>Náhradník</li>
-                                        <li>Náhradník</li>
-                                        <li>Náhradník</li>
-                                    </ul>
-                                </div>
-                            </div>
+                        <div class="column width-3">
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <th colspan="2">
+                                            <h3>Obrana</h3>
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            <label for="positions-def">Počet hráčů</label>
+                                        </th>
+                                        <td>
+                                            <select id="positions-def" data-default-value="4">
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            <label for="horizontal-def">Šířka řady</label>
+                                        </th>
+                                        <td>
+                                            <select id="horizontal-def" data-default-value="center">
+                                                <option value="center">Na střed</option>
+                                                <option value="space-around">Do plochy</option>
+                                                <option value="space-between">Do šířky</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div><!-- /.column -->
 
-                        </div>
+                        <div class="column width-3">
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <th colspan="2">
+                                            <h3>Záloha</h3>
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            <label for="positions-mid">Počet hráčů</label>
+                                        </th>
+                                        <td>
+                                            <select id="positions-mid" data-default-value="4">
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            <label for="horizontal-mid">Šířka řady</label>
+                                        </th>
+                                        <td>
+                                            <select id="horizontal-mid" data-default-value="center">
+                                                <option value="center">Na střed</option>
+                                                <option value="space-around">Do plochy</option>
+                                                <option value="space-between">Do šířky</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div><!-- /.column -->
+
+                        <div class="column width-3">
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <th colspan="2">
+                                            <h3>Útok</h3>
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            <label for="positions-str">Počet hráčů</label>
+                                        </th>
+                                        <td>
+                                            <select id="positions-str" data-default-value="2">
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            <label for="horizontal-str">Šířka řady</label>
+                                        </th>
+                                        <td>
+                                            <select id="horizontal-str" data-default-value="center">
+                                                <option value="center">Na střed</option>
+                                                <option value="space-around">Do plochy</option>
+                                                <option value="space-between">Do šířky</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div><!-- /.column -->
+                    </form>
+                </div><!-- /.row -->
+
+
+
+
+                <div class="row">
+                    <div class="column width-12 text-centered">
+                        <h3>Titulek</h3>
+                    </div>
+                </div><!-- /.row -->
+                <div class="row">
+                    <div class="column width-4 text-centered">
+                        <label>Domácí</label>
+                        <input type="text">
+                        <label><input name="our-team" type="radio" value="home"> My</label>
+                    </div>
+                    <div class="column width-4 text-centered">
+                        <label>Hosté</label>
+                        <input type="text">
+                        <label><input name="our-team" type="radio" value="away"> My</label>
+                    </div>
+                    <div class="column width-4 text-centered">
+                        <label>Zarovnání</label>
+                        <select data-target="">
+                            <option value="center">Na střed</option>
+                        </select>
 
                     </div>
+                </div><!-- /.row -->
 
-                </div><!-- /column -->
-            </div><!-- /row -->
+                <div class="row">
+                    <div class="column width-12 text-centered">
+                        <h3>Informace</h3>
+                    </div>
+                </div><!-- /.row -->
+                <div class="row">
+                    <div class="column width-3 text-centered">
+                        <h3>Místo</h3>
+                        <ul>
+                            <input type="text">
+                        </ul>
+                    </div>
+                    <div class="column width-3 text-centered">
+                        <h3>Začátek</h3>
+                        <ul>
+                            <li>
+                                <label>
+                                    Datum
+                                    <input type="text" placeholder="Neděle 15.3.">
+                                </label>
+                            </li>
+                            <li>
+                                <label>
+                                    Čas
+                                    <input type="text" placeholder="17:00">
+                                </label>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="column width-3 text-centered">
+                        <h3>Náhradníci</h3>
+                        <ul>
+                            <input type="text">
+                        </ul>
+                    </div>
+                    <div class="column width-3 text-centered">
+                        <h3>Rozhodčí</h3>
+                        <ul>
+                            <input type="text">
+                        </ul>
+                    </div>
+                </div><!-- /.row -->
 
+                <div class="row">
+                    <div class="column width-8 text-right">
+                    </div><!-- /row -->
+                    <div class="column width-4">
+                        <form id="">
+                            <table>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </form>
+                    </div>
+                </div><!-- /row -->
+            </div><!-- /container -->
+        </div><!-- /#block-lineup-->
+
+
+        <!--div id="player-names" class="container players">
             <div class="row">
-                <div class="column width-12 text-centered">
-                    <h3>Titulek</h3>
-                </div>
-            </div><!-- /.row -->
+                <h2>Soupiska</h2>
+            </div><!-- /row--><!--
             <div class="row">
-                <div class="column width-4 text-centered">
-                    <label>Domácí</label>
-                    <input type="text">
-                    <label><input name="our-team" type="radio" value="home"> My</label>
-                </div>
-                <div class="column width-4 text-centered">
-                    <label>Hosté</label>
-                    <input type="text">
-                    <label><input name="our-team" type="radio" value="away"> My</label>
-                </div>
-                <div class="column width-4 text-centered">
-                    <label>Zarovnání</label>
-                    <select data-target="">
-                        <option value="center">Na střed</option>
-                    </select>
-
-                </div>
-            </div><!-- /.row -->
-
-            <div class="row">
-                <div class="column width-12 text-centered">
-                    <h3>Informace</h3>
-                </div>
-            </div><!-- /.row -->
-            <div class="row">
-                <div class="column width-3 text-centered">
-                    <h3>Místo</h3>
-                    <ul>
-                        <input type="text">
-                    </ul>
-                </div>
-                <div class="column width-3 text-centered">
-                    <h3>Začátek</h3>
-                    <ul>
-                        <li>
-                            <label>
-                                Datum
-                                <input type="text" placeholder="Neděle 15.3.">
-                            </label>
-                        </li>
-                        <li>
-                            <label>
-                                Čas
-                                <input type="text" placeholder="17:00">
-                            </label>
-                        </li>
-                    </ul>
-                </div>
-                <div class="column width-3 text-centered">
-                    <h3>Náhradníci</h3>
-                    <ul>
-                        <input type="text">
-                    </ul>
-                </div>
-                <div class="column width-3 text-centered">
-                    <h3>Rozhodčí</h3>
-                    <ul>
-                        <input type="text">
-                    </ul>
-                </div>
-            </div><!-- /.row -->
-
+                <div class="column width-3">
+                    <form>
+                        <table class="player-name" id="players-gol">
+                            <thead>
+                                <tr>
+                                    <td colspan="3">
+                                        <h3>Brankáři</h3>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Číslo</th>
+                                    <td colspan="2">Jméno</td>
+                                </tr>
+                            </thead>
+                            <tbody class="line-gol"></tbody>
+                            <tfoot>
+                                <tr>
+                                    <th colspan="3">
+                                        <i class="add fas fa-plus-circle"></i>
+                                    </th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </form>
+                </div><!-- /.column--><!--
+                <div class="column width-3">
+                    <form>
+                        <table class="player-name" id="players-def">
+                            <thead>
+                                <tr>
+                                    <td colspan="3">
+                                        <h3>Obránci</h3>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Číslo</th>
+                                    <td colspan="2">Jméno</td>
+                                </tr>
+                            </thead>
+                            <tbody class="line-def"></tbody>
+                            <tfoot>
+                                <tr>
+                                    <th colspan="3">
+                                        <i class="add fas fa-plus-circle"></i>
+                                    </th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </form>
+                </div><!-- /.column--><!--
+                <div class="column width-3">
+                    <form>
+                        <table class="player-name" id="players-mid">
+                            <thead>
+                                <tr>
+                                    <td colspan="3">
+                                        <h3>Záložníci</h3>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Číslo</th>
+                                    <td colspan="2">Jméno</td>
+                                </tr>
+                            </thead>
+                            <tbody class="line-mid"></tbody>
+                            <tfoot>
+                                <tr>
+                                    <th colspan="3">
+                                        <i class="add fas fa-plus-circle"></i>
+                                    </th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </form>
+                </div><!-- /.column--><!--
+                <div class="column width-3">
+                    <form>
+                        <table class="player-name" id="players-str">
+                            <thead>
+                                <tr>
+                                    <td colspan="3">
+                                        <h3>Útočníci</h3>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Číslo</th>
+                                    <td colspan="2">Jméno</td>
+                                </tr>
+                            </thead>
+                            <tbody class="line-str"></tbody>
+                            <tfoot>
+                                <tr>
+                                    <th colspan="3">
+                                        <i class="add fas fa-plus-circle"></i>
+                                    </th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </form>
+                </div><!-- /.column--><!--
+            </div><!-- /row --><!--
         </div><!-- /container -->
 
 
 
-        <div id="template-position-player" style="display: none;" class="player"><i class="fas fa-male" style="align-self: center;"></i></div>
 
-        <figure id="_template-player" style="display: none;">
+
+<style>
+
+.ico-goal {
+    display: inline-block;
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    text-align: center;
+    width: 1.3em;
+}
+.ico-goal > i {
+    background: radial-gradient(white 66%, transparent 66%);
+}
+
+.ico-substitute {
+    display: inline-block;
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    text-align: center;
+    width: 1.3em;
+}
+
+.ico-substitute > i:before {
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-image: linear-gradient(green 50%, red 50%);
+    position: absolute;
+    z-index: 11;
+}
+.ico-substitute > i:after {
+    text-shadow: 1px 1px 2px black;
+    color: transparent;
+    content: "\f2f1";
+}
+
+.ico-yellow-1st > i {
+    color: yellow;
+    display: inline-block;
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    text-align: center;
+    text-shadow: 1px 1px 2px black;
+    width: 1.3em;
+}
+
+.ico-yellow-2nd {
+    display: inline-block;
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    width: 1.3em;
+}
+.ico-yellow-2nd > i {
+    position: absolute;
+    text-shadow: 1px 1px 2px black;
+}
+.ico-yellow-2nd > i:nth-child(1) {
+    color: yellow;
+    margin: .2em .4em 0 0;
+    z-index: 10;
+}
+.ico-yellow-2nd > i:nth-child(2) {
+    color: yellow;
+    margin: .1em .2em 0 .2em;
+    z-index: 11;
+}
+.ico-yellow-2nd > i:nth-child(3) {
+    color: red;
+    margin: 0 0 0 .4em;
+    z-index: 12;
+}
+
+.ico-red > i {
+    color: red;
+    text-shadow: 1px 1px 2px black;
+    display: inline-block;
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    text-align: center;
+    width: 1.3em;
+}
+
+#result {
+    background: linear-gradient(90deg, lightgreen, #ccffcc 45%, #ccffcc 55%, lightgreen);
+    display: flex;
+    flex-direction: column;
+    width: 640px;
+    min-height: 480px;
+}
+
+#result .event {
+    display: flex;
+    font-size: 175%;
+    padding: .25em 0;
+}
+#result .event .home {
+    flex: 1;
+    text-align: right;
+}
+#result .event .time {
+    flex: 0;
+    font-weight: bold;
+    margin: 0 .5em;
+}
+#result .event .away {
+    flex: 1;
+}
+
+</style>
+
+        <div class="block" id="block-result">
+            <div class="container">
+                <div class="column width-8">
+                    <div id="result">
+
+                        <div class="title" style="text-align: center;">
+                            <h2>TJ Slavoj Houslice</h2>
+                            <h2>SK Horní Lhotka</h2>
+                        </div>
+
+                        <div class="title" style="text-align: center;">
+                            <h3>Konečný výsledek</h3>
+                        </div>
+
+                        <div class="events">
+                            <div class="event">
+                                <div class="home">Řepa <span class="ico-red"><i class="fas fa-square"></i></span></div>
+                                <div class="time">57</div>
+                                <div class="away"><span class="ico-substitute"><i class="fas fa-sync-alt"></i></span> Novotný (Vaníček)</div>
+                            </div>
+                            <div class="event">
+                                <div class="home"></div>
+                                <div class="time">62</div>
+                                <div class="away"><span class="ico-goal"><i class="fas fa-futbol"></i></span> Novotný<br><span class="ico-yellow-1st"><i class="fas fa-square"></i></span> Novotný</div>
+                            </div>
+                            <div class="event">
+                                <div class="home"></div>
+                                <div class="time">64</div>
+                                <div class="away">
+                                    <span class="ico-yellow-2nd">
+                                        <i class="fas fa-square"></i>
+                                        <i class="fas fa-square"></i>
+                                        <i class="fas fa-square"></i>
+                                        &nbsp;
+                                    </span>
+                                    Novotný</div>
+                            </div>
+
+                            <div class="event">
+                                <div class="home"></div>
+                                <div class="time">64</div>
+                                <div class="away"><i class="fas fa-boxing-glove"></i> Bitka v hledišti</div>
+                            </div>
+                            <div class="event">
+                                <div class="home">Rozhodčí přerušil zápas <i class="fas fa-whistle"></i></div>
+                                <div class="time">65</div>
+                                <div class="away"></div>
+                            </div>
+                            <div class="event">
+                                <div class="home"></div>
+                                <div class="time">66</div>
+                                <div class="away"><i class="fas fa-swords"></i> Bitka na hřišti</div>
+                            </div>
+                            <div class="event">
+                                <div class="home"></div>
+                                <div class="time">66</div>
+                                <div class="away"><i class="fas fa-fire-extinguisher"></i> Zásah hasičů</div>
+                            </div>
+                            <div class="event">
+                                <div class="home"></div>
+                                <div class="time">62</div>
+                                <div class="away"><i class="fas fa-fire"></i> Požár</div>
+                            </div>
+                            <div class="event">
+                                <div class="home">Řepa <span class="ico-red"><i class="fas fa-square"></i></span></div>
+                                <div class="time">57</div>
+                                <div class="away"><span class="ico-substitute"><i class="fas fa-sync-alt"></i></span> Novotný (Vaníček)</div>
+                            </div>
+                            <div class="event">
+                                <div class="home"></div>
+                                <div class="time">62</div>
+                                <div class="away"><span class="ico-goal"><i class="fas fa-futbol"></i></span> Novotný<br><span class="ico-yellow-1st"><i class="fas fa-square"></i></span> Novotný</div>
+                            </div>
+
+                        </div><!-- /events -->
+
+                    </div>
+                </div>
+            </div><!-- /.container-->
+        </div><!-- /#block-result -->
+
+        <div id="_template-position-player" style="display: none;" class="player"><i class="fas fa-male" style="align-self: center;"></i></div>
+
+        <div style="display: none;">
+            <figure id="template-position-player" class="player" id="player-goalie">
+                <div style="align-self: center;">
+                    <span class="jersey"><i class="fas fa-male"></i></span>
+                    <span class="outline"><i class="fas fa-male"></i></span>
+                    <span class="number">1</span>
+                    <span class="base"><i class="fas fa-male"></i></span>
+                    <figcaption style="position: absolute; bottom: -1em; z-index: 105;">Brankář</figcaption>
+                </div>
+            </figure>
+        </div>
+
+        <!--figure id="_template-player" style="display: none;">
             <div>
                 <span class="jersey"><i class="fas fa-male"></i></span>
                 <span class="outline"><i class="fas fa-male"></i></span>
@@ -716,7 +924,7 @@
                 <span class="base"><i class="fas fa-male"></i></span>
             </div>
             <figcaption>Player Name</figcaption>
-        </figure>
+        </figure-->
 
         <table style="display: none">
             <tbody>
@@ -726,6 +934,9 @@
                     </th>
                     <td>
                         <input class="player-name">
+                    </td>
+                    <td>
+                        <input name="captain" type="radio">
                     </td>
                     <td>
                         <i class="remove fas fa-minus-circle"></i>

@@ -1,3 +1,9 @@
+// Oživ tlačítko pro přidání hráče do formuláře:
+Evnt.on("#club-players tfoot .add", "click", Events.clickPlayerAdd);
+
+// Vlož první řádek do formuláře hráčů:
+Evnt.trigger("#club-players tfoot .add", "click");
+
 // Inicializuj Color pickery:
 for (var el of document.querySelectorAll("form input[data-type='color']")) {
     new ColorPicker(el);
@@ -73,20 +79,6 @@ Evnt.on("#horizontal-def", "change", Events.changeHorizontalDef);
 Evnt.on("#horizontal-mid", "change", Events.changeHorizontalMid);
 Evnt.on("#horizontal-str", "change", Events.changeHorizontalStr);
 
-
-
-Evnt.onAll(".player-name tfoot .add", "click",
-function (e) {
-    var r = document.getElementById("template-lineup-name").cloneNode(true);
-    r.removeAttribute("id");
-    e.currentTarget.closest("table").querySelector("tbody").appendChild(r);
-    Evnt.on(r.querySelector(".remove"), "click", (e) => {
-        var r = e.currentTarget.closest("tr");
-        r.parentNode.removeChild(r);
-    });
-}
-);
-
 // Přidáme jméno brankáře:
 Evnt.trigger("#players-gol tfoot .add", "click");
 
@@ -106,6 +98,25 @@ Evnt.onAll("ul.menu > li", "click", (e) => {
     }
     document.getElementById(t.getAttribute("data-target")).setAttribute("class", "block active");
 });
+
+
+// Mock naplnění hráčů:
+for (var i = 1; i <= 10; i++) {
+    Evnt.trigger("#club-players tfoot .add", "click");
+}
+var i = 1;
+for (var el of document.querySelectorAll("#club-players tbody tr")) {
+    el.querySelector(".player-number").value = i;
+    el.querySelector(".player-name").value = "Player #" + i;
+    i++;
+}
+// Mock naplnění info o klubu, funkcionářích a trenérovi:
+document.getElementById("club-info-name").value = "TJ Slavoj Houslice";
+document.getElementById("club-info-chairman").value = "Václav Orel";
+document.getElementById("club-info-manager").value = "Jirka Luňák";
+
+
+Events.copyJerseyColors();
 /*
 
 https://okresniprebor.fandom.com/cs/wiki/TJ_Slavoj_Houslice

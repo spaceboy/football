@@ -33,109 +33,109 @@ h2 {
     position: relative;
     width: 1140px;
 }
-.container > .row {
+.container .row {
     overflow: hidden;
 }
-.container > .row::after {
+.container .row::after {
     content: "";
     clear: both;
 }
 
-.container > .row > .column {
+.container .row .column {
     float: left;
 }
-.container > .row > .column.width-12 {
+.container .row .column.width-12 {
     width: 100%;
 }
-.container > .row > .column.width-11 {
+.container .row .column.width-11 {
     width: 91.66666667%;
 }
-.container > .row > .column.width-10 {
+.container .row .column.width-10 {
     width: 83.33333333%;
 }
-.container > .row > .column.width-9 {
+.container .row .column.width-9 {
     width: 75%;
 }
-.container > .row > .column.width-8 {
+.container .row .column.width-8 {
     width: 66.66666667%;
 }
-.container > .row > .column.width-7 {
+.container .row .column.width-7 {
     width: 58.33333333%;
 }
-.container > .row > .column.width-6 {
+.container .row .column.width-6 {
     width: 50%;
 }
-.container > .row > .column.width-5 {
+.container .row .column.width-5 {
     width: 41.66666667%;
 }
-.container > .row > .column.width-4 {
+.container .row .column.width-4 {
     width:33.33333333%;
 }
-.container > .row > .column.width-3 {
+.container .row .column.width-3 {
     width: 25%;
 }
-.container > .row > .column.width-2 {
+.container .row .column.width-2 {
     width: 16.66666667%;
 }
-.container > .row > .column.width-1 {
+.container .row .column.width-1 {
     width: 8.33333333%;
 }
 
-.container > .row > .column.push-12 {
+.container .row .column.push-12 {
     margin-left: 100%;
 }
-.container > .row > .column.push-11 {
+.container .row .column.push-11 {
     margin-left: 91.66666667%;
 }
-.container > .row > .column.push-10 {
+.container .row .column.push-10 {
     margin-left: 83.33333333%;
 }
-.container > .row > .column.push-9 {
+.container .row .column.push-9 {
     margin-left: 75%;
 }
-.container > .row > .column.push-8 {
+.container .row .column.push-8 {
     margin-left: 66.66666667%;
 }
-.container > .row > .column.push-7 {
+.container .row .column.push-7 {
     margin-left: 58.33333333%;
 }
-.container > .row > .column.push-6 {
+.container .row .column.push-6 {
     margin-left: 50%;
 }
-.container > .row > .column.push-5 {
+.container .row .column.push-5 {
     margin-left: 41.66666667%;
 }
-.container > .row > .column.push-4 {
+.container .row .column.push-4 {
     margin-left:33.33333333%;
 }
-.container > .row > .column.push-3 {
+.container .row .column.push-3 {
     margin-left: 25%;
 }
-.container > .row > .column.push-2 {
+.container .row .column.push-2 {
     margin-left: 16.66666667%;
 }
-.container > .row > .column.push-1 {
+.container .row .column.push-1 {
     margin-left: 8.33333333%;
 }
 
 .container.text-left, .container.align-left,
-.container > .row.text-left, .container > .row.align-left,
-.container > .row > .column.text-left, .container > .row > .column.align-left {
+.container .row.text-left, .container .row.align-left,
+.container .row .column.text-left, .container .row .column.align-left {
     text-align: left;
 }
 .container.text-center, .container.text-centered, .container.align-center,
-.container > .row.text-center, .container > .row.text-centered, .container > .row.align-center,
-.container > .row > .column.text-center, .container > .row > .column.text-centered, .container > .row > .column.align-center {
+.container .row.text-center, .container .row.text-centered, .container .row.align-center,
+.container .row .column.text-center, .container .row .column.text-centered, .container .row .column.align-center {
     text-align: center;
 }
 .container.text-justify, .container.text-justified, .container.align-justify, .container.text-justified,
-.container > .row.text-justify, .container > .row.text-justified, .container > .row.align-justify, .container > .row.text-justified,
-.container > .row > .column.text-justify, .container > .row > .column.text-justified, .container > .row > .column.align-justify, .container > .row > .column.text-justified {
+.container .row.text-justify, .container .row.text-justified, .container .row.align-justify, .container .row.text-justified,
+.container .row .column.text-justify, .container .row .column.text-justified, .container .row .column.align-justify, .container .row .column.text-justified {
     text-align: justify;
 }
 .container.text-right, .container.align-right,
-.container > .row.text-right, .container > .row.align-right,
-.container > .row > .column.text-right, .container > .row > .column.align-right {
+.container .row.text-right, .container .row.align-right,
+.container .row .column.text-right, .container .row .column.align-right {
     text-align: right;
 }
 

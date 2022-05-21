@@ -196,13 +196,20 @@ form table th {
     height: 100%;
     justify-content: center;
 }
+/*
+#lineup .line figure.player {
+    align-self: center;
+    display: inline-block;
+}
+*/
 #lineup .line .player:hover {
     background: #ff88;
 }
+/*
 #lineup .line .player.new {
     animation: playerNew 3s 1;
 }
-
+*/
 #lineup .line .player i {
     align-self: center;
     display: inline-block;
@@ -210,10 +217,10 @@ form table th {
 
 @keyframes playerNew {
     from {
-        color: white;
+        background: yellow;
     }
     to {
-        color: black;
+        background: transparent;
     }
 }
 
@@ -226,6 +233,11 @@ input.player-name {
     width: 12em;
 }
 
+.players table {
+    border-collapse: collapse;
+    /*width: fit-content;*/
+    width: 90%;
+}
 
 .players table tfoot .add {
     color: green;
@@ -233,3 +245,24 @@ input.player-name {
     font-size: 220%;
     margin: .25em 0;
 }
+
+/*
+.players table tbody {
+    background-color: lightgreen;
+}
+*/
+
+.players input {
+    border: 1px solid #ccc;
+    padding: .25em .5em;
+}
+
+.players .remove {
+    background: white;
+    border-radius: 50%;
+    color: red;
+    cursor: pointer;
+    font-size: 130%;
+    margin-left: .5em;
+}
+
