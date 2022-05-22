@@ -32,6 +32,7 @@
                     <ul class="menu">
                         <li data-target="block-club">Klub</li>
                         <li data-target="block-jersey">Dresy</li>
+                        <li data-target="block-match">Zápas</li>
                         <li data-target="block-lineup">Sestava</li>
                         <li data-target="block-result">Události</li>
                     </ul>
@@ -59,7 +60,7 @@
                                             <label for="club-info-name">Název klubu</label>
                                         </th>
                                         <td>
-                                            <input id="club-info-name" placeholder="TJ Slavoj Houslice">
+                                            <input id="club-info-name" name="name" placeholder="TJ Slavoj Houslice">
                                         </td>
                                     </tr>
                                     <tr>
@@ -67,17 +68,17 @@
                                             <label for="club-info-chairman">Předseda</label>
                                         </th>
                                         <td>
-                                            <input id="club-info-chairman" placeholder="Václav Orel">
+                                            <input id="club-info-chairman" name="chairman" placeholder="Václav Orel">
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
                         </form><!-- /club-info -->
                     </div><!-- /.column-->
-                    <div class="column width-4 players">
+                    <div class="column width-4">
                         <form name="club-players">
                             <h3>Hráči</h3>
-                            <table id="club-players" class="player-name">
+                            <table id="club-players" class="players">
                                 <thead>
                                     <tr>
                                         <th>Číslo</th>
@@ -88,7 +89,7 @@
                                 <tbody></tbody>
                                 <tfoot>
                                     <tr>
-                                        <th colspan="3">
+                                        <th colspan="4">
                                             <i class="add fas fa-plus-circle"></i>
                                         </th>
                                     </tr>
@@ -105,7 +106,7 @@
                                         <label for="club-info-manager">Manažer týmu</label>
                                     </th>
                                     <td>
-                                        <input id="club-info-manager" placeholder="Jirka Luňák">
+                                        <input id="club-info-manager" name="manager" placeholder="Jirka Luňák">
                                     </td>
                                 </tr>
                             </tbody>
@@ -255,6 +256,154 @@
             </div>
         </div><!-- /#block-jersey -->
 
+
+        <div class="block" id="block-match">
+            <form name="match-info">
+                <div class="container">
+                    <div class="row">
+                        <div class="column width-12">
+                            <span class="btn-ghost download" id="download-match" title="Uloží vyplněné informace na disk"><i class="fas fa-download"></i></span>
+                            <span class="btn-ghost upload" id="upload-match" title="Načte informace uložené na disku"><i class="fas fa-upload"></i></span>
+                            <h3>Detailní informace o zápasu</h3>
+                        </div><!-- /.column -->
+                    </div><!-- /.row -->
+                    <div class="row">
+
+                        <div class="column width-4">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <h3>Místo a čas</h3>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th>
+                                            <label for="match-info-type">Typ utkání</label>
+                                        </th>
+                                        <td>
+                                            <input id="match-info-type" name="type" placeholder="ligové | přátelské | pohárové">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            <label for="match-info-partner">Název soupeře</label>
+                                        </th>
+                                        <td>
+                                            <input id="match-info-partner" name="partner" placeholder="FC Soupeř">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            <label for="match-info-place">Místo konání</label>
+                                        </th>
+                                        <td>
+                                            <input id="match-info-place" name="place" placeholder="Hřiště v Kotěhůlkách">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            <label for="match-info-day">Den konání</label>
+                                        </th>
+                                        <td>
+                                            <input id="match-info-day" name="day" placeholder="neděli 8.6.">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            <label for="match-info-time">Čas konání</label>
+                                        </th>
+                                        <td>
+                                            <input id="match-info-time" name="time" placeholder="15:00">
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div><!-- /.column -->
+
+                        <div class="column width-4">
+                            <h3>Soupiska soupeře</h3>
+                            <table id="partner-players" class="players">
+                                <thead>
+                                    <tr>
+                                        <th>Číslo</th>
+                                        <td>Jméno</td>
+                                        <td colspan="2">Kapitán</td>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th colspan="4">
+                                            <i class="add fas fa-plus-circle"></i>
+                                        </th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+
+                        </div><!-- /.column -->
+
+                        <div class="column width-4">
+                            <h3>Rozhodčí a delegáti</h3>
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <th>
+                                            <label for="match-info-referee">Hlavní rozhodčí</label>
+                                        </th>
+                                        <td>
+                                            <input id="match-info-referee" placeholder="Hlavní Rozhodčí">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            <label for="match-info-referee2">Asistent rozhodčího</label>
+                                        </th>
+                                        <td>
+                                            <input id="match-info-referee2" placeholder="Asistent Rozhodčího (1)">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            <label for="match-info-referee3">Asistent rozhodčího</label>
+                                        </th>
+                                        <td>
+                                            <input id="match-info-referee3" placeholder="Asistent Rozhodčího (2)">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            <label for="match-info-referee4">Čtvrtý rozhodčí</label>
+                                        </th>
+                                        <td>
+                                            <input id="match-info-referee4" placeholder="Čtvrtý Rozhodčí">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            <label for="match-info-var">VAR</label>
+                                        </th>
+                                        <td>
+                                            <input id="match-info-var" placeholder="Video Asistent">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            <label for="match-info-delegate">Delegát utkání</label>
+                                        </th>
+                                        <td>
+                                            <input id="match-info-delegate" placeholder="Delegát Utkání">
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div><!-- /.column -->
+
+                    </div><!-- /.row -->
+                </div><!-- /.container -->
+            </form><!-- /match-info -->
+        </div><!-- /#block-match-->
+
 <style>
 
 #canvas {
@@ -326,7 +475,7 @@
                                     </div>
                                 </div>
 
-                                <div class="info" style="/*background: grey;*/ flex: 2; display: flex; flex-direction: column; justify-content: space-between; text-align: center;">
+                                <div class="info" style="/*background: grey;*/ flex: 2; display: flex; flex-direction: column; justify-content: space-between; text-align: center; padding-bottom: 2em;">
                                     <div id="info-place">
                                         <h3>Místo</h3>
                                         <ul>
@@ -511,89 +660,6 @@
                     </form>
                 </div><!-- /.row -->
 
-
-
-
-                <div class="row">
-                    <div class="column width-12 text-centered">
-                        <h3>Titulek</h3>
-                    </div>
-                </div><!-- /.row -->
-                <div class="row">
-                    <div class="column width-4 text-centered">
-                        <label>Domácí</label>
-                        <input type="text">
-                        <label><input name="our-team" type="radio" value="home"> My</label>
-                    </div>
-                    <div class="column width-4 text-centered">
-                        <label>Hosté</label>
-                        <input type="text">
-                        <label><input name="our-team" type="radio" value="away"> My</label>
-                    </div>
-                    <div class="column width-4 text-centered">
-                        <label>Zarovnání</label>
-                        <select data-target="">
-                            <option value="center">Na střed</option>
-                        </select>
-
-                    </div>
-                </div><!-- /.row -->
-
-                <div class="row">
-                    <div class="column width-12 text-centered">
-                        <h3>Informace</h3>
-                    </div>
-                </div><!-- /.row -->
-                <div class="row">
-                    <div class="column width-3 text-centered">
-                        <h3>Místo</h3>
-                        <ul>
-                            <input type="text">
-                        </ul>
-                    </div>
-                    <div class="column width-3 text-centered">
-                        <h3>Začátek</h3>
-                        <ul>
-                            <li>
-                                <label>
-                                    Datum
-                                    <input type="text" placeholder="Neděle 15.3.">
-                                </label>
-                            </li>
-                            <li>
-                                <label>
-                                    Čas
-                                    <input type="text" placeholder="17:00">
-                                </label>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="column width-3 text-centered">
-                        <h3>Náhradníci</h3>
-                        <ul>
-                            <input type="text">
-                        </ul>
-                    </div>
-                    <div class="column width-3 text-centered">
-                        <h3>Rozhodčí</h3>
-                        <ul>
-                            <input type="text">
-                        </ul>
-                    </div>
-                </div><!-- /.row -->
-
-                <div class="row">
-                    <div class="column width-8 text-right">
-                    </div><!-- /row -->
-                    <div class="column width-4">
-                        <form id="">
-                            <table>
-                                <tbody>
-                                </tbody>
-                            </table>
-                        </form>
-                    </div>
-                </div><!-- /row -->
             </div><!-- /container -->
         </div><!-- /#block-lineup-->
 
@@ -900,8 +966,6 @@
             </div><!-- /.container-->
         </div><!-- /#block-result -->
 
-        <div id="_template-position-player" style="display: none;" class="player"><i class="fas fa-male" style="align-self: center;"></i></div>
-
         <div style="display: none;">
             <figure id="template-position-player" class="player" id="player-goalie">
                 <div style="align-self: center;">
@@ -940,6 +1004,12 @@
                         <i class="remove fas fa-minus-circle"></i>
                     </td>
                 </tr>
+                <tr id="template-lineup-substitute">
+                    <th>
+                        <input class="player-name">
+                    </th>
+                </tr>
+
             </tbody>
         </table>
 

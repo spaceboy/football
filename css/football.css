@@ -224,40 +224,30 @@ form table th {
     }
 }
 
-
-input.player-number {
+/* Tabulky sestav hráčů: */
+table.players input {
+    border: 1px solid #ccc;
+    padding: .25em .5em;
+}
+table.players input.player-number {
     text-align: right;
     width: 3em;
 }
-input.player-name {
+table.players input.player-name {
     width: 12em;
 }
-
-.players table {
+table.players {
     border-collapse: collapse;
     /*width: fit-content;*/
     width: 90%;
 }
-
-.players table tfoot .add {
+table.players tfoot .add {
     color: green;
     cursor: pointer;
     font-size: 220%;
     margin: .25em 0;
 }
-
-/*
-.players table tbody {
-    background-color: lightgreen;
-}
-*/
-
-.players input {
-    border: 1px solid #ccc;
-    padding: .25em .5em;
-}
-
-.players .remove {
+table.players .remove {
     background: white;
     border-radius: 50%;
     color: red;

@@ -1,8 +1,9 @@
-// Oživ tlačítko pro přidání hráče do formuláře:
-Evnt.on("#club-players tfoot .add", "click", Events.clickPlayerAdd);
+// Oživ tlačítko pro přidání hráčů do formulářů:
+Evnt.onAll("table.players tfoot .add", "click", Events.clickPlayerAdd);
 
-// Vlož první řádek do formuláře hráčů:
+// Vlož první řádek do formuláře hráčů vlastních i soupeře:
 Evnt.trigger("#club-players tfoot .add", "click");
+Evnt.trigger("#partner-players tfoot .add", "click");
 
 // Vlož na hřiště figuru brankáře:
 Events.addPlayerFigure(document.querySelector("#lineup .line-gol"));
@@ -88,6 +89,18 @@ Evnt.trigger("#players-gol tfoot .add", "click");
 // Nastavíme základní sestavu:
 Evnt.trigger("#positions-preset", "change");
 
+// Oživ tlačítko pro přidání náhradníka do formuláře:
+/*
+Evnt.on("table.players tfoot .add", "click",
+function (e) {
+    var el = document.getElementById("template-lineup-substitute").cloneNode(true);
+    document.querySelector("#substitute-players table tbody").appendChild(el);
+    Evnt.on(el.querySelector(".remove"), "click", (e) => {
+        console.log(e.currentTarget);
+    });
+}
+);
+*/
 
 // Aktivace menu:
 Evnt.onAll("ul.menu > li", "click", (e) => {
@@ -103,7 +116,7 @@ Evnt.onAll("ul.menu > li", "click", (e) => {
 });
 
 
-// Mock naplnění hráčů:
+// Mock naplnění vlastních hráčů:
 for (var i = 1; i <= 10; i++) {
     Evnt.trigger("#club-players tfoot .add", "click");
 }
@@ -113,13 +126,66 @@ for (var el of document.querySelectorAll("#club-players tbody tr")) {
     el.querySelector(".player-name").value = "Player #" + i;
     i++;
 }
-// Mock naplnění info o klubu, funkcionářích a trenérovi:
-document.getElementById("club-info-name").value = "TJ Slavoj Houslice";
-document.getElementById("club-info-chairman").value = "Václav Orel";
-document.getElementById("club-info-manager").value = "Jirka Luňák";
+
+// Mock naplnění hráčů soupeře:
+for (var i = 1; i <= 10; i++) {
+    Evnt.trigger("#partner-players tfoot .add", "click");
+}
+var i = 1;
+for (var el of document.querySelectorAll("#partner-players tbody tr")) {
+    el.querySelector(".player-number").value = i;
+    el.querySelector(".player-name").value = "Protivník #" + i;
+    i++;
+}
+
+// Mock pro předvyplnění formulářových polí:
+Data.load({
+    "club-info": {
+        "name": "TJ Slavoj Houslice",
+        "chairman": "Václav Orel",
+        "manager": "Jirka Luňák"
+    },
+    "match-info": {
+        "type": "ligové utkání",
+        "partner": "FC Real Horní Lhota",
+        "place": "Dřevona arena Dolní Lhota",
+        "day": "sobotu 7.6.",
+        "time": "17:00",
+        "match-info-referee": "Roman Berbr",
+        "match-info-referee2": "Roman Rogoz",
+        "match-info-referee3": "Dagmar Damková",
+        "match-info-referee4": "Karel Přecechtěl",
+        "match-info-var": "Josef Musel",
+        "match-info-delegate": "Václav Jebavý"
+    }
+});
+
+
 
 
 Events.copyJerseyColors();
+
+class Data {
+    static load (data) {
+        for (var i in data) {
+            var f = document.querySelector(`form[name="${i}"]`);
+            if (!f) {
+                continue;
+            }
+            for (var j in data[i]) {
+                var el = document.getElementById(j);
+                if (!el) {
+                    el = f.querySelector(`[name="${j}"]`);
+                }
+                if (!el) {
+                    continue;
+                }
+                el.value = data[i][j];
+                Evnt.trigger(el, "change");
+            }
+        }
+    }
+}
 /*
 
 https://okresniprebor.fandom.com/cs/wiki/TJ_Slavoj_Houslice

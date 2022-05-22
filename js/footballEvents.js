@@ -49,6 +49,7 @@ class Events {
 
     // Vloží řádek do formuláře hráčů:
     static clickPlayerAdd (e) {
+        console.log("add");
         var r = document.getElementById("template-lineup-name").cloneNode(true);
         r.removeAttribute("id");
         e.currentTarget.closest("table").querySelector("tbody").appendChild(r);
