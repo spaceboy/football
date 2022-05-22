@@ -102,6 +102,59 @@ function (e) {
 );
 */
 
+function setCanvasTitle () {
+    let teamWe = document.getElementById("club-info-name").value;
+    let teamThem = document.getElementById("match-info-partner").value;
+    document.getElementById("canvas-title").innerHTML = (
+        document.getElementById("match-info-home").value === "home"
+        ? `<span class="home bold">${teamWe}</span> vs. <span class="away">${teamThem}</span>`
+        : `<span class="home">${teamThem}</span> vs. <span class="away bold">${teamWe}</span>`
+    );
+}
+
+function setReferee () {
+    var ref = [];
+    if (document.getElementById("match-info-referee").value) {
+        ref.push(`<b>${document.getElementById("match-info-referee").value} (hlavní)</b>`);
+    }
+    for (var i = 0; i <= 2; i++) {
+        let v = document.getElementById(["match-info-referee2", "match-info-referee3", "match-info-referee4"][i]).value;
+        if (v) {
+            ref.push(v);
+        }
+    }
+    if (document.getElementById("match-info-var").value) {
+        ref.push(`${document.getElementById("match-info-var").value} (VAR)`);
+    }
+    document.querySelector("#info-referees ul").innerHTML = "<li>" + ref.join("</li><li>") + "</li>";
+    for (var el of document.querySelectorAll("#block-result .events-referee")) {
+        el.innerHTML = "<p><b>Rozhodči:</b> " + ref.join(", ") + "</p>";
+    }
+}
+
+Evnt.onAll("form input, form, select", "change", (e) => {
+    let t = e.currentTarget;
+    switch (t.id) {
+        case "club-info-name":
+            setCanvasTitle();
+            break;
+        case "match-info-home":
+            setCanvasTitle();
+            break;
+        case "match-info-partner":
+            setCanvasTitle();
+            break;
+        case "match-info-referee":
+        case "match-info-referee2":
+        case "match-info-referee3":
+        case "match-info-referee4":
+        case "match-info-var":
+        case "match-info-delegate":
+            setReferee();
+
+    }
+})
+
 // Aktivace menu:
 Evnt.onAll("ul.menu > li", "click", (e) => {
     var t = e.currentTarget;
