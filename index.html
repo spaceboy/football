@@ -50,9 +50,9 @@
                     </div><!-- /.column-->
                 </div><!-- /.row -->
                 <div class="row">
-                    <div class="column width-4">
-                        <h3>Klub</h3>
-                        <form name="club-info">
+                    <form name="club-info">
+                        <div class="column width-4">
+                            <h3>Klub</h3>
                             <table>
                                 <tbody>
                                     <tr>
@@ -73,10 +73,8 @@
                                     </tr>
                                 </tbody>
                             </table>
-                        </form><!-- /club-info -->
-                    </div><!-- /.column-->
-                    <div class="column width-4">
-                        <form name="club-players">
+                        </div><!-- /.column-->
+                        <div class="column width-4">
                             <h3>Hráči</h3>
                             <table id="club-players" class="players">
                                 <thead>
@@ -95,23 +93,23 @@
                                     </tr>
                                 </tfoot>
                             </table>
-                        </form>
-                    </div><!-- /.column-->
-                    <div class="column width-4">
-                        <h3>Realizační tým</h3>
-                        <table>
-                            <tbody>
-                                <tr>
-                                    <th>
-                                        <label for="club-info-manager">Manažer týmu</label>
-                                    </th>
-                                    <td>
-                                        <input id="club-info-manager" name="manager" placeholder="Jirka Luňák">
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div><!-- /.column-->
+                        </div><!-- /.column-->
+                        <div class="column width-4">
+                            <h3>Realizační tým</h3>
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <th>
+                                            <label for="club-info-manager">Manažer týmu</label>
+                                        </th>
+                                        <td>
+                                            <input id="club-info-manager" name="manager" placeholder="Jirka Luňák">
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div><!-- /.column-->
+                    </form>
                 </div><!-- /.row -->
             </div><!-- /.container-->
         </div><!-- /#block-club-->
@@ -318,34 +316,13 @@
                                         </td>
                                     </tr>
                                 </tbody>
-                            </table>
-                        </div><!-- /.column -->
-
-                        <div class="column width-4">
-                            <h3>Soupiska soupeře</h3>
-                            <table id="partner-players" class="players">
                                 <thead>
                                     <tr>
-                                        <th>Číslo</th>
-                                        <td>Jméno</td>
-                                        <td colspan="2">Kapitán</td>
+                                        <td colspan="2">
+                                            <h3>Rozhodčí a delegáti</h3>
+                                        </td>
                                     </tr>
                                 </thead>
-                                <tbody></tbody>
-                                <tfoot>
-                                    <tr>
-                                        <th colspan="4">
-                                            <i class="add fas fa-plus-circle"></i>
-                                        </th>
-                                    </tr>
-                                </tfoot>
-                            </table>
-
-                        </div><!-- /.column -->
-
-                        <div class="column width-4">
-                            <h3>Rozhodčí a delegáti</h3>
-                            <table>
                                 <tbody>
                                     <tr>
                                         <th>
@@ -397,6 +374,32 @@
                                     </tr>
                                 </tbody>
                             </table>
+                        </div><!-- /.column -->
+
+                        <div class="column width-4">
+                            <h3>Naše soupiska</h3>
+                        </div><!-- /.column -->
+
+                        <div class="column width-4">
+                            <h3>Soupiska soupeře</h3>
+                            <table id="partner-players" class="players">
+                                <thead>
+                                    <tr>
+                                        <th>Číslo</th>
+                                        <td>Jméno</td>
+                                        <td colspan="2">Kapitán</td>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th colspan="4">
+                                            <i class="add fas fa-plus-circle"></i>
+                                        </th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+
                         </div><!-- /.column -->
 
                     </div><!-- /.row -->
@@ -1148,6 +1151,6 @@
 -->
 
 
-        <script src="js/football.js?v=1"></script>
+        <script src="js/football.js?v=2"></script>
     </body>
 </html>

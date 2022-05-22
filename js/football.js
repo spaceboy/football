@@ -116,27 +116,34 @@ Evnt.onAll("ul.menu > li", "click", (e) => {
 });
 
 
-// Mock naplnění vlastních hráčů:
-for (var i = 1; i <= 10; i++) {
-    Evnt.trigger("#club-players tfoot .add", "click");
-}
-var i = 1;
-for (var el of document.querySelectorAll("#club-players tbody tr")) {
-    el.querySelector(".player-number").value = i;
-    el.querySelector(".player-name").value = "Player #" + i;
-    i++;
+
+
+Events.copyJerseyColors();
+
+
+
+class Data {
+    static load (data) {
+        for (var i in data) {
+            var f = document.querySelector(`form[name="${i}"]`);
+            if (!f) {
+                continue;
+            }
+            for (var j in data[i]) {
+                var el = document.getElementById(j);
+                if (!el) {
+                    el = f.querySelector(`[name="${j}"]`);
+                }
+                if (!el) {
+                    continue;
+                }
+                el.value = data[i][j];
+                Evnt.trigger(el, "change");
+            }
+        }
+    }
 }
 
-// Mock naplnění hráčů soupeře:
-for (var i = 1; i <= 10; i++) {
-    Evnt.trigger("#partner-players tfoot .add", "click");
-}
-var i = 1;
-for (var el of document.querySelectorAll("#partner-players tbody tr")) {
-    el.querySelector(".player-number").value = i;
-    el.querySelector(".player-name").value = "Protivník #" + i;
-    i++;
-}
 
 // Mock pro předvyplnění formulářových polí:
 Data.load({
@@ -160,32 +167,28 @@ Data.load({
     }
 });
 
-
-
-
-Events.copyJerseyColors();
-
-class Data {
-    static load (data) {
-        for (var i in data) {
-            var f = document.querySelector(`form[name="${i}"]`);
-            if (!f) {
-                continue;
-            }
-            for (var j in data[i]) {
-                var el = document.getElementById(j);
-                if (!el) {
-                    el = f.querySelector(`[name="${j}"]`);
-                }
-                if (!el) {
-                    continue;
-                }
-                el.value = data[i][j];
-                Evnt.trigger(el, "change");
-            }
-        }
-    }
+// Mock naplnění vlastních hráčů:
+for (var i = 1; i <= 10; i++) {
+    Evnt.trigger("#club-players tfoot .add", "click");
 }
+var i = 1;
+for (var el of document.querySelectorAll("#club-players tbody tr")) {
+    el.querySelector(".player-number").value = i;
+    el.querySelector(".player-name").value = "Player #" + i;
+    i++;
+}
+
+// Mock naplnění hráčů soupeře:
+for (var i = 1; i <= 10; i++) {
+    Evnt.trigger("#partner-players tfoot .add", "click");
+}
+var i = 1;
+for (var el of document.querySelectorAll("#partner-players tbody tr")) {
+    el.querySelector(".player-number").value = i;
+    el.querySelector(".player-name").value = "Protivník #" + i;
+    i++;
+}
+
 /*
 
 https://okresniprebor.fandom.com/cs/wiki/TJ_Slavoj_Houslice
