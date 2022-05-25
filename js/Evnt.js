@@ -21,8 +21,8 @@ class Evnt {
                 return false;
             }
         }
-
         Evnt.#attachEvent(el, event, listener);
+        return Evnt;
     }
 
     // Add event(s) listener to multiple elements:
@@ -48,6 +48,7 @@ class Evnt {
         for (var element in el) {
             Evnt.#attachEvent(element, event, listener);
         }
+        return Evnt;
     }
 
     // Fire event on DOM element:
@@ -61,8 +62,8 @@ class Evnt {
                 return false;
             }
         }
-
         el.dispatchEvent(event instanceof Event ? event : new Event(event));
+        return Evnt;
     }
 
     static triggerAll (el, event) {
@@ -89,6 +90,7 @@ class Evnt {
         for (var element in el) {
             element.dispatchEvent(event);
         }
+        return Evnt;
     }
 
     // Alias for Evnt.trigger
@@ -108,5 +110,16 @@ class Evnt {
         window.setTimeout(() => {
             Evnt.trigger(el, event);
         });
+        return Evnt;
+    }
+
+    // Post event on DOM elements:
+    // el: string query-selector (eg. #id, div > p.class ...) | HTMLElement DOM element
+    // event: string event name | Event event
+    static postAll (el, event) {
+        window.setTimeout(() => {
+            Evnt.triggerAll(el, event);
+        });
+        return Evnt;
     }
 }

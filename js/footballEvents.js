@@ -24,9 +24,16 @@ class Events {
         Events.copyJerseyColors();
     }
 
-    // Posune hráče v rozestavení vpřed/vzad/na střed:
+    // Vyber jméno a číslo hráče:
     static clickPlayer (e) {
-        var t = e.currentTarget.querySelector("div");
+        selectedPlayer = e.currentTarget;
+        document.getElementById("player-name-select").style.display = "block";
+    }
+
+    // Posune hráče v rozestavení vpřed/vzad/na střed:
+    static clickPlayerPosition (e) {
+        e.stopPropagation();
+        var t = e.currentTarget.closest("figure").querySelector("div");
         switch (t.style.alignSelf) {
             case "flex-start":
                 t.style.alignSelf = "flex-end";
@@ -121,6 +128,7 @@ class Events {
         el.removeAttribute("style");
         targetEl.appendChild(el);
         Evnt.on(el, "click", Events.clickPlayer);
+        Evnt.on(el.querySelector(".position"), "click", Events.clickPlayerPosition);
     }
 
     // Odstranění posledního dítěte:

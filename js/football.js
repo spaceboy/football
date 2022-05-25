@@ -1,3 +1,5 @@
+var selectedPlayer;
+
 // Oživ tlačítko pro přidání hráčů do formulářů:
 Evnt.onAll("table.players tfoot .add", "click", Events.clickPlayerAdd);
 
@@ -68,7 +70,9 @@ for (var el of document.querySelectorAll("#form-field select, #form-field input,
 }
 
 // Posunutí hráče vpřed/vzad:
-Evnt.onAll("#lineup .line .player", "click", Events.clickPlayer);
+Evnt.onAll("#lineup .line .player .position", "click", Events.clickPlayerPosition);
+// Klinkutí na hráče
+Evnt.onAll("#lineup .line .player", "click", Events.clickPlayer)
 
 // Změna rozestavení: standardy
 Evnt.on('#positions-preset', "change", Events.changePositionsPreset);
@@ -88,6 +92,17 @@ Evnt.trigger("#players-gol tfoot .add", "click");
 
 // Nastavíme základní sestavu:
 Evnt.trigger("#positions-preset", "change");
+
+// Ovládání výběru hráče do rozestavení:
+Evnt.on("#player-name-select .close", "click", (e) => {
+    document.getElementById("player-name-select").style.display = "none";
+});
+Evnt.on("#player-name-select select", "change", (e) => {
+    var n = e.currentTarget.value.split(":");
+    selectedPlayer.querySelector(".number").innerText = n.shift();
+    selectedPlayer.querySelector("figcaption").innerText = n.join(":");
+    document.getElementById("player-name-select").style.display = "none";
+});
 
 // Oživ tlačítko pro přidání náhradníka do formuláře:
 /*

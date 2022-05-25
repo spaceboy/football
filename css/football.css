@@ -195,6 +195,7 @@ form table th {
     width: 20%;
     height: 100%;
     justify-content: center;
+    transition: .3s;
 }
 /*
 #lineup .line figure.player {
