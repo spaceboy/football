@@ -11,11 +11,14 @@
         <link rel="stylesheet" type="text/css" href="css/fa/styles/fontawesome.min.css?v=1">
         <link rel="stylesheet" type="text/css" href="css/fa/styles/solid.min.css?v=1">
         <link rel="stylesheet" type="text/css" href="css/football.css?v=2">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,900&display=swap" rel="stylesheet">
         <script src="js/Jersey.js"></script>
         <script src="js/Elem.js"></script>
         <script src="js/ColorTools.js"></script>
         <script src="js/ColorPicker.js"></script>
-        <script src="js/Evnt.js?v=1"></script>
+        <script src="js/Evnt.js?v=2"></script>
         <script src="js/footballEvents.js?v=2"></script>
         <script src="js/Splash.js"></script>
     </head>
@@ -508,7 +511,7 @@
                                             <span class="close" style="float: right; margin: .5em; background: red; color: white; cursor: pointer; font-size: 200%; width: 1em; height: 1em; line-height: 1em; padding: .25em; border-radius: .25em;"><i class="fas fa-times"></i></span>
                                             <div style="margin: 7em auto 0 auto; width: fit-content; background: #ffffff; text-align: center; padding: 1em 3em 3em 3em; border-radius: 1em;">
                                                 <h3 style="margin: 0 1em 1em 1em">Vyberte hráče</h3>
-                                                <select style="text-align: center; width: 100%;">
+                                                <select id="player-name-list" style="text-align: center; width: 100%;">
                                                     <option>---</option>
                                                     <option value="1:Player #1">1 Player #1</option>
                                                     <option value="2:Player #2">2 Player #2</option>
@@ -977,7 +980,7 @@
                                 <div class="away"><i class="fas fa-skull"></i> Bitka v hledišti</div>
                             </div>
                             <div class="event">
-                                <div class="home">Rozhodčí přerušil zápas <i class="fas fa-signal-stream"></i><i class="fas fa-volume-up"></i></i></div>
+                                <div class="home">Přerušení (15m) <i class="fas fa-signal-stream"></i><i class="fas fa-volume-up"></i></i></div>
                                 <div class="time">65</div>
                                 <div class="away"></div>
                             </div>

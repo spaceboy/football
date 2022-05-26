@@ -104,8 +104,8 @@ div.block.active {
     color:transparent;
 }
 .player .number {
-    font-size: 15%;
-    font-weight: bold;
+    font-size: 17%;
+    font-weight: 900;
     position: absolute;
     top: 34%;
     left: 10%;
@@ -114,11 +114,13 @@ div.block.active {
     background: yellow;
     color: #000;
     text-align: center;
-    line-height: 1.5em;
+    line-height: 1.3em;
     z-index: 102;
 }
 .player figcaption {
-    font-size: 15%; line-height: 1.8em;
+    font-size: 20%;
+    line-height: 1.8em;
+    font-weight: 500;
 }
 
 

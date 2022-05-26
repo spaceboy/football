@@ -60,6 +60,39 @@ class Events {
         r.removeAttribute("id");
         e.currentTarget.closest("table").querySelector("tbody").appendChild(r);
         Evnt.on(r.querySelector(".remove"), "click", Events.clickPlayerRemove);
+        // Hlídej změny:
+        Evnt.onAll(r.querySelectorAll("input"), "change", (e) => {
+            var tbd = e.currentTarget.closest("table > tbody");
+            var players = {};
+            var pnl = document.getElementById("player-name-list");
+            pnl.innerHTML = "";
+            var opt = (new Elem("option"))
+                .attr("value", "")
+                .text("---")
+                .appendTo(pnl);
+            for (var row of tbd.querySelectorAll("tr")) {
+                //console.log(row.querySelector("input.player-number"));
+                //console.log(row.querySelector("input.player-name"));
+                var opt = (new Elem("option"))
+                    .attr("value", `${row.querySelector("input.player-number").value}:${row.querySelector("input.player-name").value}`)
+                    .text(`${row.querySelector("input.player-number").value}: ${row.querySelector("input.player-name").value}`)
+                    .appendTo(pnl);
+
+                players[row.querySelector("input.player-number").value] = row.querySelector("input.player-name").value;
+            }
+            console.log(players);
+            /*
+            var cls = e.currentTarget.getAttribute("class");
+            if (cls) {
+                for (var el of tbl.querySelectorAll(`input[class="${cls}"]`)) {
+                    console.log(el.value);
+                }
+            }
+            console.log(tbl);
+            if (r.closest("#club-players")) {
+            }
+            */
+        });
     }
 
     // Změna rozestavaní: standardy
@@ -124,7 +157,7 @@ class Events {
     static addPlayerFigure (targetEl) {
         var el = document.getElementById("template-position-player").cloneNode(true);
         el.removeAttribute("id");
-        el.setAttribute("class", "player new");
+        //el.setAttribute("class", "player new");
         el.removeAttribute("style");
         targetEl.appendChild(el);
         Evnt.on(el, "click", Events.clickPlayer);

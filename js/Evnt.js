@@ -35,14 +35,21 @@ class Evnt {
             for (var element of document.querySelectorAll(el)) {
                 Evnt.#attachEvent(element, event, listener);
             }
-            return;
+            return Evnt;
+        }
+        // el is NodeList:
+        if (el instanceof NodeList) {
+            for (var element of el) {
+                Evnt.#attachEvent(element, event, listener);
+            }
+            return Evnt;
         }
         // el has length (el is probably array):
         if (el.hasOwnProperty("length")) {
             for (var i = 0, l = el.length; i < l; ++i) {
                 Evnt.#attachEvent(el[i], event, listener);
             }
-            return;
+            return Evnt;
         }
         // el is JSON or something:
         for (var element in el) {
@@ -77,7 +84,14 @@ class Evnt {
             for (var element of document.querySelectorAll(el)) {
                 element.dispatchEvent(event);
             }
-            return;
+            return Evnt;
+        }
+        // el is NodeList:
+        if (el instanceof NodeList) {
+            for (var element of el) {
+                element.dispatchEvent(event);
+            }
+            return Evnt;
         }
         // el has length (el is probably array):
         if (el.hasOwnProperty("length")) {
