@@ -10,16 +10,16 @@
         <link rel="stylesheet" href="css/global.css">
         <link rel="stylesheet" type="text/css" href="css/fa/styles/fontawesome.min.css?v=1">
         <link rel="stylesheet" type="text/css" href="css/fa/styles/solid.min.css?v=1">
-        <link rel="stylesheet" type="text/css" href="css/football.css?v=2">
+        <link rel="stylesheet" type="text/css" href="css/football.css?v=3">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,900&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,900&family=Sriracha&display=swap" rel="stylesheet">
         <script src="js/Jersey.js"></script>
-        <script src="js/Elem.js"></script>
+        <script src="js/Elem.js?v=1"></script>
         <script src="js/ColorTools.js"></script>
         <script src="js/ColorPicker.js"></script>
         <script src="js/Evnt.js?v=2"></script>
-        <script src="js/footballEvents.js?v=2"></script>
+        <script src="js/footballEvents.js?v=3"></script>
         <script src="js/Splash.js"></script>
     </head>
     <body>
@@ -91,7 +91,7 @@
                                 <tfoot>
                                     <tr>
                                         <th colspan="4">
-                                            <i class="add fas fa-plus-circle"></i>
+                                            <i class="add fas fa-plus-circle" data-template="template-club-players"></i>
                                         </th>
                                     </tr>
                                 </tfoot>
@@ -121,9 +121,18 @@
             <div class="container">
                 <div class="row">
                     <div class="column width-12 text-center">
-                        <h2>Barva dresů &mdash; hráč v poli</h2>
+                        <span class="btn-ghost download" id="download-jersey" title="Uloží vyplněné informace na disk"><i class="fas fa-download"></i></span>
+                        <span class="btn-ghost upload" id="upload-jersey" title="Načte informace uložené na disku"><i class="fas fa-upload"></i></span>
+                        <h2>Barva dresů</h2>
                     </div>
                 </div>
+
+                <div class="row">
+                    <div class="column width-12 text-center">
+                        <h3>Hráči v poli</h3>
+                    </div>
+                </div>
+
                 <div class="row">
                     <div class="column width-2 push-2">
                         <figure class="player" id="player-field">
@@ -185,12 +194,10 @@
                         </form>
                     </div><!-- /column -->
                 </div><!-- /row -->
-            </div><!-- /container-->
 
-            <div class="container">
                 <div class="row">
                     <div class="column width-12 text-center">
-                        <h2>Barva dresů &mdash; brankář</h2>
+                        <h3>Brankář</h3>
                     </div><!-- /column -->
                 </div><!-- /row -->
                 <div class="row">
@@ -262,10 +269,10 @@
             <form name="match-info">
                 <div class="container">
                     <div class="row">
-                        <div class="column width-12">
+                        <div class="column width-12 text-center">
                             <span class="btn-ghost download" id="download-match" title="Uloží vyplněné informace na disk"><i class="fas fa-download"></i></span>
                             <span class="btn-ghost upload" id="upload-match" title="Načte informace uložené na disku"><i class="fas fa-upload"></i></span>
-                            <h3>Detailní informace o zápasu</h3>
+                            <h2>Detailní informace o zápasu</h2>
                         </div><!-- /.column -->
                     </div><!-- /.row -->
                     <div class="row">
@@ -392,6 +399,15 @@
 
                         <div class="column width-4">
                             <h3>Naše soupiska</h3>
+                            <table id="our-players" class="players">
+                                <thead>
+                                    <tr>
+                                        <td colspan="2">Nastupuje</td>
+                                        <td colspan="2" style="text-align: right;">Kapitán</td>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
                         </div><!-- /.column -->
 
                         <div class="column width-4">
@@ -408,7 +424,7 @@
                                 <tfoot>
                                     <tr>
                                         <th colspan="4">
-                                            <i class="add fas fa-plus-circle"></i>
+                                            <i class="add fas fa-plus-circle" data-template="template-partner-players"></i>
                                         </th>
                                     </tr>
                                 </tfoot>
@@ -507,7 +523,7 @@
                                     <!-- 920 × 690 -- moc velké -->
                                     <!-- 960 × 720 -- moc velké -->
                                     <div id="lineup" style="width: 720px; height: 540px; /*background: #fff;*/ margin: auto; padding-bottom: 2em; position: relative;">
-                                        <div id="player-name-select" style="display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #fff8; z-index: 110;">
+                                        <div id="player-name-select" style="display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #fff8; border-radius: .5em; z-index: 110;">
                                             <span class="close" style="float: right; margin: .5em; background: red; color: white; cursor: pointer; font-size: 200%; width: 1em; height: 1em; line-height: 1em; padding: .25em; border-radius: .25em;"><i class="fas fa-times"></i></span>
                                             <div style="margin: 7em auto 0 auto; width: fit-content; background: #ffffff; text-align: center; padding: 1em 3em 3em 3em; border-radius: 1em;">
                                                 <h3 style="margin: 0 1em 1em 1em">Vyberte hráče</h3>
@@ -1043,7 +1059,22 @@
 
         <table style="display: none">
             <tbody>
-                <tr id="template-lineup-name">
+                <tr id="template-club-players">
+                    <th>
+                        <input class="player-number">
+                    </th>
+                    <td>
+                        <input class="player-name">
+                    </td>
+                    <td>
+                        <i class="move-up fas fa-arrow-circle-up"></i>
+                        <i class="move-down fas fa-arrow-circle-down"></i>
+                    </td>
+                    <td>
+                        <i class="remove fas fa-minus-circle"></i>
+                    </td>
+                </tr>
+                <tr id="template-partner-players">
                     <th>
                         <input class="player-number">
                     </th>
@@ -1061,6 +1092,20 @@
                     <th>
                         <input class="player-name">
                     </th>
+                </tr>
+                <tr id="template-our-players">
+                    <th>
+                        <input name="" type="checkbox" checked>
+                    </th>
+                    <td>
+                        <input class="player-number" disabled>
+                    </td>
+                    <td>
+                        <input class="player-name" disabled>
+                    </td>
+                    <td>
+                        <input name="captain" type="radio">
+                    </td>
                 </tr>
 
             </tbody>

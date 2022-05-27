@@ -54,16 +54,56 @@ class Events {
         r.parentNode.removeChild(r);
     }
 
+    static clickPlayerMoveUp (e) {
+        var t = e.currentTarget.closest("tr");
+        var p = t.previousElementSibling;
+        if (p) {
+            (new Elem(t)).swapWithNode(p);
+        }
+    }
+
+    static clickPlayerMoveDown (e) {
+        var t = e.currentTarget.closest("tr");
+        var n = t.nextElementSibling;
+        if (n) {
+            (new Elem(t)).swapWithNode(n);
+        }
+    }
+
     // Vloží řádek do formuláře hráčů:
     static clickPlayerAdd (e) {
-        var r = document.getElementById("template-lineup-name").cloneNode(true);
+        var r = document.getElementById(e.currentTarget.getAttribute("data-template")).cloneNode(true);
         r.removeAttribute("id");
         e.currentTarget.closest("table").querySelector("tbody").appendChild(r);
         Evnt.on(r.querySelector(".remove"), "click", Events.clickPlayerRemove);
+        Evnt.on(r.querySelector(".move-up"), "click", Events.clickPlayerMoveUp);
+        Evnt.on(r.querySelector(".move-down"), "click", Events.clickPlayerMoveDown);
         // Hlídej změny:
         Evnt.onAll(r.querySelectorAll("input"), "change", (e) => {
             var tbd = e.currentTarget.closest("table > tbody");
             var players = {};
+
+            var target = document.querySelector("#our-players tbody");
+            // Uložíme
+            // Vytvoříme nový seznam:
+            target.innerHTML = "";
+            for (var row of tbd.querySelectorAll("tr")) {
+                //console.log(row.querySelector("input.player-number"));
+                //console.log(row.querySelector("input.player-name"));
+                var tr = new Elem(document.getElementById("template-our-players")).clone(true).attrRemove("id").get();
+                tr.querySelector("input.player-number").value = row.querySelector("input.player-number").value;
+                tr.querySelector("input.player-name").value = row.querySelector("input.player-name").value;
+                (new Elem(tr)).appendTo(target);
+                /*
+                    .attr("value", `${row.querySelector("input.player-number").value}:${row.querySelector("input.player-name").value}`)
+                    .text(`${row.querySelector("input.player-number").value}: ${row.querySelector("input.player-name").value}`)
+                    .appendTo(target);
+
+                players[row.querySelector("input.player-number").value] = row.querySelector("input.player-name").value;
+                */
+            }
+
+            /*
             var pnl = document.getElementById("player-name-list");
             pnl.innerHTML = "";
             var opt = (new Elem("option"))
@@ -81,6 +121,8 @@ class Events {
                 players[row.querySelector("input.player-number").value] = row.querySelector("input.player-name").value;
             }
             console.log(players);
+            */
+
             /*
             var cls = e.currentTarget.getAttribute("class");
             if (cls) {

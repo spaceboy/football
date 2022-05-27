@@ -190,6 +190,14 @@ class Elem {
         return this;
     }
 
+    // Swap with given node
+    swapWithNode (node) {
+        if (node instanceof Elem) {
+        }
+        Elem.swapNodes(this.element, node);
+        return this;
+    }
+
     // Detect whether given object is a DOM object.
     static isDomObject (obj) {
         if (obj instanceof HTMLElement) {

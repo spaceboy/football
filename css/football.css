@@ -1,3 +1,8 @@
+h1, h2, h3 {
+    font-family: 'Sriracha', serif;
+    font-style: normal;
+}
+
 h3 {
     color: #337ab7;
     font-family: 'Sriracha', serif;
@@ -250,12 +255,17 @@ table.players tfoot .add {
     font-size: 220%;
     margin: .25em 0;
 }
-table.players .remove {
+table.players .remove, table.players .move-up, table.players .move-down {
     background: white;
     border-radius: 50%;
-    color: red;
     cursor: pointer;
     font-size: 130%;
-    margin-left: .5em;
+    margin: 0 .25em;
+}
+table.players .remove {
+    color: red;
+}
+table.players .move-up, table.players .move-down {
+    color: #cccccc;
 }
 
