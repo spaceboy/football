@@ -149,15 +149,18 @@ function setReferee () {
 
 Evnt.onAll("form input, form, select", "change", (e) => {
     let t = e.currentTarget;
+    let val = t.value;
     switch (t.id) {
         case "club-info-name":
             setCanvasTitle();
+            document.querySelector("#lineup-match-club h3").innerText = `Soupiska ${val}`;
             break;
         case "match-info-home":
             setCanvasTitle();
             break;
         case "match-info-partner":
             setCanvasTitle();
+            document.querySelector("#lineup-match-partner h3").innerText = `Soupiska ${val}`;
             break;
         case "match-info-referee":
         case "match-info-referee2":
@@ -173,15 +176,34 @@ Evnt.onAll("form input, form, select", "change", (e) => {
 // Aktivace menu:
 Evnt.onAll("ul.menu > li", "click", (e) => {
     var t = e.currentTarget;
-    for (var el of t.closest("ul.menu").querySelectorAll("li")) {
-        el.removeAttribute("class");
-    }
-    t.setAttribute("class", "active");
-    for (var el of document.querySelectorAll("div.block")) {
+    var menu = t.closest("ul.menu");
+
+    // Skrýt panely navázané na menu:
+    for (var el of document.querySelectorAll(
+        menu.hasAttribute("data-name")
+        ? `div.block[data-name=\"${menu.getAttribute("data-name")}\"]`
+        : "div.block"
+    )) {
         el.setAttribute("class", "block");
     }
+    // Skrýt položky menu:
+    for (var el of menu.querySelectorAll("li")) {
+        el.removeAttribute("class");
+    }
+
+    // Kliknuté položce manu nastavit class active:
+    t.setAttribute("class", "active");
+    // Zobrazit content navázaný na aktivní položku:
     document.getElementById(t.getAttribute("data-target")).setAttribute("class", "block active");
 });
+// Otvírání defaultních panelů:
+for (var el of document.querySelectorAll("ul.menu")) {
+    console.log(el.getAttribute("data-default"));
+    if (!el.hasAttribute("data-default")) {
+        continue;
+    }
+    Evnt.trigger(el.querySelector(`li[data-target=\"${el.getAttribute("data-default")}\"]`), "click");
+}
 
 
 
@@ -218,7 +240,7 @@ Data.load({
     "club-info": {
         "name": "TJ Slavoj Houslice",
         "chairman": "Václav Orel",
-        "manager": "Jirka Luňák"
+        "manager": "Bohumír Zenkl"
     },
     "match-info": {
         "type": "ligové utkání",
@@ -242,9 +264,11 @@ for (var i = 1; i <= 10; i++) {
 var i = 1;
 for (var el of document.querySelectorAll("#club-players tbody tr")) {
     el.querySelector(".player-number").value = i;
-    el.querySelector(".player-name").value = "Player #" + i;
+    el.querySelector(".player-name").value = `Hráč ${i}`;
     i++;
 }
+// Vyvolání události, aby se hráči zpropagovali do zápasové sestavy:
+Evnt.trigger("#club-players input", "change");
 
 // Mock naplnění hráčů soupeře:
 for (var i = 1; i <= 10; i++) {
@@ -253,7 +277,7 @@ for (var i = 1; i <= 10; i++) {
 var i = 1;
 for (var el of document.querySelectorAll("#partner-players tbody tr")) {
     el.querySelector(".player-number").value = i;
-    el.querySelector(".player-name").value = "Protivník #" + i;
+    el.querySelector(".player-name").value = `Protihráč ${i}`;
     i++;
 }
 
@@ -300,4 +324,7 @@ Luňák
 
 Útok:
 10 Kužel
+
+Trenér (manažer):
+Bohumír Zenkl
 */

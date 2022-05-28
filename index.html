@@ -32,18 +32,18 @@
                     <span class="btn-ghost download" id="download-global" title="Uloží vyplněné informace na disk"><i class="fas fa-download"></i></span>
                     <span class="btn-ghost upload" id="upload-global" title="Načte informace uložené na disku"><i class="fas fa-upload"></i></span>
                     <h1>Fotbalová grafika</h1>
-                    <ul class="menu">
+                    <ul class="menu" data-name="main-menu" data-default="block-result">
                         <li data-target="block-club">Klub</li>
                         <li data-target="block-jersey">Dresy</li>
                         <li data-target="block-match">Zápas</li>
-                        <li data-target="block-lineup">Sestava</li>
+                        <li data-target="block-lineup">Upoutávka</li>
                         <li data-target="block-result">Události</li>
                     </ul>
                 </div>
             </div>
         </div><!-- /.container -->
 
-        <div class="block" id="block-club">
+        <div class="block" id="block-club" data-name="main-menu">
             <div class="container align-center">
                 <div class="row">
                     <div class="column width-12">
@@ -117,7 +117,7 @@
             </div><!-- /.container-->
         </div><!-- /#block-club-->
 
-        <div class="block" id="block-jersey">
+        <div class="block" id="block-jersey" data-name="main-menu">
             <div class="container">
                 <div class="row">
                     <div class="column width-12 text-center">
@@ -265,7 +265,7 @@
         </div><!-- /#block-jersey -->
 
 
-        <div class="block" id="block-match">
+        <div class="block" id="block-match" data-name="main-menu">
             <form name="match-info">
                 <div class="container">
                     <div class="row">
@@ -397,7 +397,7 @@
                             </table>
                         </div><!-- /.column -->
 
-                        <div class="column width-4">
+                        <div class="column width-4" id="lineup-match-club">
                             <h3>Naše soupiska</h3>
                             <table id="our-players" class="players">
                                 <thead>
@@ -410,7 +410,7 @@
                             </table>
                         </div><!-- /.column -->
 
-                        <div class="column width-4">
+                        <div class="column width-4" id="lineup-match-partner">
                             <h3>Soupiska soupeře</h3>
                             <table id="partner-players" class="players">
                                 <thead>
@@ -493,7 +493,7 @@
     opacity: 1;
 }
 </style>
-        <div class="block" id="block-lineup">
+        <div class="block" id="block-lineup" data-name="main-menu">
 
             <div class="container">
                 <div class="row">
@@ -845,15 +845,27 @@
 
 <style>
 
-.ico-goal {
+.event .ico {
     display: inline-block;
     font-family: "Font Awesome 5 Free";
     font-weight: 900;
-    text-align: center;
     width: 1.3em;
 }
+
+.ico-goal {
+    text-align: center;
+}
 .ico-goal > i {
-    background: radial-gradient(white 66%, transparent 66%);
+    /*background: radial-gradient(white 66%, transparent 66%);*/
+}
+.ico-goal > i::before {
+    color: darkgreen;
+    position: absolute;
+}
+.ico-goal > i::after {
+    color: white;
+    content: "\f111";
+    text-shadow: 1px 1px 2px black;
 }
 
 .ico-substitute {
@@ -924,112 +936,158 @@
     width: 1.3em;
 }
 
-#result {
+.result {
     background: linear-gradient(90deg, lightgreen, #ccffcc 45%, #ccffcc 55%, lightgreen);
     display: flex;
     flex-direction: column;
+    text-align: initial;
     width: 640px;
     min-height: 480px;
 }
 
-#result .event {
+.result .event {
     display: flex;
     font-size: 175%;
     padding: .25em 0;
 }
-#result .event .home {
+.result .event .home {
     flex: 1;
     text-align: right;
 }
-#result .event .time {
+.result .event .time {
     flex: 0;
     font-weight: bold;
     margin: 0 .5em;
 }
-#result .event .away {
+.result .event .away {
     flex: 1;
 }
 
 </style>
 
-        <div class="block" id="block-result">
+        <div class="block" id="block-result" data-name="main-menu">
             <div class="container">
-                <div class="column width-8">
-                    <div id="result">
-
-                        <div class="title" style="text-align: center;">
-                            <h2>TJ Slavoj Houslice</h2>
-                            <h2>SK Horní Lhotka</h2>
-                        </div>
-
-                        <div class="title" style="text-align: center;">
-                            <h3>Konečný výsledek</h3>
-                        </div>
-
-                        <div class="events">
-                            <div class="event">
-                                <div class="home">Řepa <span class="ico-red"><i class="fas fa-square"></i></span></div>
-                                <div class="time">57</div>
-                                <div class="away"><span class="ico-substitute"><i class="fas fa-sync-alt"></i></span> Novotný (Vaníček)</div>
-                            </div>
-                            <div class="event">
-                                <div class="home"></div>
-                                <div class="time">62</div>
-                                <div class="away"><span class="ico-goal"><i class="fas fa-futbol"></i></span> Novotný<br><span class="ico-yellow-1st"><i class="fas fa-square"></i></span> Novotný</div>
-                            </div>
-                            <div class="event">
-                                <div class="home"></div>
-                                <div class="time">64</div>
-                                <div class="away">
-                                    <span class="ico-yellow-2nd">
-                                        <i class="fas fa-square"></i>
-                                        <i class="fas fa-square"></i>
-                                        <i class="fas fa-square"></i>
-                                        &nbsp;
-                                    </span>
-                                    Novotný</div>
-                            </div>
-
-                            <div class="event">
-                                <div class="home"></div>
-                                <div class="time">64</div>
-                                <div class="away"><i class="fas fa-skull"></i> Bitka v hledišti</div>
-                            </div>
-                            <div class="event">
-                                <div class="home">Přerušení (15m) <i class="fas fa-signal-stream"></i><i class="fas fa-volume-up"></i></i></div>
-                                <div class="time">65</div>
-                                <div class="away"></div>
-                            </div>
-                            <div class="event">
-                                <div class="home"></div>
-                                <div class="time">66</div>
-                                <div class="away"><i class="fas fa-times"></i><i class="fas fa-times-circle"></i> neproměněná penalta</div>
-                            </div>
-                            <div class="event">
-                                <div class="home"></div>
-                                <div class="time">66</div>
-                                <div class="away"><i class="fas fa-fire-extinguisher"></i> Zásah hasičů</div>
-                            </div>
-                            <div class="event">
-                                <div class="home"></div>
-                                <div class="time">62</div>
-                                <div class="away"><i class="fas fa-fire"></i> Požár</div>
-                            </div>
-                            <div class="event">
-                                <div class="home">Řepa <span class="ico-red"><i class="fas fa-square"></i></span></div>
-                                <div class="time">57</div>
-                                <div class="away"><span class="ico-substitute"><i class="fas fa-sync-alt"></i></span> Novotný (Vaníček)</div>
-                            </div>
-                            <div class="event">
-                                <div class="home"></div>
-                                <div class="time">62</div>
-                                <div class="away"><span class="ico-goal"><i class="fas fa-futbol"></i></span> Novotný<br><span class="ico-yellow-1st"><i class="fas fa-square"></i></span> Novotný</div>
-                            </div>
-
-                        </div><!-- /events -->
-
-                        <div class="events-referee"></div>
+                <div class="row">
+                    <div class="column width-12 text-center">
+                        <span class="btn-ghost download" id="download-result" title="Uloží vyplněné informace na disk"><i class="fas fa-download"></i></span>
+                        <span class="btn-ghost upload" id="upload-result" title="Načte informace uložené na disku"><i class="fas fa-upload"></i></span>
+                        <h2>Sestava &bull; události &bull; výsledek</h2>
                     </div>
+                </div>
+                <div class="row">
+                    <div class="column width-7 text-center">
+                        <div>
+                            <ul class="menu" data-name="events-menu" data-default="block-result-1st-half" style="margin: 0 0 1em 0;">
+                                <li data-target="block-result-lineup">Sestava</li>
+                                <li data-target="block-result-1st-half">Poločas</li>
+                                <li data-target="block-result-2nd-half">Po 90 min</li>
+                            </ul>
+                        </div>
+
+                        <div class="block" id="block-result-lineup" data-name="events-menu">
+                            lineup
+                        </div>
+
+                        <div class="block" id="block-result-1st-half" data-name="events-menu">
+                            <div class="result">
+                                <div class="title" style="text-align: center; display: flex; flex-flow: row;">
+                                    <div style="flex: 7; flex-flow: column; text-align: right; margin-right: 0; display: flex; justify-content: center;">
+                                        <h2 class="club-name" style="margin: .1em 0; font-size: 275%; font-variant: small-caps; font-family: Roboto; text-shadow: none;">
+                                            TJ Slavoj Houslice
+                                        </h2>
+                                        <h2 class="partner-name" style="margin: .1em 0; font-size: 275%; font-variant: small-caps; font-family: Roboto; text-shadow: none;">
+                                            SK Horní Lhotka
+                                        </h2>
+                                    </div>
+                                    <div style="flex: 4; font-size: 700%; font-weight: 900; text-align: left; align-self: center; margin-left: .2em;">
+                                        3:0
+                                    </div>
+                                </div>
+
+                                <div class="title" style="text-align: center;">
+                                    <h3>Konečný výsledek</h3>
+                                </div>
+
+                                <div class="events">
+                                    <div class="event">
+                                        <div class="home">Řepa <span class="ico ico-red"><i class="fas fa-square"></i></span></div>
+                                        <div class="time">57</div>
+                                        <div class="away"><span class="ico ico-substitute"><i class="fas fa-sync-alt"></i></span> Novotný (Vaníček)</div>
+                                    </div>
+                                    <div class="event">
+                                        <div class="home"></div>
+                                        <div class="time">62</div>
+                                        <div class="away"><span class="ico ico-goal"><i class="fas fa-futbol"></i></span> Novotný</div>
+                                    </div>
+                                    <div class="event">
+                                        <div class="home"></div>
+                                        <div class="time">62</div>
+                                        <div class="away"><span class="ico ico-yellow-1st"><i class="fas fa-square"></i></span> Novotný</div>
+                                    </div>
+                                    <div class="event">
+                                        <div class="home"></div>
+                                        <div class="time">64</div>
+                                        <div class="away">
+                                            <span class="ico ico-yellow-2nd">
+                                                <i class="fas fa-square"></i>
+                                                <i class="fas fa-square"></i>
+                                                <i class="fas fa-square"></i>
+                                                &nbsp;
+                                            </span>
+                                            Novotný</div>
+                                    </div>
+
+                                    <div class="event">
+                                        <div class="home"></div>
+                                        <div class="time">64</div>
+                                        <div class="away"><i class="fas fa-skull"></i> Bitka v hledišti</div>
+                                    </div>
+                                    <div class="event">
+                                        <div class="home">Přerušení (15m) <i class="fas fa-signal-stream"></i><i class="fas fa-volume-up"></i></i></div>
+                                        <div class="time">65</div>
+                                        <div class="away"></div>
+                                    </div>
+                                    <div class="event">
+                                        <div class="home"></div>
+                                        <div class="time">66</div>
+                                        <div class="away"><i class="fas fa-times"></i><i class="fas fa-times-circle"></i> neproměněná penalta</div>
+                                    </div>
+                                    <div class="event">
+                                        <div class="home"></div>
+                                        <div class="time">66</div>
+                                        <div class="away"><i class="fas fa-fire-extinguisher"></i> Zásah hasičů</div>
+                                    </div>
+                                    <div class="event">
+                                        <div class="home"></div>
+                                        <div class="time">62</div>
+                                        <div class="away"><i class="fas fa-fire"></i> Požár</div>
+                                    </div>
+                                    <div class="event">
+                                        <div class="home">Řepa <span class="ico-red"><i class="fas fa-square"></i></span></div>
+                                        <div class="time">57</div>
+                                        <div class="away"><span class="ico-substitute"><i class="fas fa-sync-alt"></i></span> Novotný (Vaníček)</div>
+                                    </div>
+                                    <div class="event">
+                                        <div class="home"></div>
+                                        <div class="time">62</div>
+                                        <div class="away"><span class="ico-goal"><i class="fas fa-futbol"></i></span> Novotný<br><span class="ico-yellow-1st"><i class="fas fa-square"></i></span> Novotný</div>
+                                    </div>
+
+                                </div><!-- /.events -->
+
+                                <div class="events-referee"></div>
+                            </div><!-- /.result -->
+                        </div><!-- /block #block-result-1st-half -->
+
+                        <div class="block" id="block-result-2nd-half" data-name="events-menu">
+                            2nd half
+                        </div>
+
+                    </div><!-- /.column -->
+
+                    <div class="column width-5 text-center">
+                        <h3>Události</h3>
+                    </div><!-- /.column -->
                 </div>
             </div><!-- /.container-->
         </div><!-- /#block-result -->
@@ -1113,6 +1171,13 @@
 
         <div id="splash-screen"><div><i class="fas fa-hourglass"></div></i></div>
 
-        <script src="js/football.js?v=4"></script>
+        <script src="js/football.js?v=5"></script>
     </body>
 </html>
+
+<!--
+TRY:
+window.open('http://www.facebook.com/sharer.php?u='+encodeURIComponent(dataUrl)+'&t='+encodeURIComponent('Some text'),'sharer','toolbar=0,status=0,width=626,height=436');
+
+http://aminariana.github.io/data-uri-to-img-url/
+-->
