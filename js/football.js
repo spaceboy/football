@@ -174,9 +174,15 @@ Evnt.onAll("form input, form, select", "change", (e) => {
 })
 
 // Aktivace menu:
-Evnt.onAll("ul.menu > li", "click", (e) => {
+Evnt.onAll("ul.menu > li[data-target]", "click", (e) => {
     var t = e.currentTarget;
     var menu = t.closest("ul.menu");
+
+    // Pokud neexistuje cílový panel, zruš akci:
+    var panel = document.getElementById(t.getAttribute("data-target"));
+    if (!panel) {
+        return;
+    }
 
     // Skrýt panely navázané na menu:
     for (var el of document.querySelectorAll(
@@ -194,11 +200,11 @@ Evnt.onAll("ul.menu > li", "click", (e) => {
     // Kliknuté položce manu nastavit class active:
     t.setAttribute("class", "active");
     // Zobrazit content navázaný na aktivní položku:
-    document.getElementById(t.getAttribute("data-target")).setAttribute("class", "block active");
+    panel.setAttribute("class", "block active");
 });
-// Otvírání defaultních panelů:
+
+// Menu: Otvírání defaultních panelů:
 for (var el of document.querySelectorAll("ul.menu")) {
-    console.log(el.getAttribute("data-default"));
     if (!el.hasAttribute("data-default")) {
         continue;
     }
@@ -206,6 +212,85 @@ for (var el of document.querySelectorAll("ul.menu")) {
 }
 
 
+
+Evnt.on("form[name=\"events\"] select[name=\"type\"]", "change", (e) => {
+    var t = e.currentTarget;
+    var f = t.closest("form");
+    var o = t.querySelector(`option[value="${t.value}"]`)
+
+    // Vypnout/zapnout hráče:
+    var p = (o.hasAttribute("data-players") ? parseInt(o.getAttribute("data-players")) : 1);
+    var i = 0;
+    for (el of document.querySelectorAll("form[name=\"events\"] select.events-player")) {
+        if (++i <= p) {
+            el.disabled = false;
+        } else {
+            el.disabled = true;
+            el.value = "";
+        }
+    }
+
+    // Vypnout/zapnout textový komentář:
+    var c = f.querySelector("input[name=\"comment\"]");
+    if (t.hasAttribute("data-comment")) {
+        c.disabled = false;
+    } else {
+        c.disabled = true;
+        c.value = "";
+    }
+});
+Evnt.on("form[name=\"events\"]", "change", (e) => {
+    var f = e.currentTarget.closest("form");
+    var comment = "";
+    switch (f.querySelector("select[name=\"type\"]").value) {
+        case "goal":
+            comment = f.querySelector("select[name=\"player1\"]").value;
+            break;
+        case "substitution":
+            comment = `${f.querySelector("select[name=\"player1\"]").value} (${f.querySelector("select[name=\"player2\"]").value})`;
+            break;
+        case "card-yellow-1st":
+            comment = f.querySelector("select[name=\"player1\"]").value;
+            break;
+        case "card-yellow-2nd":
+            comment = f.querySelector("select[name=\"player1\"]").value;
+            break;
+        case "card-red":
+            comment = f.querySelector("select[name=\"player1\"]").value;
+            break;
+        case "penalty-succ":
+            comment = `${f.querySelector("select[name=\"player1\"]").value} (P)`;
+            break;
+        case "penalty-uns":
+            comment = f.querySelector("select[name=\"player1\"]").value;
+            break;
+            /*
+        case "other":
+            comment = f.querySelector("input[name=\"comment\"]").value;
+            break;
+            */
+    }
+    f.querySelector("input[name=\"comment\"]").value = comment;
+});
+// Vyhodnocení formuláře událostí:
+Evnt.on("form[name=\"events\"] input[name=\"submit\"]", "click", (e) => {
+    e.preventDefault();
+    console.log("Submitted");
+    var form = e.currentTarget.closest("form");
+    var filled = true;
+    for (var el of form.querySelectorAll("select:not([disabled]), input:not([disabled]):not([name=\"submit\"])")) {
+        if (!el.value) {
+            filled = false;
+        }
+    }
+    console.log(filled);
+
+    console.log(form.querySelector("input[name=\"events-team\"]:checked").value);
+})
+// Validace:
+Evnt.on("form[name=\"events\"] input[name=\"time\"]", "change", (e) => {
+    console.log(e.currentTarget.value.match(/[0-9]+(\+[0-9]+)?$/));
+})
 
 
 Events.copyJerseyColors();

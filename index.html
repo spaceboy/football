@@ -35,9 +35,13 @@
                     <ul class="menu" data-name="main-menu" data-default="block-result">
                         <li data-target="block-club">Klub</li>
                         <li data-target="block-jersey">Dresy</li>
+                        <li>&bull;</li>
                         <li data-target="block-match">Zápas</li>
+                        <li>&raquo;</li>
                         <li data-target="block-lineup">Upoutávka</li>
                         <li data-target="block-result">Události</li>
+                        <li>&bull;</li>
+                        <li data-target="block-tutorial">Nápověda</li>
                     </ul>
                 </div>
             </div>
@@ -845,30 +849,30 @@
 
 <style>
 
-.event .ico {
+.result .event .ico {
     display: inline-block;
     font-family: "Font Awesome 5 Free";
     font-weight: 900;
     width: 1.3em;
 }
 
-.ico-goal {
+.result .event .ico.ico-goal {
     text-align: center;
 }
-.ico-goal > i {
+.result .event .ico.ico-goal > i {
     /*background: radial-gradient(white 66%, transparent 66%);*/
 }
-.ico-goal > i::before {
+.result .event .ico.ico-goal > i::before {
     color: darkgreen;
     position: absolute;
 }
-.ico-goal > i::after {
+.result .event .ico.ico-goal > i::after {
     color: white;
     content: "\f111";
     text-shadow: 1px 1px 2px black;
 }
 
-.ico-substitute {
+.result .event .ico.ico-substitution {
     display: inline-block;
     font-family: "Font Awesome 5 Free";
     font-weight: 900;
@@ -876,7 +880,7 @@
     width: 1.3em;
 }
 
-.ico-substitute > i:before {
+.event .ico.ico-substitution > i:before {
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -884,13 +888,13 @@
     position: absolute;
     z-index: 11;
 }
-.ico-substitute > i:after {
+.result .event .ico.ico-substitution > i:after {
     text-shadow: 1px 1px 2px black;
     color: transparent;
     content: "\f2f1";
 }
 
-.ico-yellow-1st > i {
+.result .event .ico.ico-yellow-1st > i {
     color: yellow;
     display: inline-block;
     font-family: "Font Awesome 5 Free";
@@ -900,33 +904,33 @@
     width: 1.3em;
 }
 
-.ico-yellow-2nd {
+.result .event .ico.ico-yellow-2nd {
     display: inline-block;
     font-family: "Font Awesome 5 Free";
     font-weight: 900;
     width: 1.3em;
 }
-.ico-yellow-2nd > i {
+.result .event .ico.ico-yellow-2nd > i {
     position: absolute;
     text-shadow: 1px 1px 2px black;
 }
-.ico-yellow-2nd > i:nth-child(1) {
+.result .event .ico.ico-yellow-2nd > i:nth-child(1) {
     color: yellow;
     margin: .2em .4em 0 0;
     z-index: 10;
 }
-.ico-yellow-2nd > i:nth-child(2) {
+.result .event .ico.ico-yellow-2nd > i:nth-child(2) {
     color: yellow;
     margin: .1em .2em 0 .2em;
     z-index: 11;
 }
-.ico-yellow-2nd > i:nth-child(3) {
+.result .event .ico.ico-yellow-2nd > i:nth-child(3) {
     color: red;
     margin: 0 0 0 .4em;
     z-index: 12;
 }
 
-.ico-red > i {
+.result .event .ico.ico-red > i {
     color: red;
     text-shadow: 1px 1px 2px black;
     display: inline-block;
@@ -941,8 +945,9 @@
     display: flex;
     flex-direction: column;
     text-align: initial;
-    width: 640px;
-    min-height: 480px;
+    width: 620px;
+    min-height: 465px;
+    padding: 10px 10px 5px 10px;
 }
 
 .result .event {
@@ -981,6 +986,8 @@
                                 <li data-target="block-result-lineup">Sestava</li>
                                 <li data-target="block-result-1st-half">Poločas</li>
                                 <li data-target="block-result-2nd-half">Po 90 min</li>
+                                <li data-target="block-result-extended">Po prodloužení</li>
+                                <li data-target="block-result-penalties">Po penaltách</li>
                             </ul>
                         </div>
 
@@ -1012,7 +1019,7 @@
                                     <div class="event">
                                         <div class="home">Řepa <span class="ico ico-red"><i class="fas fa-square"></i></span></div>
                                         <div class="time">57</div>
-                                        <div class="away"><span class="ico ico-substitute"><i class="fas fa-sync-alt"></i></span> Novotný (Vaníček)</div>
+                                        <div class="away"><span class="ico ico-substitution"><i class="fas fa-sync-alt"></i></span> Novotný (Vaníček)</div>
                                     </div>
                                     <div class="event">
                                         <div class="home"></div>
@@ -1065,7 +1072,7 @@
                                     <div class="event">
                                         <div class="home">Řepa <span class="ico-red"><i class="fas fa-square"></i></span></div>
                                         <div class="time">57</div>
-                                        <div class="away"><span class="ico-substitute"><i class="fas fa-sync-alt"></i></span> Novotný (Vaníček)</div>
+                                        <div class="away"><span class="ico ico-substitution"><i class="fas fa-sync-alt"></i></span> Novotný (Vaníček)</div>
                                     </div>
                                     <div class="event">
                                         <div class="home"></div>
@@ -1075,7 +1082,7 @@
 
                                 </div><!-- /.events -->
 
-                                <div class="events-referee"></div>
+                                <div class="events-referee" style="text-align: center;"></div>
                             </div><!-- /.result -->
                         </div><!-- /block #block-result-1st-half -->
 
@@ -1083,14 +1090,184 @@
                             2nd half
                         </div>
 
+                        <div class="block" id="block-result-extended" data-name="events-menu">
+                            po prodloužení
+                        </div>
+
+                        <div class="block" id="block-result-penalties" data-name="events-menu">
+                            penaltový rozstřel
+                        </div>
+
+
+
                     </div><!-- /.column -->
 
+<style>
+
+.events-time {
+    width: 3em;
+}
+.events-type {
+    width: 12em;
+}
+.events-player {
+    width: 12em;
+}
+.events-comment {
+    width: 26em;
+}
+</style>
                     <div class="column width-5 text-center">
                         <h3>Události</h3>
+                        <table id="event-line" style="width: 100%;">
+                            <tbody>
+                                <tr>
+                                    <td style="text-align: right;"><span style="float: right; margin: 0 1em;">(o)</span>10" událost hosti</td>
+                                    <td>
+                                        <i class="fas fa-arrow-circle-up" style="color: silver;"></i>
+                                        <i class="fas fa-arrow-circle-down" style="color: silver;"></i>
+                                        <i class="fas fa-minus-circle" style="color: red;">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: left;"><span style="float: left; margin: 0 1em;">(o)</span>45+2" událost domácí</td>
+                                    <td>
+                                        <i class="fas fa-arrow-circle-up" style="color: silver;"></i>
+                                        <i class="fas fa-arrow-circle-down" style="color: silver;"></i>
+                                        <i class="fas fa-minus-circle" style="color: red;">
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <hr>
+                        <h3>Vložte událost:</h3>
+                        <form name="events">
+                            <table style="text-align: left;">
+                                <tbody>
+                                    <tr>
+                                        <th>
+                                            <label for="events-time">Čas</label>
+                                        </th>
+                                        <td>
+                                            <input id="events-time" class="events-time" name="time" placeholder="45+2">
+                                        </td>
+                                        <td colspan="2">
+                                            <label><input type="radio" name="events-team" value="home" checked> Domácí</label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            <label for="events-type">Událost</label>
+                                        </th>
+                                        <td>
+                                            <select id="events-type" class="events-type" name="type">
+                                                <option value="" data-players="0">---</option>
+                                                <option value="goal">Gól</option>
+                                                <option value="substitution" data-players="2">Střídání</option>
+                                                <option value="card-yellow-1st">1. ŽK</option>
+                                                <option value="card-yellow-2nd">2. ŽK (=ČK)</option>
+                                                <option value="card-red">ČK</option>
+                                                <option value="penalty-succ">Penalta / gól</option>
+                                                <option value="penalty-uns">Penalta / neúspěšná</option>
+                                                <option value="other" data-players="0" data-comment="ok">Jiné</option>
+                                            </select>
+                                        </td>
+                                        <td colspan="2">
+                                            <label><input type="radio" name="events-team" value="away"> Hosté</label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            <label>Hráč(i)</label>
+                                        </th>
+                                        <td colspan="2">
+                                            <select name="player1" class="events-player" disabled>
+                                                <option value="">-- Vyber hráče --</option>
+                                                <option value="Novák">Novák</option>
+                                                <option value="Panenka">Panenka</option>
+                                                <option value="Nikl">Nikl</option>
+                                                <option value="Sňozík">Sňozík</option>
+                                                <option value="Jindřišek">Jindřišek</option>
+                                                <option value="Bartek">Bartek</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select name="player2" class="events-player" disabled>
+                                                <option value="">-- Vyber hráče --</option>
+                                                <option value="Novák">Novák</option>
+                                                <option value="Panenka">Panenka</option>
+                                                <option value="Nikl">Nikl</option>
+                                                <option value="Sňozík">Sňozík</option>
+                                                <option value="Jindřišek">Jindřišek</option>
+                                                <option value="Bartek">Bartek</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            <label for="events-comment">Komentář</label>
+                                        </th>
+                                        <td colspan="3">
+                                            <input id="events-comment" class="events-comment" name="comment" disabled>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3"></td>
+                                        <td><input name="submit" type="button" value="Vložit"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </form>
                     </div><!-- /.column -->
                 </div>
             </div><!-- /.container-->
         </div><!-- /#block-result -->
+
+        <div class="block" id="block-tutorial" data-name="main-menu">
+            <div class="container">
+                <div class="row">
+                    <div class="column width-12 text-center">
+                        <h2>Vítejte na stránce fotbalové grafiky</h2>
+                    </div><!-- /.column-->
+                </div><!-- /.row -->
+                <div class="row">
+                    <div class="column width-6">
+                        <h3>Co to je?</h3>
+                        <p>
+                            Tato stránka slouží všem, kteří si občas zahrají fotbal
+                            a rádi by o svých zápasech dali vědět svým fanouškům.
+                        </p>
+                        <p>
+                            To se dneska dělá hlavně prostřednictvím sociálních sítí.
+                            Světové kluby zveřejňují na svých účtech infografiku k nadcházejícím
+                            utkáním&hellip; a my chceme dělat totéž. Jenže nechceme utrácet
+                            za týmy grafiků, grafické programy nemáme a když máme, moc nám to s nimi
+                            nejde&hellip;
+                        </p>
+                        <p>
+                            Copak by se nenašel nějaký jednodušší způsob?
+                        </p>
+                        <p>
+                            Našel. Je to tahle stránka.
+                        </p>
+
+                        <h3>Jak se za to platí?</h3>
+                        <p>
+                            To je jednoduché. Neplatí se.
+                        </p>
+                        <p>
+                            Fotbal je naše společná vášeň (a někdy i naše společné prokletí).
+                            Proto vám tuhle službu rádi poskytneme naprosto zdarma; jen tak pro radost.
+                        </p>
+                        <p>
+                            Nicméně &mdash; pokud tuto stránku (a infografiku na ní vytvořenou) používáte,
+                            můžete svůj vděk projevit tím, že jejím autorům pošlete šálu, vlaječku nebo jiný
+                            upomínkový předmět svého klubu.
+                        </p>
+                    </div><!-- /.column-->
+                </div><!-- /.row -->
+            </div><!-- /.container-->
+        </div>
 
         <div style="display: none;">
             <figure id="template-position-player" class="player" id="player-goalie">
@@ -1146,7 +1323,7 @@
                         <i class="remove fas fa-minus-circle"></i>
                     </td>
                 </tr>
-                <tr id="template-lineup-substitute">
+                <tr id="template-lineup-substitution">
                     <th>
                         <input class="player-name">
                     </th>
