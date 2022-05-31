@@ -122,7 +122,12 @@ class Elem {
         return this;
     }
 
-    // Add CSS class to active element.
+    // Set HTML class on active element.
+    class (className) {
+        this.element.setAttribute("class", className);
+        return this;
+    }
+    // Add HTML class to active element.
     addClass (className) {
         var a = this.#getClassArray();
         if (false === this.#inArray(className, a)) {
@@ -196,6 +201,14 @@ class Elem {
         }
         Elem.swapNodes(this.element, node);
         return this;
+    }
+
+    qs (selector) {
+        return this.element.querySelector(selector);
+    }
+
+    qsAll (selector) {
+        return this.element.querySelectorAll(selector);
     }
 
     // Detect whether given object is a DOM object.

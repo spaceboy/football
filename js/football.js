@@ -275,22 +275,37 @@ Evnt.on("form[name=\"events\"]", "change", (e) => {
 // Vyhodnocení formuláře událostí:
 Evnt.on("form[name=\"events\"] input[name=\"submit\"]", "click", (e) => {
     e.preventDefault();
-    console.log("Submitted");
     var form = e.currentTarget.closest("form");
-    var filled = true;
-    for (var el of form.querySelectorAll("select:not([disabled]), input:not([disabled]):not([name=\"submit\"])")) {
+    var data = {};
+    for (var el of form.querySelectorAll("select:not([disabled]), input:not([name=\"submit\"])")) {
         if (!el.value) {
-            filled = false;
+            return;
         }
+        data[el.name] = el.value;
     }
-    console.log(filled);
+    data["team"] = form.querySelector("input[name=\"team\"]:checked").value;
 
-    console.log(form.querySelector("input[name=\"events-team\"]:checked").value);
+    console.log(data);
+    // Vložíme řádek do pracovního seznamu událostí:
+    var row = (new Elem(document.getElementById("template-event-work")))
+        .clone(true)
+        .attrRemove("id")
+        .class(data["team"]);
+    row.qs(".ico").setAttribute("class", "ico " + data["type"]);
+    row.qs(".time").innerText = data["time"] + '"';
+    row.qs(".comment").innerText = data["comment"];
+    row.appendTo(document.querySelector("#event-line tbody"));
+
+    //console.log(form.querySelector("input[name=\"events-team\"]:checked").value);
 })
 // Validace:
 Evnt.on("form[name=\"events\"] input[name=\"time\"]", "change", (e) => {
-    console.log(e.currentTarget.value.match(/[0-9]+(\+[0-9]+)?$/));
-})
+    var val = e.currentTarget.value.replace(/\s+/g, "");
+    if (!val.match(/[0-9]+(\+[0-9]+)?$/)) {
+        val = parseInt(val);
+    }
+    e.currentTarget.value = val;
+});
 
 
 Events.copyJerseyColors();

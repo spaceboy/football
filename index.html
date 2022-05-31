@@ -15,7 +15,7 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,900&family=Sriracha&display=swap" rel="stylesheet">
         <script src="js/Jersey.js"></script>
-        <script src="js/Elem.js?v=1"></script>
+        <script src="js/Elem.js?v=2"></script>
         <script src="js/ColorTools.js"></script>
         <script src="js/ColorPicker.js"></script>
         <script src="js/Evnt.js?v=2"></script>
@@ -1117,29 +1117,92 @@
     width: 26em;
 }
 </style>
+<style>
+
+#event-line {
+    border-collapse: collapse;
+    width: 100%;
+}
+#event-line tr {
+    cursor: pointer;
+}
+#event-line tr:hover {
+    background: white;
+    transition: 0.3s;
+}
+#event-line tr td {
+    padding: .5em;
+}
+
+#event-line tr td span {
+    margin: 0 .5em;
+}
+
+#event-line tr td .time {
+    font-weight: bold;
+}
+
+#event-line tr.away td:nth-child(1) {
+    text-align: right;
+}
+#event-line tr.home td:nth-child(1) {
+    text-align: left;
+}
+
+#event-line tr.away td .ico {
+    float: right;
+}
+#event-line tr.home td .ico {
+    float: left;
+}
+
+#event-line tr td .ico {
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+}
+#event-line tr td .ico.goal::before,
+#event-line tr td .ico.penalty-succ::before {
+    content: "\f1e3";
+}
+#event-line tr td .ico.substitution::before {
+    content: "\f2f1";
+}
+#event-line tr td .ico.card-yellow-1st::before {
+    content: "\f0c8";
+    color: yellow;
+    text-shadow: 0 0 2px black;
+}
+#event-line tr td .ico.card-yellow-2nd::before {
+    content: "\f0c8";
+    color: yellow;
+    margin-right: 1px;
+    text-shadow: 0 0 2px black;
+}
+#event-line tr td .ico.card-yellow-2nd::after {
+    content: "\f0c8";
+    color: yellow;
+    margin-left: 1px;
+    text-shadow: 0 0 2px black;
+}
+#event-line tr td .ico.card-red::before {
+    content: "\f0c8";
+    color: red;
+    text-shadow: 0 0 2px black;
+}
+#event-line tr td .ico.penalty-uns::before {
+    content: "\f00d";
+    color: red;
+}
+
+
+
+</style>
+
                     <div class="column width-5 text-center">
                         <h3>Události</h3>
                         <table id="event-line" style="width: 100%;">
-                            <tbody>
-                                <tr>
-                                    <td style="text-align: right;"><span style="float: right; margin: 0 1em;">(o)</span>10" událost hosti</td>
-                                    <td>
-                                        <i class="fas fa-arrow-circle-up" style="color: silver;"></i>
-                                        <i class="fas fa-arrow-circle-down" style="color: silver;"></i>
-                                        <i class="fas fa-minus-circle" style="color: red;">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="text-align: left;"><span style="float: left; margin: 0 1em;">(o)</span>45+2" událost domácí</td>
-                                    <td>
-                                        <i class="fas fa-arrow-circle-up" style="color: silver;"></i>
-                                        <i class="fas fa-arrow-circle-down" style="color: silver;"></i>
-                                        <i class="fas fa-minus-circle" style="color: red;">
-                                    </td>
-                                </tr>
-                            </tbody>
+                            <tbody></tbody>
                         </table>
-                        <hr>
                         <h3>Vložte událost:</h3>
                         <form name="events">
                             <table style="text-align: left;">
@@ -1152,7 +1215,7 @@
                                             <input id="events-time" class="events-time" name="time" placeholder="45+2">
                                         </td>
                                         <td colspan="2">
-                                            <label><input type="radio" name="events-team" value="home" checked> Domácí</label>
+                                            <label><input type="radio" name="team" value="home" checked> Domácí</label>
                                         </td>
                                     </tr>
                                     <tr>
@@ -1173,7 +1236,7 @@
                                             </select>
                                         </td>
                                         <td colspan="2">
-                                            <label><input type="radio" name="events-team" value="away"> Hosté</label>
+                                            <label><input type="radio" name="team" value="away"> Hosté</label>
                                         </td>
                                     </tr>
                                     <tr>
@@ -1261,8 +1324,8 @@
                         </p>
                         <p>
                             Nicméně &mdash; pokud tuto stránku (a infografiku na ní vytvořenou) používáte,
-                            můžete svůj vděk projevit tím, že jejím autorům pošlete šálu, vlaječku nebo jiný
-                            upomínkový předmět svého klubu.
+                            můžete svůj vděk projevit tím, že jejímu autorovi (tedy mně) pošlete klubovou šálu,
+                            vlaječku nebo jiný upomínkový předmět.
                         </p>
                     </div><!-- /.column-->
                 </div><!-- /.row -->
@@ -1342,13 +1405,24 @@
                         <input name="captain" type="radio">
                     </td>
                 </tr>
+                <tr id="template-event-work">
+                    <td>
+                        <span class="ico"></span><span class="time"></span><span class="comment"></span>
+                    </td>
+                    <td>
+                        <i class="fas fa-arrow-circle-up" style="color: silver;"></i>
+                        <i class="fas fa-arrow-circle-down" style="color: silver;"></i>
+                        <i class="fas fa-minus-circle" style="color: red;">
+                    </td>
+                </tr>
+                <tr id="template-event-show"></tr>
 
             </tbody>
         </table>
 
         <div id="splash-screen"><div><i class="fas fa-hourglass"></div></i></div>
 
-        <script src="js/football.js?v=5"></script>
+        <script src="js/football.js?v=6"></script>
     </body>
 </html>
 
