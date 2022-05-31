@@ -232,7 +232,7 @@ Evnt.on("form[name=\"events\"] select[name=\"type\"]", "change", (e) => {
 
     // Vypnout/zapnout textový komentář:
     var c = f.querySelector("input[name=\"comment\"]");
-    if (t.hasAttribute("data-comment")) {
+    if (o.hasAttribute("data-comment")) {
         c.disabled = false;
     } else {
         c.disabled = true;
@@ -264,11 +264,9 @@ Evnt.on("form[name=\"events\"]", "change", (e) => {
         case "penalty-uns":
             comment = f.querySelector("select[name=\"player1\"]").value;
             break;
-            /*
         case "other":
-            comment = f.querySelector("input[name=\"comment\"]").value;
+            comment = f.querySelector("input[name=\"comment\"]").value.trim();
             break;
-            */
     }
     f.querySelector("input[name=\"comment\"]").value = comment;
 });
