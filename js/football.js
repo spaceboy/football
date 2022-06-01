@@ -283,7 +283,6 @@ Evnt.on("form[name=\"events\"] input[name=\"submit\"]", "click", (e) => {
     }
     data["team"] = form.querySelector("input[name=\"team\"]:checked").value;
 
-    console.log(data);
     // Vložíme řádek do pracovního seznamu událostí:
     var row = (new Elem(document.getElementById("template-event-work")))
         .clone(true)
@@ -293,6 +292,19 @@ Evnt.on("form[name=\"events\"] input[name=\"submit\"]", "click", (e) => {
     row.qs(".time").innerText = data["time"] + '"';
     row.qs(".comment").innerText = data["comment"];
     row.appendTo(document.querySelector("#event-line tbody"));
+
+    // Vložíme řádek na zobrazovací plochu:
+    var row = (new Elem(document.getElementById("template-event-show")))
+        .clone(true)
+        .attrRemove("id");
+    row.qs(".time").innerText = data["time"];
+    var div = new Elem(row.qs(`.${data["team"]}`));
+    div.qs(".comment").innerText = data["comment"];
+    var ico = div.qs(".ico");
+    ico.innerHTML = (new Elem(document.getElementById(`template-event-ico-${data["type"]}`))).html();
+    (new Elem(ico)).addClass(data["type"]);
+    row.appendTo(document.querySelector("#block-result-1st-half .events"));
+
 
     //console.log(form.querySelector("input[name=\"events-team\"]:checked").value);
 })

@@ -849,6 +849,14 @@
 
 <style>
 
+.result .events {
+    flex: 1;
+}
+
+.result .subtitle h3 {
+    margin: 0 0 .5em 0;
+}
+
 .result .event .ico {
     display: inline-block;
     font-family: "Font Awesome 5 Free";
@@ -856,23 +864,23 @@
     width: 1.3em;
 }
 
-.result .event .ico.ico-goal {
+.result .event .ico.goal {
     text-align: center;
 }
-.result .event .ico.ico-goal > i {
+.result .event .ico.goal > i {
     /*background: radial-gradient(white 66%, transparent 66%);*/
 }
-.result .event .ico.ico-goal > i::before {
+.result .event .ico.goal > i::before {
     color: darkgreen;
     position: absolute;
 }
-.result .event .ico.ico-goal > i::after {
+.result .event .ico.goal > i::after {
     color: white;
     content: "\f111";
     text-shadow: 1px 1px 2px black;
 }
 
-.result .event .ico.ico-substitution {
+.result .event .ico.substitution {
     display: inline-block;
     font-family: "Font Awesome 5 Free";
     font-weight: 900;
@@ -880,7 +888,7 @@
     width: 1.3em;
 }
 
-.event .ico.ico-substitution > i:before {
+.event .ico.substitution > i:before {
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -888,13 +896,13 @@
     position: absolute;
     z-index: 11;
 }
-.result .event .ico.ico-substitution > i:after {
+.result .event .ico.substitution > i:after {
     text-shadow: 1px 1px 2px black;
     color: transparent;
     content: "\f2f1";
 }
 
-.result .event .ico.ico-yellow-1st > i {
+.result .event .ico.card-yellow-1st > i {
     color: yellow;
     display: inline-block;
     font-family: "Font Awesome 5 Free";
@@ -904,33 +912,34 @@
     width: 1.3em;
 }
 
-.result .event .ico.ico-yellow-2nd {
+.result .event .ico.card-yellow-2nd {
     display: inline-block;
     font-family: "Font Awesome 5 Free";
     font-weight: 900;
+    text-align: left;
     width: 1.3em;
 }
-.result .event .ico.ico-yellow-2nd > i {
+.result .event .ico.card-yellow-2nd > i {
     position: absolute;
     text-shadow: 1px 1px 2px black;
 }
-.result .event .ico.ico-yellow-2nd > i:nth-child(1) {
+.result .event .ico.card-yellow-2nd > i:nth-child(1) {
     color: yellow;
     margin: .2em .4em 0 0;
     z-index: 10;
 }
-.result .event .ico.ico-yellow-2nd > i:nth-child(2) {
+.result .event .ico.card-yellow-2nd > i:nth-child(2) {
     color: yellow;
     margin: .1em .2em 0 .2em;
     z-index: 11;
 }
-.result .event .ico.ico-yellow-2nd > i:nth-child(3) {
+.result .event .ico.card-yellow-2nd > i:nth-child(3) {
     color: red;
     margin: 0 0 0 .4em;
     z-index: 12;
 }
 
-.result .event .ico.ico-red > i {
+.result .event .ico.card-red > i {
     color: red;
     text-shadow: 1px 1px 2px black;
     display: inline-block;
@@ -938,6 +947,30 @@
     font-weight: 900;
     text-align: center;
     width: 1.3em;
+}
+
+.result .event .ico.penalty-uns {
+    text-align: center;
+}
+.result .event .ico.penalty-uns > i::before {
+    color: grey;
+    position: absolute;
+}
+.result .event .ico.penalty-uns > i::after {
+    color: white;
+    content: "\f111";
+}
+
+.result .event .ico.penalty-succ {
+    text-align: center;
+}
+.result .event .ico.penalty-succ > i::before {
+    color: red;
+    position: absolute;
+}
+.result .event .ico.penalty-succ > i::after {
+    color: white;
+    content: "\f111";
 }
 
 .result {
@@ -1011,11 +1044,12 @@
                                     </div>
                                 </div>
 
-                                <div class="title" style="text-align: center;">
+                                <div class="subtitle" style="text-align: center;">
                                     <h3>Konečný výsledek</h3>
                                 </div>
 
                                 <div class="events">
+                                    <!--
                                     <div class="event">
                                         <div class="home">Řepa <span class="ico ico-red"><i class="fas fa-square"></i></span></div>
                                         <div class="time">57</div>
@@ -1079,6 +1113,7 @@
                                         <div class="time">62</div>
                                         <div class="away"><span class="ico-goal"><i class="fas fa-futbol"></i></span> Novotný<br><span class="ico-yellow-1st"><i class="fas fa-square"></i></span> Novotný</div>
                                     </div>
+                                    -->
 
                                 </div><!-- /.events -->
 
@@ -1346,6 +1381,28 @@
                     <figcaption style="position: absolute; bottom: -1em; z-index: 105; width: 500%; left: -200%;">Brankář</figcaption>
                 </div>
             </figure>
+
+            <div id="template-event-show" class="event">
+                <div class="home">
+                    <span class="comment"></span>
+                    <span class="ico"></span>
+                </div>
+                <div class="time"></div>
+                <div class="away">
+                    <span class="ico"></span>
+                    <span class="comment"></span>
+                </div>
+            </div>
+
+            <span id="template-event-ico-goal" class="ico ico-goal"><i class="fas fa-futbol"></i></span>
+            <span id="template-event-ico-substitution" class="ico ico-substitution"><i class="fas fa-sync-alt"></i></span>
+            <span id="template-event-ico-card-yellow-1st" class="ico ico-yellow-1st"><i class="fas fa-square"></i></span>
+            <span id="template-event-ico-card-yellow-2nd" class="ico ico-yellow-2nd"><i class="fas fa-square"></i><i class="fas fa-square"></i><i class="fas fa-square"></i>&nbsp;</span>
+            <span id="template-event-ico-card-red" class="ico ico-red"><i class="fas fa-square"></i></span>
+            <span id="template-event-ico-penalty-succ" class="ico penalty-succ"><i class="fas fa-futbol"></i></span>
+            <span id="template-event-ico-penalty-uns" class="ico penalty-uns"><i class="fas fa-futbol"></i></span>
+            <span id="template-event-ico-other" class="ico penalty-uns"><i class="fas fa-exclamation-triangle"></i></span>
+
         </div>
 
         <!--figure id="_template-player" style="display: none;">
@@ -1418,7 +1475,6 @@
                         <i class="fas fa-minus-circle" style="color: red;">
                     </td>
                 </tr>
-                <tr id="template-event-show"></tr>
 
             </tbody>
         </table>

@@ -49,14 +49,20 @@ class Elem {
         return this;
     }
 
-    // Set active element's innerHTML.
+    // Set/get active element's innerHTML.
     html (value) {
+        if (value === undefined) {
+            return this.element.innerHTML;
+        }
         this.element.innerHTML = value;
         return this;
     }
 
-    // Set active element's innerText.
+    // Set/get active element's innerText.
     text (value) {
+        if (value === undefined) {
+            return this.element.innerText;
+        }
         this.element.innerText = value;
         return this;
     }
