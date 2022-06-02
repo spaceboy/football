@@ -292,6 +292,27 @@ Evnt.on("form[name=\"events\"] input[name=\"submit\"]", "click", (e) => {
     row.qs(".time").innerText = data["time"] + '"';
     row.qs(".comment").innerText = data["comment"];
     row.appendTo(document.querySelector("#event-line tbody"));
+    Evnt.on(row.qs(".ico-up"), "click", (e) => {
+        e.stopPropagation();
+        var t = e.currentTarget.closest("tr");
+        if (t.previousElementSibling) {
+            Elem.swapNodes(t, t.previousElementSibling);
+        }
+    });
+    Evnt.on(row.qs(".ico-down"), "click", (e) => {
+        e.stopPropagation();
+        var t = e.currentTarget.closest("tr");
+        if (t.nextElementSibling) {
+            Elem.swapNodes(t, t.nextElementSibling);
+        }
+    });
+    Evnt.on(row.qs(".ico-remove"), "click", (e) => {
+        e.stopPropagation();
+        console.log("remove");
+    });
+    Evnt.on(row.get(), "click", (e) => {
+        console.log("edit");
+    });
 
     // Vložíme řádek na zobrazovací plochu:
     var row = (new Elem(document.getElementById("template-event-show")))

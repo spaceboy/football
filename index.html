@@ -1194,6 +1194,7 @@
 
 #event-line tr td .ico {
     font-family: "Font Awesome 5 Free";
+    font-size: 130%;
     font-weight: 900;
 }
 #event-line tr td .ico.goal::before,
@@ -1233,6 +1234,22 @@
     content: "\f06a";
 }
 
+#event-line tr td .ico-up,
+#event-line tr td .ico-down {
+    color: silver;
+    font-size: 130%;
+}
+#event-line tr td .ico-remove {
+    color: red;
+    font-size: 130%;
+}
+#event-line tr td .ico-up:hover,
+#event-line tr td .ico-down:hover,
+#event-line tr td .ico-remove:hover {
+    background: radial-gradient(black 62%, transparent 62%);
+    transition: .3s;
+}
+
 
 
 </style>
@@ -1242,9 +1259,15 @@
                         <table id="event-line" style="width: 100%;">
                             <tbody></tbody>
                         </table>
-                        <h3>Vložte událost:</h3>
-                        <form name="events">
+                        <form name="events" style="padding: .5em .5em 1em .5em; border: 1px solid #e3e3e3; box-shadow: inset 0 1px 1px rgba(0,0,0,.05); -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.05); border-radius: .25em;">
                             <table style="text-align: left;">
+                                <thead>
+                                    <tr>
+                                        <td colspan="4" style="text-align: center;">
+                                            <h3 style="padding: 0; margin: 0;">Vložte událost:</h3>
+                                        </td>
+                                    </tr>
+                                </thead>
                                 <tbody>
                                     <tr>
                                         <th>
@@ -1471,9 +1494,9 @@
                         <span class="ico"></span><span class="time"></span><span class="comment"></span>
                     </td>
                     <td>
-                        <i class="fas fa-arrow-circle-up" style="color: silver;"></i>
-                        <i class="fas fa-arrow-circle-down" style="color: silver;"></i>
-                        <i class="fas fa-minus-circle" style="color: red;">
+                        <i class="ico-up fas fa-arrow-circle-up"></i>
+                        <i class="ico-down fas fa-arrow-circle-down"></i>
+                        <i class="ico-remove fas fa-minus-circle">
                     </td>
                 </tr>
 
