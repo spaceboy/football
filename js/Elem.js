@@ -155,28 +155,33 @@ class Elem {
 
     // Remove active element from DOM.
     remove () {
-        Elem.removeElement(this.element);
+        return Elem.removeElement(this.element);
     }
 
     // Remove given element from DOM.
+    // Return bool:
+    // TRUE element removed
+    // FALSE element not removed
     static removeElement (el) {
         if (Elem.isDomObject(el)) {
             if (el.parentNode) {
                 el.parentNode.removeChild(el);
             }
-            return;
+            return true;
         }
         if (el instanceof Elem) {
             var e = el.get();
             if (e.parentNode) {
                 e.parentNode.removeChild(e);
             }
-            return;
+            return true;
         }
         var e = document.querySelector(el);
         if (e.parentNode) {
             e.parentNode.removeChild(e);
+            return true;
         }
+        return false;
     }
 
     // Wrap given element by active element.
