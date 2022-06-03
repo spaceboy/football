@@ -88,52 +88,11 @@ class Events {
             // Vytvoříme nový seznam:
             target.innerHTML = "";
             for (var row of tbd.querySelectorAll("tr")) {
-                //console.log(row.querySelector("input.player-number"));
-                //console.log(row.querySelector("input.player-name"));
                 var tr = new Elem(document.getElementById("template-our-players")).clone(true).attrRemove("id").get();
                 tr.querySelector("input.player-number").value = row.querySelector("input.player-number").value;
                 tr.querySelector("input.player-name").value = row.querySelector("input.player-name").value;
                 (new Elem(tr)).appendTo(target);
-                /*
-                    .attr("value", `${row.querySelector("input.player-number").value}:${row.querySelector("input.player-name").value}`)
-                    .text(`${row.querySelector("input.player-number").value}: ${row.querySelector("input.player-name").value}`)
-                    .appendTo(target);
-
-                players[row.querySelector("input.player-number").value] = row.querySelector("input.player-name").value;
-                */
             }
-
-            /*
-            var pnl = document.getElementById("player-name-list");
-            pnl.innerHTML = "";
-            var opt = (new Elem("option"))
-                .attr("value", "")
-                .text("---")
-                .appendTo(pnl);
-            for (var row of tbd.querySelectorAll("tr")) {
-                //console.log(row.querySelector("input.player-number"));
-                //console.log(row.querySelector("input.player-name"));
-                var opt = (new Elem("option"))
-                    .attr("value", `${row.querySelector("input.player-number").value}:${row.querySelector("input.player-name").value}`)
-                    .text(`${row.querySelector("input.player-number").value}: ${row.querySelector("input.player-name").value}`)
-                    .appendTo(pnl);
-
-                players[row.querySelector("input.player-number").value] = row.querySelector("input.player-name").value;
-            }
-            console.log(players);
-            */
-
-            /*
-            var cls = e.currentTarget.getAttribute("class");
-            if (cls) {
-                for (var el of tbl.querySelectorAll(`input[class="${cls}"]`)) {
-                    console.log(el.value);
-                }
-            }
-            console.log(tbl);
-            if (r.closest("#club-players")) {
-            }
-            */
         });
     }
 
@@ -274,6 +233,134 @@ class Events {
         document.getElementById("style-jersey").textContent =
             "#lineup .player .jersey i {background-image: " + document.querySelector("#player-field .jersey i").style.backgroundImage + ";} " +
             "#lineup .line-gol .player .jersey i {background-image: " + document.querySelector("#player-goalie .jersey i").style.backgroundImage + ";}";
+    }
+
+    // Formulář událostí -- manipulace input[name="time"]:
+    static #changeEventFormTime (val) {
+        if (!val.match(/[0-9]+(\+[0-9]+)?$/)) {
+            val = parseInt(val).toString();
+        }
+        var s = val.split("+");
+        if (s.length === 2) {
+            switch (s[0]) {
+                case "45":
+                case "90":
+                case "120":
+                    break;
+                default:
+                    val = s[0];
+            }
+        }
+        return val;
+    }
+
+    // List událostí -- up:
+    static #clickedEventListUp (e) {
+        e.stopPropagation();
+        var t = e.currentTarget.closest("tr");
+        if (t.previousElementSibling) {
+            Elem.swapNodes(t, t.previousElementSibling);
+        }
+    }
+
+    // List událostí -- down:
+    static #clickedEventListDown (e) {
+        e.stopPropagation();
+        var t = e.currentTarget.closest("tr");
+        if (t.nextElementSibling) {
+            Elem.swapNodes(t, t.nextElementSibling);
+        }
+    }
+
+    // List událostí -- remove:
+    static #clickedEventListRemove (e) {
+        e.stopPropagation();
+        console.log("remove");
+    }
+
+    // List událostí -- edit:
+    static #clickedEventListEdit (e) {
+        e.stopPropagation();
+        console.log("edit");
+    }
+
+    // Změna na formuláři událostí:
+    static changeEventForm (e) {
+        // Změna času:
+        if (e.target.getAttribute("name") === "time") {
+            e.target.value = Events.#changeEventFormTime(e.target.value.replace(/\s+/g, ""));
+            return;
+        }
+        // Změna jiná:
+        var f = e.currentTarget.closest("form");
+        var comment = "";
+        switch (f.querySelector("select[name=\"type\"]").value) {
+            case "goal":
+                comment = f.querySelector("select[name=\"player1\"]").value;
+                break;
+            case "substitution":
+                comment = `${f.querySelector("select[name=\"player1\"]").value} (${f.querySelector("select[name=\"player2\"]").value})`;
+                break;
+            case "card-yellow-1st":
+                comment = f.querySelector("select[name=\"player1\"]").value;
+                break;
+            case "card-yellow-2nd":
+                comment = f.querySelector("select[name=\"player1\"]").value;
+                break;
+            case "card-red":
+                comment = f.querySelector("select[name=\"player1\"]").value;
+                break;
+            case "penalty-succ":
+                comment = `${f.querySelector("select[name=\"player1\"]").value} (P)`;
+                break;
+            case "penalty-uns":
+                comment = f.querySelector("select[name=\"player1\"]").value;
+                break;
+            case "other":
+                comment = f.querySelector("input[name=\"comment\"]").value.trim();
+                break;
+        }
+        f.querySelector("input[name=\"comment\"]").value = comment;
+    }
+
+    // Odeslání formuláře událostí:
+    static submitEventForm (e) {
+        e.preventDefault();
+        var form = e.currentTarget.closest("form");
+        var data = {};
+        for (var el of form.querySelectorAll("select:not([disabled]), input:not([name=\"submit\"])")) {
+            if (!el.value) {
+                return;
+            }
+            data[el.name] = el.value;
+        }
+        data["team"] = form.querySelector("input[name=\"team\"]:checked").value;
+
+        // Vložíme řádek do pracovního seznamu událostí:
+        var row = (new Elem(document.getElementById("template-event-work")))
+            .clone(true)
+            .attrRemove("id")
+            .class(data["team"]);
+        row.qs(".ico").setAttribute("class", "ico " + data["type"]);
+        row.qs(".time").innerText = data["time"] + '"';
+        row.qs(".comment").innerText = data["comment"];
+        row.appendTo(document.querySelector("#event-line tbody"));
+        Evnt.on(row.qs(".ico-up"), "click", Events.#clickedEventListUp);
+        Evnt.on(row.qs(".ico-down"), "click", Events.#clickedEventListDown);
+        Evnt.on(row.qs(".ico-remove"), "click", Events.#clickedEventListRemove);
+        Evnt.on(row.get(), "click", Events.#clickedEventListEdit);
+
+        // Vložíme řádek na zobrazovací plochu:
+        var row = (new Elem(document.getElementById("template-event-show")))
+            .clone(true)
+            .attrRemove("id");
+        row.qs(".time").innerText = data["time"];
+        var div = new Elem(row.qs(`.${data["team"]}`));
+        div.qs(".comment").innerText = data["comment"];
+        var ico = div.qs(".ico");
+        ico.innerHTML = (new Elem(document.getElementById(`template-event-ico-${data["type"]}`))).html();
+        (new Elem(ico)).addClass(data["type"]);
+        row.appendTo(document.querySelector("#block-result-1st-half .events"));
     }
 
 }

@@ -239,97 +239,11 @@ Evnt.on("form[name=\"events\"] select[name=\"type\"]", "change", (e) => {
         c.value = "";
     }
 });
-Evnt.on("form[name=\"events\"]", "change", (e) => {
-    var f = e.currentTarget.closest("form");
-    var comment = "";
-    switch (f.querySelector("select[name=\"type\"]").value) {
-        case "goal":
-            comment = f.querySelector("select[name=\"player1\"]").value;
-            break;
-        case "substitution":
-            comment = `${f.querySelector("select[name=\"player1\"]").value} (${f.querySelector("select[name=\"player2\"]").value})`;
-            break;
-        case "card-yellow-1st":
-            comment = f.querySelector("select[name=\"player1\"]").value;
-            break;
-        case "card-yellow-2nd":
-            comment = f.querySelector("select[name=\"player1\"]").value;
-            break;
-        case "card-red":
-            comment = f.querySelector("select[name=\"player1\"]").value;
-            break;
-        case "penalty-succ":
-            comment = `${f.querySelector("select[name=\"player1\"]").value} (P)`;
-            break;
-        case "penalty-uns":
-            comment = f.querySelector("select[name=\"player1\"]").value;
-            break;
-        case "other":
-            comment = f.querySelector("input[name=\"comment\"]").value.trim();
-            break;
-    }
-    f.querySelector("input[name=\"comment\"]").value = comment;
-});
-// Vyhodnocení formuláře událostí:
-Evnt.on("form[name=\"events\"] input[name=\"submit\"]", "click", (e) => {
-    e.preventDefault();
-    var form = e.currentTarget.closest("form");
-    var data = {};
-    for (var el of form.querySelectorAll("select:not([disabled]), input:not([name=\"submit\"])")) {
-        if (!el.value) {
-            return;
-        }
-        data[el.name] = el.value;
-    }
-    data["team"] = form.querySelector("input[name=\"team\"]:checked").value;
+Evnt.on("form[name=\"events\"]", "change", Events.changeEventForm);
 
-    // Vložíme řádek do pracovního seznamu událostí:
-    var row = (new Elem(document.getElementById("template-event-work")))
-        .clone(true)
-        .attrRemove("id")
-        .class(data["team"]);
-    row.qs(".ico").setAttribute("class", "ico " + data["type"]);
-    row.qs(".time").innerText = data["time"] + '"';
-    row.qs(".comment").innerText = data["comment"];
-    row.appendTo(document.querySelector("#event-line tbody"));
-    Evnt.on(row.qs(".ico-up"), "click", (e) => {
-        e.stopPropagation();
-        var t = e.currentTarget.closest("tr");
-        if (t.previousElementSibling) {
-            Elem.swapNodes(t, t.previousElementSibling);
-        }
-    });
-    Evnt.on(row.qs(".ico-down"), "click", (e) => {
-        e.stopPropagation();
-        var t = e.currentTarget.closest("tr");
-        if (t.nextElementSibling) {
-            Elem.swapNodes(t, t.nextElementSibling);
-        }
-    });
-    Evnt.on(row.qs(".ico-remove"), "click", (e) => {
-        e.stopPropagation();
-        console.log("remove");
-    });
-    Evnt.on(row.get(), "click", (e) => {
-        console.log("edit");
-    });
-
-    // Vložíme řádek na zobrazovací plochu:
-    var row = (new Elem(document.getElementById("template-event-show")))
-        .clone(true)
-        .attrRemove("id");
-    row.qs(".time").innerText = data["time"];
-    var div = new Elem(row.qs(`.${data["team"]}`));
-    div.qs(".comment").innerText = data["comment"];
-    var ico = div.qs(".ico");
-    ico.innerHTML = (new Elem(document.getElementById(`template-event-ico-${data["type"]}`))).html();
-    (new Elem(ico)).addClass(data["type"]);
-    row.appendTo(document.querySelector("#block-result-1st-half .events"));
-
-
-    //console.log(form.querySelector("input[name=\"events-team\"]:checked").value);
-})
+// Formulář pro vkládání událostí:
 // Validace:
+/*
 Evnt.on("form[name=\"events\"] input[name=\"time\"]", "change", (e) => {
     var val = e.currentTarget.value.replace(/\s+/g, "");
     if (!val.match(/[0-9]+(\+[0-9]+)?$/)) {
@@ -337,7 +251,10 @@ Evnt.on("form[name=\"events\"] input[name=\"time\"]", "change", (e) => {
     }
     e.currentTarget.value = val;
 });
+*/
 
+// Odeslání formuláře událostí:
+Evnt.on("form[name=\"events\"] input[name=\"submit\"]", "click", Events.submitEventForm);
 
 Events.copyJerseyColors();
 
