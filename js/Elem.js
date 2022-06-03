@@ -153,6 +153,32 @@ class Elem {
         return new Elem(this.element.parentNode);
     }
 
+    // Remove active element from DOM.
+    remove () {
+        Elem.removeElement(this.element);
+    }
+
+    // Remove given element from DOM.
+    static removeElement (el) {
+        if (Elem.isDomObject(el)) {
+            if (el.parentNode) {
+                el.parentNode.removeChild(el);
+            }
+            return;
+        }
+        if (el instanceof Elem) {
+            var e = el.get();
+            if (e.parentNode) {
+                e.parentNode.removeChild(e);
+            }
+            return;
+        }
+        var e = document.querySelector(el);
+        if (e.parentNode) {
+            e.parentNode.removeChild(e);
+        }
+    }
+
     // Wrap given element by active element.
     wrap (el) {
         if (el instanceof Elem) {
