@@ -108,14 +108,49 @@ class Elem {
         return this.element.previousSibling;
     }
 
+    // Get Elem object based on previous sibling of active element.
+    elemPrev () {
+        return new Elem(this.element.previousSibling);
+    }
+
+    // Get previous sibling of active element.
+    prevElement () {
+        return this.element.previousElementSibling;
+    }
+
+    // Get Elem object based on previous sibling of active element.
+    elemPrevElement () {
+        return new Elem(this.element.previousElementSibling);
+    }
+
     // Get next sibling of active element.
     next () {
         return this.element.nextSibling;
     }
 
+    // Get Elem object based on next sibling of active element.
+    elemNext () {
+        return new Elem(this.element.nextSibling);
+    }
+
+    // Get next element sibling of active element.
+    nextElement () {
+        return this.element.nextElementSibling;
+    }
+
+    // Get Elem object based on next element sibling of active element.
+    elemNextElement () {
+        return new Elem(this.element.nextElementSibling);
+    }
+
     // Get parent of active element.
     parent () {
         return this.element.parentNode;
+    }
+
+    // Get Elem object based on parent of active element.
+    elemParent () {
+        return new Elem(this.element.parentNode);
     }
 
     // Wrap given element by active element.
