@@ -143,7 +143,7 @@ function setReferee () {
     }
     document.querySelector("#info-referees ul").innerHTML = "<li>" + ref.join("</li><li>") + "</li>";
     for (var el of document.querySelectorAll("#block-result .events-referee")) {
-        el.innerHTML = "<p><b>Rozhodči:</b> " + ref.join(", ") + "</p>";
+        el.innerHTML = "<p><b>Rozhodčí:</b> " + ref.join(", ") + "</p>";
     }
 }
 
