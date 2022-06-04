@@ -444,7 +444,6 @@ class Events {
         var row = (new Elem(document.getElementById("template-event-show")))
             .clone(true)
             .attrRemove("id");
-            //.attr("data-edit", data["edit"]);
         row.qs(".time").innerText = data["time"];
         var div = new Elem(row.qs(`.${data["team"]}`));
         div.qs(".comment").innerText = data["comment"];
@@ -455,6 +454,10 @@ class Events {
     }
 
     static #eventLinesCopy () {
+        var score = {
+            "home": 0,
+            "away": 0
+        };
         document.querySelector("#block-result-1st-half .events").innerHTML = "";
         for (var t of document.querySelectorAll("#event-line tbody tr")) {
             Events.#eventLineShow({
@@ -466,7 +469,12 @@ class Events {
                 "comment": t.getAttribute("data-comment"),
                 "edit": t.getAttribute("data-edit")
             });
+            if (t.getAttribute("data-type") === "goal" || t.getAttribute("data-type") === "penalty-succ") {
+                score[t.getAttribute("data-team")]++;
+            }
         }
+        document.querySelector("#block-result-1st-half .title .score").innerHTML = `${score["home"]}:${score["away"]}`;
+
     }
 
     // Vymazání formuláře událostí:
