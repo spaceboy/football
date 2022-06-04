@@ -1,5 +1,7 @@
 class Events {
 
+    static eventId = 1;
+
     // Změna barev dresu (obecná, pro všechny):
     static jerseyChange (e, jersey) {
         var t = e.target;
@@ -260,6 +262,7 @@ class Events {
         var t = e.currentTarget.closest("tr");
         if (t.previousElementSibling) {
             Elem.swapNodes(t, t.previousElementSibling);
+            // TODO: vyvolat změnu v zobrazení náhledů
         }
     }
 
@@ -269,58 +272,120 @@ class Events {
         var t = e.currentTarget.closest("tr");
         if (t.nextElementSibling) {
             Elem.swapNodes(t, t.nextElementSibling);
+            // TODO: vyvolat změnu v zobrazení náhledů
         }
     }
 
     // List událostí -- remove:
     static #clickedEventListRemove (e) {
         e.stopPropagation();
-        console.log("remove");
+        Elem.removeElement(e.currentTarget.closest("tr"));
+        // TODO: vyvolat změnu v zobrazení náhledů
     }
 
     // List událostí -- edit:
     static #clickedEventListEdit (e) {
         e.stopPropagation();
-        console.log("edit");
+        var t = e.currentTarget;
+        var f = new Elem(document.querySelector('form[name="events"]')).addClass("edit-mode");
+        f.qs('[name="team"]').value = t.getAttribute("data-team");
+        f.qs('[name="time"]').value = t.getAttribute("data-time");
+        f.qs('[name="type"]').value = t.getAttribute("data-type");
+        f.qs('[name="player1"]').value = t.getAttribute("data-player1");
+        f.qs('[name="player2"]').value = t.getAttribute("data-player2");
+        f.qs('[name="comment"]').value = t.getAttribute("data-comment");
+        f.qs('[name="edit"]').value = t.getAttribute("data-edit");
     }
 
     // Změna na formuláři událostí:
     static changeEventForm (e) {
-        // Změna času:
-        if (e.target.getAttribute("name") === "time") {
-            e.target.value = Events.#changeEventFormTime(e.target.value.replace(/\s+/g, ""));
-            return;
+        switch (e.target.getAttribute("name")) {
+            case "time":
+                // Změna času:
+                e.target.value = Events.#changeEventFormTime(e.target.value.replace(/\s+/g, ""));
+                return;
+                break;
+            case "type":
+                // Změna typu události (gól, ŽK, 2.ŽK...):
+                var t = e.target;
+                var f = t.closest("form");
+                var o = t.querySelector(`option[value="${t.value}"]`);
+
+                // Vypnout/zapnout hráče:
+                var p = (o.hasAttribute("data-players") ? parseInt(o.getAttribute("data-players")) : 1);
+                var i = 0;
+                for (el of document.querySelectorAll("form[name=\"events\"] select.events-player")) {
+                    if (++i <= p) {
+                        el.disabled = false;
+                    } else {
+                        el.disabled = true;
+                        el.value = "";
+                    }
+                }
+
+                // Vypnout/zapnout textový komentář:
+                var c = f.querySelector("input[name=\"comment\"]");
+                if (o.hasAttribute("data-comment")) {
+                    c.disabled = false;
+                } else {
+                    c.disabled = true;
+                    c.value = "";
+                }
+            default:
+                // Změna jiná:
+                var f = e.currentTarget.closest("form");
+                var comment = "";
+                switch (f.querySelector("select[name=\"type\"]").value) {
+                    case "goal":
+                        comment = f.querySelector("select[name=\"player1\"]").value;
+                        break;
+                    case "substitution":
+                        comment = `${f.querySelector("select[name=\"player1\"]").value} (${f.querySelector("select[name=\"player2\"]").value})`;
+                        break;
+                    case "card-yellow-1st":
+                        comment = f.querySelector("select[name=\"player1\"]").value;
+                        break;
+                    case "card-yellow-2nd":
+                        comment = f.querySelector("select[name=\"player1\"]").value;
+                        break;
+                    case "card-red":
+                        comment = f.querySelector("select[name=\"player1\"]").value;
+                        break;
+                    case "penalty-succ":
+                        comment = `${f.querySelector("select[name=\"player1\"]").value} (P)`;
+                        break;
+                    case "penalty-uns":
+                        comment = f.querySelector("select[name=\"player1\"]").value;
+                        break;
+                    case "other":
+                        comment = f.querySelector("input[name=\"comment\"]").value.trim();
+                        break;
+                }
+                f.querySelector("input[name=\"comment\"]").value = comment;
         }
-        // Změna jiná:
-        var f = e.currentTarget.closest("form");
-        var comment = "";
-        switch (f.querySelector("select[name=\"type\"]").value) {
-            case "goal":
-                comment = f.querySelector("select[name=\"player1\"]").value;
-                break;
-            case "substitution":
-                comment = `${f.querySelector("select[name=\"player1\"]").value} (${f.querySelector("select[name=\"player2\"]").value})`;
-                break;
-            case "card-yellow-1st":
-                comment = f.querySelector("select[name=\"player1\"]").value;
-                break;
-            case "card-yellow-2nd":
-                comment = f.querySelector("select[name=\"player1\"]").value;
-                break;
-            case "card-red":
-                comment = f.querySelector("select[name=\"player1\"]").value;
-                break;
-            case "penalty-succ":
-                comment = `${f.querySelector("select[name=\"player1\"]").value} (P)`;
-                break;
-            case "penalty-uns":
-                comment = f.querySelector("select[name=\"player1\"]").value;
-                break;
-            case "other":
-                comment = f.querySelector("input[name=\"comment\"]").value.trim();
-                break;
+    }
+
+    // Vytvoří nový řádek pracovního seznamu událostí:
+    static #appendEventListItem (data) {
+        var el = (new Elem(document.getElementById("template-event-work")))
+            .clone(true)
+            .attrRemove("id")
+            .class(data["team"]);
+        Evnt.on(el.qs(".ico-up"), "click", Events.#clickedEventListUp);
+        Evnt.on(el.qs(".ico-down"), "click", Events.#clickedEventListDown);
+        Evnt.on(el.qs(".ico-remove"), "click", Events.#clickedEventListRemove);
+        Evnt.on(el.get(), "click", Events.#clickedEventListEdit);
+        el.appendTo(document.querySelector("#event-line tbody"));
+        return el;
+    }
+
+    // Vymazání formuláře událostí:
+    static eventFormClear () {
+        let form = document.querySelector('form[name="events"]');
+        for (var el of form.querySelectorAll('input:not([type="button"]):not([type="submit"]):not([type="radio"]), select')) {
+            el.value = "";
         }
-        f.querySelector("input[name=\"comment\"]").value = comment;
+        (new Elem(form)).removeClass("edit-mode");
     }
 
     // Odeslání formuláře událostí:
@@ -328,27 +393,48 @@ class Events {
         e.preventDefault();
         var form = e.currentTarget.closest("form");
         var data = {};
-        for (var el of form.querySelectorAll("select:not([disabled]), input:not([name=\"submit\"])")) {
+        var valid = true;
+        for (var el of form.querySelectorAll('select:not([disabled]), input:not([name="submit"]):not([type="hidden"]):not([type="radio"])')) {
+            var element = new Elem(el);
             if (!el.value) {
-                return;
+                element.addClass("form-error");
+                valid = false;
+            } else {
+                element.removeClass("form-error");
+                data[el.name] = el.value;
             }
-            data[el.name] = el.value;
         }
-        data["team"] = form.querySelector("input[name=\"team\"]:checked").value;
+        if (!valid) {
+            return;
+        }
 
-        // Vložíme řádek do pracovního seznamu událostí:
-        var row = (new Elem(document.getElementById("template-event-work")))
-            .clone(true)
-            .attrRemove("id")
-            .class(data["team"]);
+        data["team"] = form.elements["team"].value;
+        if (form.elements["edit"].value) {
+            data["edit"] = form.elements["edit"].value;
+        }
+
+        console.log(data);
+        // Vyčistíme formulář:
+        Events.eventFormClear();
+
+        // Vložíme/editujeme řádek do pracovního seznamu událostí:
+        var row = (
+            (data["edit"])
+            ? new Elem(document.querySelector(`#event-line tbody tr[data-edit="${data["edit"]}"]`))
+            : Events.#appendEventListItem(data)
+        );
         row.qs(".ico").setAttribute("class", "ico " + data["type"]);
-        row.qs(".time").innerText = data["time"] + '"';
+        row.qs(".time").innerText = data["time"];
         row.qs(".comment").innerText = data["comment"];
-        row.appendTo(document.querySelector("#event-line tbody"));
-        Evnt.on(row.qs(".ico-up"), "click", Events.#clickedEventListUp);
-        Evnt.on(row.qs(".ico-down"), "click", Events.#clickedEventListDown);
-        Evnt.on(row.qs(".ico-remove"), "click", Events.#clickedEventListRemove);
-        Evnt.on(row.get(), "click", Events.#clickedEventListEdit);
+        row.attr({
+            "data-team": data["team"],
+            "data-time": data["time"],
+            "data-type": data["type"],
+            "data-player1": data["player1"],
+            "data-player2": (data["player2"] === undefined ? "" : data["player2"]),
+            "data-comment": data["comment"],
+            "data-edit": Events.eventId++
+        });
 
         // Vložíme řádek na zobrazovací plochu:
         var row = (new Elem(document.getElementById("template-event-show")))

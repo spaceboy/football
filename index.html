@@ -1250,7 +1250,32 @@
     transition: .3s;
 }
 
+form .form-error {
+    box-shadow: 0 0 .25em red;
+    transition: .3s;
+}
 
+form[name="events"] #events-edit {
+    color: #337ab7;
+    display: none;
+    float: left;
+    font-size: 22px;
+    padding: .25em;
+}
+form[name="events"].edit-mode #events-edit {
+    display: inline-block;
+}
+form[name="events"] #events-close {
+    color: red;
+    display: none;
+    cursor: pointer;
+    float: right;
+    font-size: 22px;
+    padding: .25em;
+}
+form[name="events"].edit-mode #events-close {
+    display: inline-block;
+}
 
 </style>
 
@@ -1264,6 +1289,8 @@
                                 <thead>
                                     <tr>
                                         <td colspan="4" style="text-align: center;">
+                                            <i id="events-edit" class="fas fa-edit"></i>
+                                            <i id="events-close" class="fas fa-times-circle"></i>
                                             <h3 style="padding: 0; margin: 0;">Vložte událost:</h3>
                                         </td>
                                     </tr>
@@ -1277,7 +1304,7 @@
                                             <input id="events-time" class="events-time" name="time" placeholder="45+2">
                                         </td>
                                         <td colspan="2">
-                                            <label><input type="radio" name="team" value="home" checked> Domácí</label>
+                                            <label><input type="radio" name="team" value="home"> Domácí</label>
                                         </td>
                                     </tr>
                                     <tr>
@@ -1337,8 +1364,12 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td colspan="3"></td>
-                                        <td><input name="submit" type="button" value="Vložit"></td>
+                                        <td colspan="3">
+                                            <input type="hidden" name="edit">
+                                        </td>
+                                        <td>
+                                            <input name="submit" type="button" value="Vložit">
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>

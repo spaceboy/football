@@ -212,49 +212,10 @@ for (var el of document.querySelectorAll("ul.menu")) {
 }
 
 
-
-Evnt.on("form[name=\"events\"] select[name=\"type\"]", "change", (e) => {
-    var t = e.currentTarget;
-    var f = t.closest("form");
-    var o = t.querySelector(`option[value="${t.value}"]`)
-
-    // Vypnout/zapnout hráče:
-    var p = (o.hasAttribute("data-players") ? parseInt(o.getAttribute("data-players")) : 1);
-    var i = 0;
-    for (el of document.querySelectorAll("form[name=\"events\"] select.events-player")) {
-        if (++i <= p) {
-            el.disabled = false;
-        } else {
-            el.disabled = true;
-            el.value = "";
-        }
-    }
-
-    // Vypnout/zapnout textový komentář:
-    var c = f.querySelector("input[name=\"comment\"]");
-    if (o.hasAttribute("data-comment")) {
-        c.disabled = false;
-    } else {
-        c.disabled = true;
-        c.value = "";
-    }
-});
-Evnt.on("form[name=\"events\"]", "change", Events.changeEventForm);
-
 // Formulář pro vkládání událostí:
-// Validace:
-/*
-Evnt.on("form[name=\"events\"] input[name=\"time\"]", "change", (e) => {
-    var val = e.currentTarget.value.replace(/\s+/g, "");
-    if (!val.match(/[0-9]+(\+[0-9]+)?$/)) {
-        val = parseInt(val);
-    }
-    e.currentTarget.value = val;
-});
-*/
-
-// Odeslání formuláře událostí:
-Evnt.on("form[name=\"events\"] input[name=\"submit\"]", "click", Events.submitEventForm);
+Evnt.on('form[name="events"]', "change", Events.changeEventForm);
+Evnt.on('form[name="events"] #events-close', "click", Events.eventFormClear);
+Evnt.on('form[name="events"] input[name="submit"]', "click", Events.submitEventForm);
 
 Events.copyJerseyColors();
 
