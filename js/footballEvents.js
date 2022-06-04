@@ -287,14 +287,15 @@ class Events {
     static #clickedEventListEdit (e) {
         e.stopPropagation();
         var t = e.currentTarget;
-        var f = new Elem(document.querySelector('form[name="events"]')).addClass("edit-mode");
-        f.qs('[name="team"]').value = t.getAttribute("data-team");
-        f.qs('[name="time"]').value = t.getAttribute("data-time");
-        f.qs('[name="type"]').value = t.getAttribute("data-type");
-        f.qs('[name="player1"]').value = t.getAttribute("data-player1");
-        f.qs('[name="player2"]').value = t.getAttribute("data-player2");
-        f.qs('[name="comment"]').value = t.getAttribute("data-comment");
-        f.qs('[name="edit"]').value = t.getAttribute("data-edit");
+        var f = document.querySelector('form[name="events"]');
+        f.elements["team"].value = t.getAttribute("data-team");
+        f.elements["time"].value = t.getAttribute("data-time");
+        f.elements["type"].value = t.getAttribute("data-type");
+        f.elements["player1"].value = t.getAttribute("data-player1");
+        f.elements["player2"].value = t.getAttribute("data-player2");
+        f.elements["comment"].value = t.getAttribute("data-comment");
+        f.elements["edit"].value = t.getAttribute("data-edit");
+        (new Elem(f)).addClass("edit-mode");
     }
 
     // Změna na formuláři událostí:
@@ -379,6 +380,35 @@ class Events {
         return el;
     }
 
+    static #eventLineShow (data) {
+        var row = (new Elem(document.getElementById("template-event-show")))
+            .clone(true)
+            .attrRemove("id");
+            //.attr("data-edit", data["edit"]);
+        row.qs(".time").innerText = data["time"];
+        var div = new Elem(row.qs(`.${data["team"]}`));
+        div.qs(".comment").innerText = data["comment"];
+        var ico = div.qs(".ico");
+        ico.innerHTML = (new Elem(document.getElementById(`template-event-ico-${data["type"]}`))).html();
+        (new Elem(ico)).addClass(data["type"]);
+        row.appendTo(document.querySelector("#block-result-1st-half .events"));
+    }
+
+    static #eventLinesCopy () {
+        document.querySelector("#block-result-1st-half .events").innerHTML = "";
+        for (var t of document.querySelectorAll("#event-line tbody tr")) {
+            Events.#eventLineShow({
+                "team": t.getAttribute("data-team"),
+                "time": t.getAttribute("data-time"),
+                "type": t.getAttribute("data-type"),
+                "player1": t.getAttribute("data-player1"),
+                "player2": t.getAttribute("data-player2"),
+                "comment": t.getAttribute("data-comment"),
+                "edit": t.getAttribute("data-edit")
+            });
+        }
+    }
+
     // Vymazání formuláře událostí:
     static eventFormClear () {
         let form = document.querySelector('form[name="events"]');
@@ -407,19 +437,17 @@ class Events {
         if (!valid) {
             return;
         }
-
         data["team"] = form.elements["team"].value;
         if (form.elements["edit"].value) {
             data["edit"] = form.elements["edit"].value;
         }
 
-        console.log(data);
         // Vyčistíme formulář:
         Events.eventFormClear();
 
         // Vložíme/editujeme řádek do pracovního seznamu událostí:
         var row = (
-            (data["edit"])
+            data.hasOwnProperty("edit")
             ? new Elem(document.querySelector(`#event-line tbody tr[data-edit="${data["edit"]}"]`))
             : Events.#appendEventListItem(data)
         );
@@ -433,20 +461,12 @@ class Events {
             "data-player1": data["player1"],
             "data-player2": (data["player2"] === undefined ? "" : data["player2"]),
             "data-comment": data["comment"],
-            "data-edit": Events.eventId++
-        });
+            "data-edit": (data.hasOwnProperty("edit") ? data["edit"] : Events.eventId++)
+        })
+        .class(data["team"]);
 
         // Vložíme řádek na zobrazovací plochu:
-        var row = (new Elem(document.getElementById("template-event-show")))
-            .clone(true)
-            .attrRemove("id");
-        row.qs(".time").innerText = data["time"];
-        var div = new Elem(row.qs(`.${data["team"]}`));
-        div.qs(".comment").innerText = data["comment"];
-        var ico = div.qs(".ico");
-        ico.innerHTML = (new Elem(document.getElementById(`template-event-ico-${data["type"]}`))).html();
-        (new Elem(ico)).addClass(data["type"]);
-        row.appendTo(document.querySelector("#block-result-1st-half .events"));
+        Events.#eventLinesCopy();
     }
 
 }
