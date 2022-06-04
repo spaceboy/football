@@ -117,61 +117,16 @@ function (e) {
 );
 */
 
-function setCanvasTitle () {
-    let teamWe = document.getElementById("club-info-name").value;
-    let teamThem = document.getElementById("match-info-partner").value;
-    document.getElementById("canvas-title").innerHTML = (
-        document.getElementById("match-info-home").value === "home"
-        ? `<span class="home bold">${teamWe}</span> vs. <span class="away">${teamThem}</span>`
-        : `<span class="home">${teamThem}</span> vs. <span class="away bold">${teamWe}</span>`
-    );
-}
+// Zpropagujeme barvy dresů na upoutávku:
+Events.copyJerseyColors();
 
-function setReferee () {
-    var ref = [];
-    if (document.getElementById("match-info-referee").value) {
-        ref.push(`<b>${document.getElementById("match-info-referee").value} (hlavní)</b>`);
-    }
-    for (var i = 0; i <= 2; i++) {
-        let v = document.getElementById(["match-info-referee2", "match-info-referee3", "match-info-referee4"][i]).value;
-        if (v) {
-            ref.push(v);
-        }
-    }
-    if (document.getElementById("match-info-var").value) {
-        ref.push(`${document.getElementById("match-info-var").value} (VAR)`);
-    }
-    document.querySelector("#info-referees ul").innerHTML = "<li>" + ref.join("</li><li>") + "</li>";
-    for (var el of document.querySelectorAll("#block-result .events-referee")) {
-        el.innerHTML = "<p><b>Rozhodčí:</b> " + ref.join(", ") + "</p>";
-    }
-}
+// Formulář informací o zápasu:
+Evnt.onAll('form[name="match-info"] input', "change", Events.changeMatchInfoForm)
 
-Evnt.onAll("form input, form, select", "change", (e) => {
-    let t = e.currentTarget;
-    let val = t.value;
-    switch (t.id) {
-        case "club-info-name":
-            setCanvasTitle();
-            document.querySelector("#lineup-match-club h3").innerText = `Soupiska ${val}`;
-            break;
-        case "match-info-home":
-            setCanvasTitle();
-            break;
-        case "match-info-partner":
-            setCanvasTitle();
-            document.querySelector("#lineup-match-partner h3").innerText = `Soupiska ${val}`;
-            break;
-        case "match-info-referee":
-        case "match-info-referee2":
-        case "match-info-referee3":
-        case "match-info-referee4":
-        case "match-info-var":
-        case "match-info-delegate":
-            setReferee();
-
-    }
-})
+// Formulář pro vkládání událostí:
+Evnt.on('form[name="events"]', "change", Events.changeEventForm);
+Evnt.on('form[name="events"] #events-close', "click", Events.eventFormClear);
+Evnt.on('form[name="events"] input[name="submit"]', "click", Events.submitEventForm);
 
 // Aktivace menu:
 Evnt.onAll("ul.menu > li[data-target]", "click", (e) => {
@@ -210,16 +165,6 @@ for (var el of document.querySelectorAll("ul.menu")) {
     }
     Evnt.trigger(el.querySelector(`li[data-target=\"${el.getAttribute("data-default")}\"]`), "click");
 }
-
-
-// Formulář pro vkládání událostí:
-Evnt.on('form[name="events"]', "change", Events.changeEventForm);
-Evnt.on('form[name="events"] #events-close', "click", Events.eventFormClear);
-Evnt.on('form[name="events"] input[name="submit"]', "click", Events.submitEventForm);
-
-Events.copyJerseyColors();
-
-
 
 class Data {
     static load (data) {

@@ -50,6 +50,71 @@ class Events {
         }
     }
 
+    // Nastaví nadpisy informací o zápasu:
+    static setCanvasTitle () {
+        let teamWe = document.getElementById("club-info-name").value;
+        let teamThem = document.getElementById("match-info-partner").value;
+        let home = document.getElementById("match-info-home").value;
+        document.getElementById("canvas-title").innerHTML = (
+            home === "home"
+            ? `<span class="home bold">${teamWe}</span> vs. <span class="away">${teamThem}</span>`
+            : `<span class="home">${teamThem}</span> vs. <span class="away bold">${teamWe}</span>`
+        );
+        for (var el of document.querySelectorAll(".result .club-name")) {
+            el.innerHTML = (home === "home" ? teamWe : teamThem);
+        }
+        for (var el of document.querySelectorAll(".result .partner-name")) {
+            el.innerHTML = (home === "home" ? teamThem : teamWe);
+        }
+    }
+
+    // Nastaví rozhodčí:
+    static setReferee () {
+        var ref = [];
+        if (document.getElementById("match-info-referee").value) {
+            ref.push(`<b>${document.getElementById("match-info-referee").value} (hlavní)</b>`);
+        }
+        for (var i = 0; i <= 2; i++) {
+            let v = document.getElementById(["match-info-referee2", "match-info-referee3", "match-info-referee4"][i]).value;
+            if (v) {
+                ref.push(v);
+            }
+        }
+        if (document.getElementById("match-info-var").value) {
+            ref.push(`${document.getElementById("match-info-var").value} (VAR)`);
+        }
+        document.querySelector("#info-referees ul").innerHTML = "<li>" + ref.join("</li><li>") + "</li>";
+        for (var el of document.querySelectorAll("#block-result .events-referee")) {
+            el.innerHTML = "<p><b>Rozhodčí:</b> " + ref.join(", ") + "</p>";
+        }
+    }
+
+    // Obslouží změny formuláře informací o zápasu:
+    static changeMatchInfoForm (e) {
+        let t = e.target;
+        let val = t.value;
+        switch (t.id) {
+            case "club-info-name":
+                setCanvasTitle();
+                document.querySelector("#lineup-match-club h3").innerText = `Soupiska ${val}`;
+                break;
+            case "match-info-home":
+                Events.setCanvasTitle();
+                break;
+            case "match-info-partner":
+                Events.setCanvasTitle();
+                document.querySelector("#lineup-match-partner h3").innerText = `Soupiska ${val}`;
+                break;
+            case "match-info-referee":
+            case "match-info-referee2":
+            case "match-info-referee3":
+            case "match-info-referee4":
+            case "match-info-var":
+            case "match-info-delegate":
+                Events.setReferee();
+        }
+    }
+
     // Odstraní řádek z formuláře hráčů:
     static clickPlayerRemove (e) {
         var r = e.currentTarget.closest("tr");
@@ -110,11 +175,6 @@ class Events {
             document.getElementById("positions-str")
         ];
         for (var i = 0; i < 3; ++i) {
-            /*
-            if (line[i].value == l[i]) {
-                continue;
-            }
-            */
             line[i].value = l[i];
             Evnt.trigger(line[i], "change");
         }
@@ -336,30 +396,30 @@ class Events {
                 // Změna jiná:
                 var f = e.currentTarget.closest("form");
                 var comment = "";
-                switch (f.querySelector("select[name=\"type\"]").value) {
+                switch (f.querySelector('select[name="type"]').value) {
                     case "goal":
-                        comment = f.querySelector("select[name=\"player1\"]").value;
+                        comment = f.querySelector('select[name="player1"]').value;
                         break;
                     case "substitution":
-                        comment = `${f.querySelector("select[name=\"player1\"]").value} (${f.querySelector("select[name=\"player2\"]").value})`;
+                        comment = `${f.querySelector('select[name="player1"]').value} (${f.querySelector('select[name="player2"]').value})`;
                         break;
                     case "card-yellow-1st":
-                        comment = f.querySelector("select[name=\"player1\"]").value;
+                        comment = f.querySelector('select[name="player1"]').value;
                         break;
                     case "card-yellow-2nd":
-                        comment = f.querySelector("select[name=\"player1\"]").value;
+                        comment = f.querySelector('select[name="player1"]').value;
                         break;
                     case "card-red":
-                        comment = f.querySelector("select[name=\"player1\"]").value;
+                        comment = f.querySelector('select[name="player1"]').value;
                         break;
                     case "penalty-succ":
-                        comment = `${f.querySelector("select[name=\"player1\"]").value} (P)`;
+                        comment = `${f.querySelector('select[name="player1"]').value} (P)`;
                         break;
                     case "penalty-uns":
-                        comment = f.querySelector("select[name=\"player1\"]").value;
+                        comment = f.querySelector('select[name="player1"]').value;
                         break;
                     case "other":
-                        comment = f.querySelector("input[name=\"comment\"]").value.trim();
+                        comment = f.querySelector('input[name="comment"]').value.trim();
                         break;
                 }
                 f.querySelector("input[name=\"comment\"]").value = comment;
