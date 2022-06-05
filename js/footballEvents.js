@@ -2,6 +2,10 @@ class Events {
 
     static eventId = 1;
 
+    static optionListHome = "";
+
+    static optionListAway = "";
+
     // Změna barev dresu (obecná, pro všechny):
     static jerseyChange (e, jersey) {
         var t = e.target;
@@ -89,6 +93,36 @@ class Events {
         }
     }
 
+    static createPlayerLists () {
+        // Vlastní tým:
+        var opts = ['<option value="">-- Vyberte hráče --</option>'];
+        for (var el of document.querySelectorAll("#our-players tbody tr")) {
+            if (!el.querySelector('input[name="player-on"]').checked) {
+                continue;
+            }
+            var name = el.querySelector('input[name="player-name"]').value;
+            var numb = el.querySelector('input[name="player-number"]').value;
+            opts.push(`<option value="${name}">${numb}: ${name}</option>`);
+        }
+        if (document.getElementById("match-info-home").value === "home") {
+            Events.optionListHome = opts.join("");
+        } else {
+            Events.optionListAway = opts.join("");
+        }
+        // Partnerský tým:
+        var opts = ['<option value="">-- Vyberte hráče --</option>'];
+        for (var el of document.querySelectorAll("#partner-players tbody tr")) {
+            var name = el.querySelector('input[name="player-name"]').value;
+            var numb = el.querySelector('input[name="player-number"]').value;
+            opts.push(`<option value="${name}">${numb} ${name}</option>`);
+        }
+        if (document.getElementById("match-info-home").value === "home") {
+            Events.optionListAway = opts.join("");
+        } else {
+            Events.optionListHome = opts.join("");
+        }
+    }
+
     // Obslouží změny formuláře informací o zápasu:
     static changeMatchInfoForm (e) {
         let t = e.target;
@@ -100,6 +134,11 @@ class Events {
                 break;
             case "match-info-home":
                 Events.setCanvasTitle();
+                Events.createPlayerLists();
+                Evnt.trigger(
+                    'form[name="events"] input[name="team"]',
+                    new Event("change", {"bubbles": true})
+                );
                 break;
             case "match-info-partner":
                 Events.setCanvasTitle();
@@ -112,6 +151,8 @@ class Events {
             case "match-info-var":
             case "match-info-delegate":
                 Events.setReferee();
+            default:
+                console.log(t);
         }
     }
 
@@ -141,26 +182,26 @@ class Events {
     static clickPlayerAdd (e) {
         var r = document.getElementById(e.currentTarget.getAttribute("data-template")).cloneNode(true);
         r.removeAttribute("id");
-        e.currentTarget.closest("table").querySelector("tbody").appendChild(r);
+        var t = e.currentTarget.closest("table");
+        t.querySelector("tbody").appendChild(r);
         Evnt.on(r.querySelector(".remove"), "click", Events.clickPlayerRemove);
         Evnt.on(r.querySelector(".move-up"), "click", Events.clickPlayerMoveUp);
         Evnt.on(r.querySelector(".move-down"), "click", Events.clickPlayerMoveDown);
         // Hlídej změny:
-        Evnt.onAll(r.querySelectorAll("input"), "change", (e) => {
-            var tbd = e.currentTarget.closest("table > tbody");
-            var players = {};
-
-            var target = document.querySelector("#our-players tbody");
-            // Uložíme
-            // Vytvoříme nový seznam:
-            target.innerHTML = "";
-            for (var row of tbd.querySelectorAll("tr")) {
-                var tr = new Elem(document.getElementById("template-our-players")).clone(true).attrRemove("id").get();
-                tr.querySelector("input.player-number").value = row.querySelector("input.player-number").value;
-                tr.querySelector("input.player-name").value = row.querySelector("input.player-name").value;
-                (new Elem(tr)).appendTo(target);
-            }
-        });
+        if (t.hasAttribute("data-target")) {
+            Evnt.onAll(r.querySelectorAll("input"), "change", (e) => {
+                // Zkopírujeme seznam hráčů
+                var tbd = e.currentTarget.closest("table > tbody");
+                var target = document.querySelector(t.getAttribute("data-target"));
+                target.innerHTML = "";
+                for (var row of tbd.querySelectorAll("tr")) {
+                    var tr = new Elem(document.getElementById("template-our-players")).clone(true).attrRemove("id");
+                    tr.qs("input.player-number").value = row.querySelector("input.player-number").value;
+                    tr.qs("input.player-name").value = row.querySelector("input.player-name").value;
+                    tr.appendTo(target);
+                }
+            });
+        }
     }
 
     // Změna rozestavaní: standardy
@@ -365,6 +406,15 @@ class Events {
                 // Změna času:
                 e.target.value = Events.#changeEventFormTime(e.target.value.replace(/\s+/g, ""));
                 return;
+                break;
+            case "team":
+                if (e.target.value === "home") {
+                    document.getElementById("events-player1").innerHTML = Events.optionListHome;
+                    document.getElementById("events-player2").innerHTML = Events.optionListHome;
+                } else {
+                    document.getElementById("events-player1").innerHTML = Events.optionListAway;
+                    document.getElementById("events-player2").innerHTML = Events.optionListAway;
+                }
                 break;
             case "type":
                 // Změna typu události (gól, ŽK, 2.ŽK...):

@@ -116,12 +116,11 @@ function (e) {
 }
 );
 */
-
 // Zpropagujeme barvy dresů na upoutávku:
 Events.copyJerseyColors();
 
 // Formulář informací o zápasu:
-Evnt.onAll('form[name="match-info"] input', "change", Events.changeMatchInfoForm)
+Evnt.onAll('form[name="match-info"] input, form[name="match-info"] select', "change", Events.changeMatchInfoForm);
 
 // Formulář pro vkládání událostí:
 Evnt.on('form[name="events"]', "change", Events.changeEventForm);
@@ -234,6 +233,10 @@ for (var el of document.querySelectorAll("#partner-players tbody tr")) {
     el.querySelector(".player-name").value = `Protihráč ${i}`;
     i++;
 }
+
+
+// Vytvoříme seznamy hráčů:
+Events.createPlayerLists();
 
 /*
 

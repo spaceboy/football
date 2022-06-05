@@ -83,7 +83,7 @@
                         </div><!-- /.column-->
                         <div class="column width-4">
                             <h3>Hráči</h3>
-                            <table id="club-players" class="players">
+                            <table id="club-players" class="players" data-target="#our-players tbody">
                                 <thead>
                                     <tr>
                                         <th>Číslo</th>
@@ -1206,26 +1206,10 @@ form[name="events"].edit-mode #events-close {
                                             <label>Hráč(i)</label>
                                         </th>
                                         <td colspan="2">
-                                            <select name="player1" class="events-player" disabled>
-                                                <option value="">-- Vyber hráče --</option>
-                                                <option value="Novák">Novák</option>
-                                                <option value="Panenka">Panenka</option>
-                                                <option value="Nikl">Nikl</option>
-                                                <option value="Sňozík">Sňozík</option>
-                                                <option value="Jindřišek">Jindřišek</option>
-                                                <option value="Bartek">Bartek</option>
-                                            </select>
+                                            <select name="player1" id="events-player1" class="events-player" disabled></select>
                                         </td>
                                         <td>
-                                            <select name="player2" class="events-player" disabled>
-                                                <option value="">-- Vyber hráče --</option>
-                                                <option value="Novák">Novák</option>
-                                                <option value="Panenka">Panenka</option>
-                                                <option value="Nikl">Nikl</option>
-                                                <option value="Sňozík">Sňozík</option>
-                                                <option value="Jindřišek">Jindřišek</option>
-                                                <option value="Bartek">Bartek</option>
-                                            </select>
+                                            <select name="player2" id="events-player2" class="events-player" disabled></select>
                                         </td>
                                     </tr>
                                     <tr>
@@ -1347,10 +1331,10 @@ form[name="events"].edit-mode #events-close {
             <tbody>
                 <tr id="template-club-players">
                     <th>
-                        <input class="player-number">
+                        <input name="player-number" class="player-number">
                     </th>
                     <td>
-                        <input class="player-name">
+                        <input name="player-name" class="player-name">
                     </td>
                     <td>
                         <i class="move-up fas fa-arrow-circle-up"></i>
@@ -1362,10 +1346,10 @@ form[name="events"].edit-mode #events-close {
                 </tr>
                 <tr id="template-partner-players">
                     <th>
-                        <input class="player-number">
+                        <input name="player-number" class="player-number">
                     </th>
                     <td>
-                        <input class="player-name">
+                        <input name="player-name" class="player-name">
                     </td>
                     <td>
                         <input name="captain" type="radio">
@@ -1381,13 +1365,13 @@ form[name="events"].edit-mode #events-close {
                 </tr>
                 <tr id="template-our-players">
                     <th>
-                        <input name="" type="checkbox" checked>
+                        <input name="player-on" type="checkbox" checked>
                     </th>
                     <td>
-                        <input class="player-number" disabled>
+                        <input name="player-number" class="player-number" disabled>
                     </td>
                     <td>
-                        <input class="player-name" disabled>
+                        <input name="player-name" class="player-name" disabled>
                     </td>
                     <td>
                         <input name="captain" type="radio">
