@@ -497,27 +497,46 @@ class Events {
         return el;
     }
 
-    static #eventLineShow (data) {
+    static #countScore (target) {
+        var score = {
+            "home": 0,
+            "away": 0
+        };
+        for (var el of target.querySelectorAll(".events .event")) {
+            if (el.getAttribute("data-type") === "goal" || el.getAttribute("data-type") === "penalty-succ") {
+                score[el.getAttribute("data-team")]++;
+            }
+        }
+        target.querySelector(".title .score").innerHTML = `${score["home"]}:${score["away"]}`;
+    };
+
+    static #eventLineShow (target, data) {
         var row = (new Elem(document.getElementById("template-event-show")))
             .clone(true)
-            .attrRemove("id");
+            .attrRemove("id")
+            .attr({
+                "data-type": data["type"],
+                "data-team": data["team"]
+            });
         row.qs(".time").innerText = data["time"];
         var div = new Elem(row.qs(`.${data["team"]}`));
         div.qs(".comment").innerText = data["comment"];
         var ico = div.qs(".ico");
         ico.innerHTML = (new Elem(document.getElementById(`template-event-ico-${data["type"]}`))).html();
         (new Elem(ico)).addClass(data["type"]);
-        row.appendTo(document.querySelector("#block-result-1st-half .events"));
+        row.appendTo(target);
     }
 
     static #eventLinesCopy () {
-        var score = {
-            "home": 0,
-            "away": 0
-        };
-        document.querySelector("#block-result-1st-half .events").innerHTML = "";
+        let block1st = document.querySelector("#block-result-1st-half .events");
+        let block2nd = document.querySelector("#block-result-2nd-half .events");
+        let blockExt = document.querySelector("#block-result-extended .events");
+
+        block1st.innerHTML = "";
+        block2nd.innerHTML = "";
+        blockExt.innerHTML = "";
         for (var t of document.querySelectorAll("#event-line tbody tr")) {
-            Events.#eventLineShow({
+            var data = {
                 "team": t.getAttribute("data-team"),
                 "time": t.getAttribute("data-time"),
                 "type": t.getAttribute("data-type"),
@@ -525,13 +544,20 @@ class Events {
                 "player2": t.getAttribute("data-player2"),
                 "comment": t.getAttribute("data-comment"),
                 "edit": t.getAttribute("data-edit")
-            });
-            if (t.getAttribute("data-type") === "goal" || t.getAttribute("data-type") === "penalty-succ") {
-                score[t.getAttribute("data-team")]++;
+            };
+            var time = parseInt(data["time"].split("+")[0]);
+            if (time <= 45) {
+                Events.#eventLineShow(block1st, data);
             }
+            if (time <= 90) {
+                Events.#eventLineShow(block2nd, data);
+            }
+            Events.#eventLineShow(blockExt, data);
         }
-        document.querySelector("#block-result-1st-half .title .score").innerHTML = `${score["home"]}:${score["away"]}`;
 
+        Events.#countScore(block1st.closest("div.result"));
+        Events.#countScore(block2nd.closest("div.result"));
+        Events.#countScore(blockExt.closest("div.result"));
     }
 
     // Vymazání formuláře událostí:
