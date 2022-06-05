@@ -18,7 +18,7 @@
         <script src="js/Elem.js?v=2"></script>
         <script src="js/ColorTools.js"></script>
         <script src="js/ColorPicker.js"></script>
-        <script src="js/Evnt.js?v=2"></script>
+        <script src="js/Evnt.js?v=3"></script>
         <script src="js/footballEvents.js?v=3"></script>
         <script src="js/Splash.js"></script>
     </head>
@@ -1024,98 +1024,110 @@
 
 #event-line {
     border-collapse: collapse;
+    margin-bottom: .5em;
+    padding: .5em .5em 1em .5em;
     width: 100%;
 }
-#event-line tr {
+#event-line h3 {
+    margin: 0;
+    padding: 0;
+}
+#event-line tbody {
+    border: 1px solid #e3e3e3;
+    border-radius: .25em;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .05);
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .05);
+}
+#event-line tbody tr {
     cursor: pointer;
 }
-#event-line tr:hover {
+#event-line tbody tr:hover {
     background: white;
     transition: 0.3s;
 }
-#event-line tr td {
+#event-line tbody tr td {
     padding: .5em;
 }
-#event-line tr td.w6 {
+#event-line tbody tr td.w6 {
     width: 6em;
 }
 
-#event-line tr td span {
+#event-line tbody tr td span {
     margin: 0 .5em;
 }
 
-#event-line tr td .time {
+#event-line tbody tr td .time {
     font-weight: bold;
 }
 
-#event-line tr.away td:nth-child(1) {
+#event-line tbody tr.away td:nth-child(1) {
     text-align: right;
 }
-#event-line tr.home td:nth-child(1) {
+#event-line tbody tr.home td:nth-child(1) {
     text-align: left;
 }
 
-#event-line tr.away td .ico {
+#event-line tbody tr.away td .ico {
     float: right;
 }
-#event-line tr.home td .ico {
+#event-line tbody tr.home td .ico {
     float: left;
 }
 
-#event-line tr td .ico {
+#event-line tbody tr td .ico {
     font-family: "Font Awesome 5 Free";
     font-size: 130%;
     font-weight: 900;
 }
-#event-line tr td .ico.goal::before,
-#event-line tr td .ico.penalty-succ::before {
+#event-line tbody tr td .ico.goal::before,
+#event-line tbody tr td .ico.penalty-succ::before {
     content: "\f1e3";
 }
-#event-line tr td .ico.substitution::before {
+#event-line tbody tr td .ico.substitution::before {
     content: "\f2f1";
 }
-#event-line tr td .ico.card-yellow-1st::before {
+#event-line tbody tr td .ico.card-yellow-1st::before {
     content: "\f0c8";
     color: yellow;
     text-shadow: 0 0 2px black;
 }
-#event-line tr td .ico.card-yellow-2nd::before {
+#event-line tbody tr td .ico.card-yellow-2nd::before {
     content: "\f0c8";
     color: yellow;
     margin-right: 1px;
     text-shadow: 0 0 2px black;
 }
-#event-line tr td .ico.card-yellow-2nd::after {
+#event-line tbody tr td .ico.card-yellow-2nd::after {
     content: "\f0c8";
     color: yellow;
     margin-left: 1px;
     text-shadow: 0 0 2px black;
 }
-#event-line tr td .ico.card-red::before {
+#event-line tbody tr td .ico.card-red::before {
     content: "\f0c8";
     color: red;
     text-shadow: 0 0 2px black;
 }
-#event-line tr td .ico.penalty-uns::before {
+#event-line tbody tr td .ico.penalty-uns::before {
     content: "\f00d";
     color: red;
 }
-#event-line tr td .ico.other::before {
+#event-line tbody tr td .ico.other::before {
     content: "\f06a";
 }
 
-#event-line tr td .ico-up,
-#event-line tr td .ico-down {
+#event-line tbody tr td .ico-up,
+#event-line tbody tr td .ico-down {
     color: silver;
     font-size: 130%;
 }
-#event-line tr td .ico-remove {
+#event-line tbody tr td .ico-remove {
     color: red;
     font-size: 130%;
 }
-#event-line tr td .ico-up:hover,
-#event-line tr td .ico-down:hover,
-#event-line tr td .ico-remove:hover {
+#event-line tbody tr td .ico-up:hover,
+#event-line tbody tr td .ico-down:hover,
+#event-line tbody tr td .ico-remove:hover {
     background: radial-gradient(black 62%, transparent 62%);
     transition: .3s;
 }
@@ -1126,6 +1138,17 @@ form .form-error {
 }
 
 
+form[name="events"] {
+    border-radius: .25em;
+    border: 1px solid #e3e3e3;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .05);
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .05);
+    padding: .5em .5em 1em .5em;
+}
+form[name="events"] h3 {
+    margin: 0;
+    padding: 0;
+}
 form[name="events"] #events-edit {
     color: #337ab7;
     float: left;
@@ -1153,18 +1176,24 @@ form[name="events"].edit-mode #events-close {
 </style>
 
                     <div class="column width-5 text-center">
-                        <h3>Události</h3>
-                        <table id="event-line" style="width: 100%;">
+                        <table id="event-line">
+                            <thead>
+                                <tr>
+                                    <td colspan="2">
+                                        <h3>Události</h3>
+                                    </td>
+                                </tr>
+                            </thead>
                             <tbody></tbody>
                         </table>
-                        <form name="events" style="padding: .5em .5em 1em .5em; border: 1px solid #e3e3e3; box-shadow: inset 0 1px 1px rgba(0,0,0,.05); -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.05); border-radius: .25em;">
+                        <form name="events">
                             <table style="text-align: left;">
                                 <thead>
                                     <tr>
                                         <td colspan="4" style="text-align: center;">
                                             <i id="events-edit" class="fas fa-edit"></i>
                                             <i id="events-close" class="fas fa-times-circle"></i>
-                                            <h3 style="padding: 0; margin: 0;">Vložte událost:</h3>
+                                            <h3">Vložte událost:</h3>
                                         </td>
                                     </tr>
                                 </thead>

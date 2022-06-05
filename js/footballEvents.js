@@ -363,7 +363,7 @@ class Events {
         var t = e.currentTarget.closest("tr");
         if (t.previousElementSibling) {
             Elem.swapNodes(t, t.previousElementSibling);
-            // TODO: vyvolat změnu v zobrazení náhledů
+            Events.#eventLinesCopy();
         }
     }
 
@@ -373,7 +373,7 @@ class Events {
         var t = e.currentTarget.closest("tr");
         if (t.nextElementSibling) {
             Elem.swapNodes(t, t.nextElementSibling);
-            // TODO: vyvolat změnu v zobrazení náhledů
+            Events.#eventLinesCopy();
         }
     }
 
@@ -381,7 +381,7 @@ class Events {
     static #clickedEventListRemove (e) {
         e.stopPropagation();
         Elem.removeElement(e.currentTarget.closest("tr"));
-        // TODO: vyvolat změnu v zobrazení náhledů
+        Events.#eventLinesCopy();
     }
 
     // Zobrazí ve formuláři událostí seznamy aktuálních hráčů:
@@ -409,6 +409,7 @@ class Events {
         f.elements["player2"].value = t.getAttribute("data-player2");
         f.elements["comment"].value = t.getAttribute("data-comment");
         f.elements["edit"].value = t.getAttribute("data-edit");
+        Evnt.trigger("#events-type", "change", true);
     }
 
     // Změna na formuláři událostí:
