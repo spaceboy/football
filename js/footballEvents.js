@@ -152,7 +152,7 @@ class Events {
             case "match-info-delegate":
                 Events.setReferee();
             default:
-                console.log(t);
+                //console.log(t);
         }
     }
 
@@ -384,19 +384,31 @@ class Events {
         // TODO: vyvolat změnu v zobrazení náhledů
     }
 
+    // Zobrazí ve formuláři událostí seznamy aktuálních hráčů:
+    static #propagatePlayersLists () {
+        if (document.querySelector('form[name="events"]').elements["team"].value === "home") {
+            document.getElementById("events-player1").innerHTML = Events.optionListHome;
+            document.getElementById("events-player2").innerHTML = Events.optionListHome;
+        } else {
+            document.getElementById("events-player1").innerHTML = Events.optionListAway;
+            document.getElementById("events-player2").innerHTML = Events.optionListAway;
+        }
+    }
+
     // List událostí -- edit:
     static #clickedEventListEdit (e) {
         e.stopPropagation();
         var t = e.currentTarget;
         var f = document.querySelector('form[name="events"]');
+        (new Elem(f)).addClass("edit-mode");
         f.elements["team"].value = t.getAttribute("data-team");
+        Events.#propagatePlayersLists();
         f.elements["time"].value = t.getAttribute("data-time");
         f.elements["type"].value = t.getAttribute("data-type");
         f.elements["player1"].value = t.getAttribute("data-player1");
         f.elements["player2"].value = t.getAttribute("data-player2");
         f.elements["comment"].value = t.getAttribute("data-comment");
         f.elements["edit"].value = t.getAttribute("data-edit");
-        (new Elem(f)).addClass("edit-mode");
     }
 
     // Změna na formuláři událostí:
@@ -408,13 +420,7 @@ class Events {
                 return;
                 break;
             case "team":
-                if (e.target.value === "home") {
-                    document.getElementById("events-player1").innerHTML = Events.optionListHome;
-                    document.getElementById("events-player2").innerHTML = Events.optionListHome;
-                } else {
-                    document.getElementById("events-player1").innerHTML = Events.optionListAway;
-                    document.getElementById("events-player2").innerHTML = Events.optionListAway;
-                }
+                Events.#propagatePlayersLists();
                 break;
             case "type":
                 // Změna typu události (gól, ŽK, 2.ŽK...):
