@@ -55,19 +55,17 @@ for (var el of document.querySelectorAll("form *[data-default-value]")) {
 }
 
 // Zpropaguj výchozí hodnoty z formulářů pro dresy do zobrazení dresu:
-for (var el of document.querySelectorAll("#form-field select, #form-field input, #form-goalie select, #form-goalie input")) {
-    Evnt.trigger(
-        el,
-        new Event(
-            "change",
-            {
-                "bubbles": true,
-                "currentTarget": el.closest("form"),
-                "target": el
-            }
-        )
-    );
-}
+Evnt.triggerAll(
+    "#form-field select, #form-field input, #form-goalie select, #form-goalie input",
+    new Event(
+        "change",
+        {
+            "bubbles": true,
+            "currentTarget": el.closest("form"),
+            "target": el
+        }
+    )
+);
 
 // Posunutí hráče vpřed/vzad:
 Evnt.onAll("#lineup .line .player .position", "click", Events.clickPlayerPosition);
@@ -120,7 +118,7 @@ function (e) {
 Events.copyJerseyColors();
 
 // Formulář informací o zápasu:
-Evnt.onAll('form[name="match-info"] input, form[name="match-info"] select', "change", Events.changeMatchInfoForm);
+Evnt.on('form[name="match-info"]', "change", Events.changeMatchInfoForm);
 
 // Manipulace se základní sestavou (malou):
 Evnt.onAll("#block-result-lineup .lineup .lineup-list", "click", Events.clickPlayerLineup);

@@ -96,6 +96,7 @@ class Events {
     static createPlayerLists () {
         // Vlastní tým:
         let target = document.querySelector("#block-result-lineup .lineup .lineup-base .lineup-list");
+        target.innerHTML = "";
         var opts = ['<option value="">-- Vyberte hráče --</option>'];
         for (var el of document.querySelectorAll("#our-players tbody tr")) {
             if (!el.querySelector('input[name="player-on"]').checked) {
@@ -174,7 +175,11 @@ class Events {
             case "match-info-delegate":
                 Events.setReferee();
             default:
-                //console.log(t);
+                switch (t.name) {
+                    case "player-on":
+                        Events.createPlayerLists()
+                        break;
+                }
         }
     }
 
@@ -222,6 +227,7 @@ class Events {
                     tr.qs("input.player-name").value = row.querySelector("input.player-name").value;
                     tr.appendTo(target);
                 }
+                Events.createPlayerLists();
             });
         }
     }
