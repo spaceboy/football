@@ -98,6 +98,7 @@ class Events {
         let target = document.querySelector("#block-result-lineup .lineup .lineup-base .lineup-list");
         target.innerHTML = "";
         var opts = ['<option value="">-- Vyberte hráče --</option>'];
+        var plrs = ['<option>---</option>'];
         for (var el of document.querySelectorAll("#our-players tbody tr")) {
             if (!el.querySelector('input[name="player-on"]').checked) {
                 continue;
@@ -105,8 +106,9 @@ class Events {
             var name = el.querySelector('input[name="player-name"]').value;
             var numb = el.querySelector('input[name="player-number"]').value;
             opts.push(`<option value="${name}">${numb}: ${name}</option>`);
+            plrs.push(`<option value="${numb}:${name}">${numb}: ${name}</option>`);
             // Vložíme hráče na zobrazení soupisky:
-            (new Elem("p"))
+            (Elem.create("p"))
                 .html(`<span class="number">${numb}</span><span class="name">${name}</span>`)
                 .appendTo(target);
         }
@@ -115,6 +117,7 @@ class Events {
         } else {
             Events.optionListAway = opts.join("");
         }
+        document.getElementById("player-name-list").innerHTML = plrs.join("");
 
         // Partnerský tým:
         var opts = ['<option value="">-- Vyberte hráče --</option>'];
@@ -152,7 +155,7 @@ class Events {
         let val = t.value;
         switch (t.id) {
             case "club-info-name":
-                setCanvasTitle();
+                EventssetCanvasTitle();
                 document.querySelector("#lineup-match-club h3").innerText = `Soupiska ${val}`;
                 break;
             case "match-info-home":
@@ -207,22 +210,29 @@ class Events {
 
     // Vloží řádek do formuláře hráčů:
     static clickPlayerAdd (e) {
-        var r = document.getElementById(e.currentTarget.getAttribute("data-template")).cloneNode(true);
-        r.removeAttribute("id");
         var t = e.currentTarget.closest("table");
-        t.querySelector("tbody").appendChild(r);
-        Evnt.on(r.querySelector(".remove"), "click", Events.clickPlayerRemove);
-        Evnt.on(r.querySelector(".move-up"), "click", Events.clickPlayerMoveUp);
-        Evnt.on(r.querySelector(".move-down"), "click", Events.clickPlayerMoveDown);
+
+        // Vytvoř element:
+        var r = (new Elem(document.getElementById(e.currentTarget.getAttribute("data-template"))))
+            .clone(true)
+            .attrRemove("id")
+            .appendTo(t.querySelector("tbody"));
+        r.qs("input.player-number").focus();
+
         // Hlídej změny:
+        Evnt.on(r.qs(".remove"), "click", Events.clickPlayerRemove);
+        Evnt.on(r.qs(".move-up"), "click", Events.clickPlayerMoveUp);
+        Evnt.on(r.qs(".move-down"), "click", Events.clickPlayerMoveDown);
         if (t.hasAttribute("data-target")) {
-            Evnt.onAll(r.querySelectorAll("input"), "change", (e) => {
+            Evnt.onAll(r.qsAll("input"), "change", (e) => {
                 // Zkopírujeme seznam hráčů
                 var tbd = e.currentTarget.closest("table > tbody");
                 var target = document.querySelector(t.getAttribute("data-target"));
                 target.innerHTML = "";
                 for (var row of tbd.querySelectorAll("tr")) {
-                    var tr = new Elem(document.getElementById("template-our-players")).clone(true).attrRemove("id");
+                    var tr = (new Elem("#template-our-players"))
+                        .clone(true)
+                        .attrRemove("id");
                     tr.qs("input.player-number").value = row.querySelector("input.player-number").value;
                     tr.qs("input.player-name").value = row.querySelector("input.player-name").value;
                     tr.appendTo(target);
@@ -287,13 +297,13 @@ class Events {
 
     // Přidání figurky hráče do pole:
     static addPlayerFigure (targetEl) {
-        var el = document.getElementById("template-position-player").cloneNode(true);
-        el.removeAttribute("id");
-        //el.setAttribute("class", "player new");
-        el.removeAttribute("style");
-        targetEl.appendChild(el);
-        Evnt.on(el, "click", Events.clickPlayer);
-        Evnt.on(el.querySelector(".position"), "click", Events.clickPlayerPosition);
+        var el = (new Elem("#template-position-player"))
+            .clone(true)
+            .attrRemove("id")
+            .attrRemove("style")
+            .appendTo(targetEl);
+        Evnt.on(el.get(), "click", Events.clickPlayer);
+        Evnt.on(el.qs(".position"), "click", Events.clickPlayerPosition);
     }
 
     // Odstranění posledního dítěte:
@@ -516,7 +526,7 @@ class Events {
 
     // Vytvoří nový řádek pracovního seznamu událostí:
     static #appendEventListItem (data) {
-        var el = (new Elem(document.getElementById("template-event-work")))
+        var el = (new Elem("#template-event-work"))
             .clone(true)
             .attrRemove("id")
             .class(data["team"]);
@@ -542,7 +552,7 @@ class Events {
     };
 
     static #eventLineShow (target, data) {
-        var row = (new Elem(document.getElementById("template-event-show")))
+        var row = (new Elem("#template-event-show"))
             .clone(true)
             .attrRemove("id")
             .attr({
@@ -553,7 +563,7 @@ class Events {
         var div = new Elem(row.qs(`.${data["team"]}`));
         div.qs(".comment").innerText = data["comment"];
         var ico = div.qs(".ico");
-        ico.innerHTML = (new Elem(document.getElementById(`template-event-ico-${data["type"]}`))).html();
+        ico.innerHTML = (new Elem(`#template-event-ico-${data["type"]}`)).html();
         (new Elem(ico)).addClass(data["type"]);
         row.appendTo(target);
     }
@@ -630,7 +640,7 @@ class Events {
         // Vložíme/editujeme řádek do pracovního seznamu událostí:
         var row = (
             data.hasOwnProperty("edit")
-            ? new Elem(document.querySelector(`#event-line tbody tr[data-edit="${data["edit"]}"]`))
+            ? new Elem(`#event-line tbody tr[data-edit="${data["edit"]}"]`)
             : Events.#appendEventListItem(data)
         );
         row.qs(".ico").setAttribute("class", "ico " + data["type"]);

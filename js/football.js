@@ -166,6 +166,7 @@ for (var el of document.querySelectorAll("ul.menu")) {
     Evnt.trigger(el.querySelector(`li[data-target=\"${el.getAttribute("data-default")}\"]`), "click");
 }
 
+
 class Data {
     static load (data) {
         for (var i in data) {
@@ -187,7 +188,6 @@ class Data {
         }
     }
 }
-
 
 // Mock pro předvyplnění formulářových polí:
 Data.load({
@@ -212,14 +212,29 @@ Data.load({
 });
 
 // Mock naplnění vlastních hráčů:
-for (var i = 1; i <= 10; i++) {
+for (var i = 1; i <= 13; i++) {
     Evnt.trigger("#club-players tfoot .add", "click");
 }
-var i = 1;
+var i = 0;
+var players = [
+    "Vachopulos",
+    "Mažňák",
+    "Provazník",
+    "Kott",
+    "Pazdera",
+    "Ding Dung",
+    "Veselý",
+    "Hubáček",
+    "Nádeník",
+    "Konipásek",
+    "Kužel",
+    "Luňák",
+    "Mažňák",
+    "Křivánek"
+];
 for (var el of document.querySelectorAll("#club-players tbody tr")) {
-    el.querySelector(".player-number").value = i;
-    el.querySelector(".player-name").value = `Hráč ${i}`;
-    i++;
+    el.querySelector(".player-name").value = players[i];
+    el.querySelector(".player-number").value = ++i;
 }
 // Vyvolání události, aby se hráči zpropagovali do zápasové sestavy:
 Evnt.trigger("#club-players input", "change");
@@ -236,53 +251,7 @@ for (var el of document.querySelectorAll("#partner-players tbody tr")) {
 }
 
 
-// Vytvoříme seznamy hráčů:
+// Vypíšeme názvy týmů, rozhodčí, vytvoříme seznamy hráčů:
+Events.setCanvasTitle();
+Events.setReferee();
 Events.createPlayerLists();
-
-/*
-
-https://okresniprebor.fandom.com/cs/wiki/TJ_Slavoj_Houslice
-
-TJ Slavoj Houslice
-
-https://okresniprebor.fandom.com/cs/wiki/TJ_Slavoj_Houslice?file=Slavoj_14_hr%25C3%25A1%25C4%258D%25C5%25AF.jpg
-
-na fotce horní řada zleva doprava:
-
-Jirka Luňák (Ondřej Vetchý) - kapitán a trenér
-Láďa Křivánek (Petr Růžička)
-Jarda Kužel (David Novotný) - útočník
-Kája Vachopulos (Jakub Kohák) - brankář
-František Mažňák (Petr Franěk) - obránce
-Jindra Konipásek (Karel Wiencek)
-Tonda Nádeník (Lukáš Langmajer)
-Jarmil Hubáček (Ladislav Hampl)
-
-na fotce dolní řada zleva doprava
-
-Jan Provazník (Karel Čech) - stoper
-Jirka Mazánek (Jiří Petříš) - záložník
-Norbert Kott (Jarmil Škvrňa)
-Čeněk Pazdera (Milan Štróbl)
-Phun Ding Dung (Doan Gia Bao)
-Jaroslav Veselý (Lukáš Jambor)
-
-Brankář:
-1 Vachopulos
-
-Obrana:
-16 Ding Dung
-Kott
-Provazník
-4 Mažňák
-
-Záloha:
-6 Mazánek
-Luňák
-
-Útok:
-10 Kužel
-
-Trenér (manažer):
-Bohumír Zenkl
-*/

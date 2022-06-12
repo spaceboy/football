@@ -19,7 +19,7 @@ class ColorPicker {
         if (button) {
             this.button = button;
         } else {
-            this.button = new Elem("input")
+            this.button = Elem.create("input")
             .attr({
                 "class": "color-picker-button",
                 "type": "color",

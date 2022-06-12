@@ -3,20 +3,24 @@ class Elem {
     element;
 
     constructor (el) {
-        if (!Elem.isDomObject(el)) {
-            return this.create(el);
+        if (Elem.isDomObject(el)) {
+            this.element = el;
+            return this;
+        }
+        el = document.querySelector(el);
+        if (!el) {
+            return;
         }
         this.element = el;
         return this;
     }
 
-    get () {
-        return this.element;
+    static create (name) {
+        return new Elem(document.createElement(name));
     }
 
-    create (name) {
-        this.element = document.createElement(name);
-        return this;
+    get () {
+        return this.element;
     }
 
     // Set attribute(s);
