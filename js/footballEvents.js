@@ -95,6 +95,7 @@ class Events {
 
     static createPlayerLists () {
         // Vlastní tým:
+        let target = document.querySelector("#block-result-lineup .lineup .lineup-base .lineup-list");
         var opts = ['<option value="">-- Vyberte hráče --</option>'];
         for (var el of document.querySelectorAll("#our-players tbody tr")) {
             if (!el.querySelector('input[name="player-on"]').checked) {
@@ -103,12 +104,17 @@ class Events {
             var name = el.querySelector('input[name="player-name"]').value;
             var numb = el.querySelector('input[name="player-number"]').value;
             opts.push(`<option value="${name}">${numb}: ${name}</option>`);
+            // Vložíme hráče na zobrazení soupisky:
+            (new Elem("p"))
+                .html(`<span class="number">${numb}</span><span class="name">${name}</span>`)
+                .appendTo(target);
         }
         if (document.getElementById("match-info-home").value === "home") {
             Events.optionListHome = opts.join("");
         } else {
             Events.optionListAway = opts.join("");
         }
+
         // Partnerský tým:
         var opts = ['<option value="">-- Vyberte hráče --</option>'];
         for (var el of document.querySelectorAll("#partner-players tbody tr")) {
@@ -120,6 +126,22 @@ class Events {
             Events.optionListAway = opts.join("");
         } else {
             Events.optionListHome = opts.join("");
+        }
+
+        // Zpropagujeme seznamy hráčů na potřebná místa:
+        Events.#propagatePlayersLists();
+    }
+
+    // Přehodí na malém displeji sestavy hráče mezi náhradníky a vice versa:
+    static clickPlayerLineup (e) {
+        let p = (e.target.tagName === "P" ? e.target : e.target.closest("p"));
+        if (!p) {
+            return;
+        }
+        if ((new Elem(p.closest("div.lineup-wrap"))).hasClass("lineup-base")) {
+            (new Elem(p)).appendTo((new Elem(p.closest("div.lineup"))).qs("div.lineup-substitute div.lineup-list"));
+        } else {
+            (new Elem(p)).appendTo((new Elem(p.closest("div.lineup"))).qs("div.lineup-base div.lineup-list"));
         }
     }
 
@@ -386,12 +408,15 @@ class Events {
 
     // Zobrazí ve formuláři událostí seznamy aktuálních hráčů:
     static #propagatePlayersLists () {
-        if (document.querySelector('form[name="events"]').elements["team"].value === "home") {
-            document.getElementById("events-player1").innerHTML = Events.optionListHome;
-            document.getElementById("events-player2").innerHTML = Events.optionListHome;
-        } else {
-            document.getElementById("events-player1").innerHTML = Events.optionListAway;
-            document.getElementById("events-player2").innerHTML = Events.optionListAway;
+        switch(document.querySelector('form[name="events"]').elements["team"].value) {
+            case "home":
+                document.getElementById("events-player1").innerHTML = Events.optionListHome;
+                document.getElementById("events-player2").innerHTML = Events.optionListHome;
+                break;
+            case "away":
+                document.getElementById("events-player1").innerHTML = Events.optionListAway;
+                document.getElementById("events-player2").innerHTML = Events.optionListAway;
+            break;
         }
     }
 

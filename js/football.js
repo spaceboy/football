@@ -122,6 +122,9 @@ Events.copyJerseyColors();
 // Formulář informací o zápasu:
 Evnt.onAll('form[name="match-info"] input, form[name="match-info"] select', "change", Events.changeMatchInfoForm);
 
+// Manipulace se základní sestavou (malou):
+Evnt.onAll("#block-result-lineup .lineup .lineup-list", "click", Events.clickPlayerLineup);
+
 // Formulář pro vkládání událostí:
 Evnt.on('form[name="events"]', "change", Events.changeEventForm);
 Evnt.on('form[name="events"] #events-close', "click", Events.eventFormClear);

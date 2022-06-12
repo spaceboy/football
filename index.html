@@ -741,6 +741,7 @@
 
 .result .subtitle h3 {
     margin: 0 0 .5em 0;
+    text-align: center;
 }
 
 .result .event .ico {
@@ -942,8 +943,77 @@
                             </ul>
                         </div>
 
+<style>
+
+#block-result-lineup .lineup {
+    background: white;
+    border: 2px solid darkgreen;
+    margin: 1em;
+    transform: skewY(-2deg);
+}
+#block-result-lineup .lineup-wrap {
+    float: left;
+    width: 50%;
+}
+#block-result-lineup .lineup-wrap .subtitle {
+    background-color: darkgreen;
+}
+#block-result-lineup .lineup-wrap h3 {
+    color: white;
+    font-family: Roboto;
+    margin: 0;
+    padding: .25em;
+    text-shadow: none;
+}
+#block-result-lineup .lineup-wrap .lineup-list {
+    margin: 0;
+    padding: .5em;
+}
+#block-result-lineup .lineup-wrap .lineup-list p {
+    color: darkgreen;
+    cursor: pointer;
+    font-size: 150%;
+    font-weight: bold;
+    line-height: 150%;
+    margin: 0 0 .25em 0;
+}
+#block-result-lineup .lineup-wrap .lineup-list p span.number {
+    background: darkgreen;
+    color: white;
+    display: inline-block;
+    font-size: 110%;
+    margin-right: .5em;
+    padding: 0 .33em;
+    text-align: right;
+    width: 1.6em;
+}
+
+</style>
                         <div class="block" id="block-result-lineup" data-name="events-menu">
-                            lineup
+                            <div class="result">
+                                <div class="title">
+                                    <div class="team-names">
+                                        <h2 class="club-name"></h2>
+                                        <h2 class="partner-name"></h2>
+                                    </div>
+                                    <div class="score">0:0</div>
+                                </div>
+                                <div class="lineup">
+                                    <div class="lineup-wrap lineup-base">
+                                        <div class="subtitle">
+                                            <h3>Základní sestava:</h3>
+                                        </div>
+                                        <div class="lineup-list"></div>
+                                    </div>
+                                    <div class="lineup-wrap lineup-substitute">
+                                        <div class="subtitle">
+                                            <h3>Náhradníci:</h3>
+                                        </div>
+                                        <div class="lineup-list"></div>
+                                    </div>
+                                </div>
+                                <div class="events-referee" style="text-align: center;"></div>
+                            </div><!-- /.result -->
                         </div>
 
                         <div class="block" id="block-result-1st-half" data-name="events-menu">
