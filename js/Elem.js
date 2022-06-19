@@ -102,7 +102,15 @@ class Elem {
 
     // Append active element to given element.
     appendTo (el) {
-        (el instanceof Elem ? el.get() : el).appendChild(this.element);
+        if (Elem.isDomObject(el)) {
+            el.appendChild(this.element);
+            return this;
+        }
+        if (el instanceof Elem) {
+            el.get().appendChild(this.element);
+            return this;
+        }
+        document.querySelector(el).appendChild(this.element);
         return this;
     }
 
@@ -258,10 +266,10 @@ class Elem {
     }
 
     // Return count of child nodes.
-    // When qs is set, return count of matching querySelectorAll nodes.
-    childCount (qs) {
-        if (qs) {
-            return this.element.querySelectorAll(qs).length;
+    // When query is set, return count of matching querySelectorAll nodes.
+    childCount (query) {
+        if (query) {
+            return this.element.querySelectorAll(query).length;
         }
         return this.element.childNodes.length;
     }
@@ -284,12 +292,19 @@ class Elem {
         return this;
     }
 
-    qs (selector) {
-        return this.element.querySelector(selector);
+    // Return node matching query on active element.
+    qs (query) {
+        return this.element.querySelector(query);
     }
 
-    qsAll (selector) {
-        return this.element.querySelectorAll(selector);
+    // Return node list matching query on active element.
+    qsAll (query) {
+        return this.element.querySelectorAll(query);
+    }
+
+    // Return Elem object based on node matching query on active element.
+    qsElem (query) {
+        return new Elem(this.element.querySelector(query));
     }
 
     // Detect whether given object is a DOM object.

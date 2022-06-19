@@ -100,7 +100,7 @@ class Events {
         let subs = document.querySelector("#info-substituties ul");
         subs.innerHTML = "";
         var opts = ['<option value="">-- Vyberte hráče --</option>'];
-        var plrs = ['<option>---</option>'];
+        var plrs = ['<option value="">-- Vyberte hráče --</option>'];
         for (var el of document.querySelectorAll("#our-players tbody tr")) {
             if (!el.querySelector('input[name="player-on"]').checked) {
                 continue;
@@ -143,6 +143,30 @@ class Events {
         Events.#propagatePlayersLists();
     }
 
+    // Vloží do sestavy (nebo k náhradníkům) seznam hráčů:
+    static #resultLineupShow(parent, list) {
+        parent.html("");
+        for (var i = 0, l = list.length; i <= l; i++) {
+            if (!list[i]) {
+                continue;
+            }
+            (Elem.create("p"))
+                .html(`<span class="number">${i}</span><span class="name">${list[i]}</span>`)
+                .appendTo(parent);
+        }
+    }
+
+    // Vloží do sestavy seznam hráčů:
+    static resultLineupBaseShow (list) {
+        Events.#resultLineupShow(new Elem("#block-result-lineup .lineup-base .lineup-list"), list);
+    }
+
+    // Vloží k náhradníkům seznam hráčů:
+    static resultLineupSubstitutesShow (list) {
+        Events.#resultLineupShow(new Elem("#block-result-lineup .lineup-substitute .lineup-list"), list);
+    }
+
+    /*
     // Přehodí na malém displeji sestavy hráče mezi náhradníky a vice versa:
     static clickPlayerLineup (e) {
         let p = (e.target.tagName === "P" ? e.target : e.target.closest("p"));
@@ -155,6 +179,7 @@ class Events {
             (new Elem(p)).appendTo((new Elem(p.closest("div.lineup"))).qs("div.lineup-base div.lineup-list"));
         }
     }
+    */
 
     // Obslouží změny formuláře informací o zápasu:
     static changeMatchInfoForm (e) {
@@ -282,6 +307,7 @@ class Events {
                     // Odebereme element:
                     if (onRemove) {
                         onRemove(targetEl);
+                        Events.propagatePlayersToLineup();
                     }
                     ++diff;
                     break;
@@ -316,6 +342,7 @@ class Events {
     // Odstranění posledního dítěte:
     static removeLastChild (parentEl) {
         var el = parentEl.lastElementChild;
+        Events.#removePlayerFromLineup(el);
         el.parentNode.removeChild(el);
     }
 
@@ -374,6 +401,76 @@ class Events {
     }
     static changeHorizontalStr (e) {
         document.querySelector("#lineup div.line-str").style.justifyContent = e.currentTarget.value;
+    }
+
+    // Odstranení jména hráče ze sestavy:
+    static #removePlayerNameFromLineup (number, name) {
+        Elem.create("li")
+            .attr("data-number", number)
+            .html(name)
+            .appendTo("#info-substituties ul");
+        Elem.create("option")
+            .attr("value", `${number}:${name}`)
+            .html(`${number}: ${name}`)
+            .appendTo("#player-name-list");
+    }
+
+    // Odstranění figury hráče ze sestavy:
+    static #removePlayerFromLineup (el) {
+        if (el.hasAttribute("data-player") && el.getAttribute("data-player")) {
+            var n = el.getAttribute("data-player").split(":");
+            Events.#removePlayerNameFromLineup(n.shift(), n.join(":"));
+        }
+    }
+
+    // Zpropagujeme hráče do letáku sestavy:
+    static propagatePlayersToLineup () {
+        var line = [];
+        var subs = [];
+        // V sestavě:
+        for (var el of document.querySelectorAll("#lineup figure.player")) {
+            if (!el.hasAttribute("data-player")) {
+                continue;
+            }
+            var n = el.getAttribute("data-player").split(":");
+            line[parseInt(n.shift())] = n.join(":");
+        }
+        Events.resultLineupBaseShow(line);
+
+        // Náhradníci:
+        for (var el of document.querySelectorAll("#info-substituties ul li")) {
+            subs[parseInt(el.getAttribute("data-number"))] = el.innerText;
+        }
+        Events.resultLineupSubstitutesShow(subs);
+    }
+
+    // V selektu vybereme jméno hráče v sestavě:
+    static changePlayerNameOnLineup (e) {
+        var n = e.currentTarget.value.split(":");
+        var numb = n.shift();
+        var name = n.join(":");
+
+        // Zpropagujeme jméno a číslo na figuru hráče:
+        var oldPlayer = selectedPlayer.getAttribute("data-player");
+        selectedPlayer.querySelector(".number").innerText = numb;
+        selectedPlayer.querySelector("figcaption").innerText = name;
+        selectedPlayer.setAttribute("data-player", e.currentTarget.value);
+
+        // Odstraníme hráče ze selektu, select resetujeme, odstraníme hráče ze seznamu náhradníků:
+        (new Elem(e.currentTarget)).qsElem(`option[value="${e.currentTarget.value}"]`).remove();
+        document.getElementById("player-name-list").value = "";
+        (new Elem(`#info-substituties ul li[data-number="${numb}"]`)).remove();
+
+        // Pokud hráče měníme (nedáváme nového), vrátíme původního na seznam náhradníků i seznam hráčů:
+        if (oldPlayer) {
+            var n = oldPlayer.split(":");
+            Events.#removePlayerNameFromLineup(n.shift(), n.join(":"));
+        }
+
+        // Skryjeme okno výběru hráče:
+        document.getElementById("player-name-select").style.display = "none";
+
+        Events.propagatePlayersToLineup();
     }
 
     // Zkopíruj rozložení barev do sestavy:

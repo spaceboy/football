@@ -86,7 +86,7 @@ Evnt.on("#horizontal-def", "change", Events.changeHorizontalDef);
 Evnt.on("#horizontal-mid", "change", Events.changeHorizontalMid);
 Evnt.on("#horizontal-str", "change", Events.changeHorizontalStr);
 
-// Přidáme jméno brankáře:
+// Přidáme do sestavy brankáře:
 Evnt.trigger("#players-gol tfoot .add", "click");
 
 // Nastavíme základní sestavu:
@@ -96,12 +96,7 @@ Evnt.trigger("#positions-preset", "change");
 Evnt.on("#player-name-select .close", "click", (e) => {
     document.getElementById("player-name-select").style.display = "none";
 });
-Evnt.on("#player-name-select select", "change", (e) => {
-    var n = e.currentTarget.value.split(":");
-    selectedPlayer.querySelector(".number").innerText = n.shift();
-    selectedPlayer.querySelector("figcaption").innerText = n.join(":");
-    document.getElementById("player-name-select").style.display = "none";
-});
+Evnt.on("#player-name-select select", "change", Events.changePlayerNameOnLineup);
 
 // Oživ tlačítko pro přidání náhradníka do formuláře:
 /*
@@ -122,7 +117,7 @@ Events.copyJerseyColors();
 Evnt.on('form[name="match-info"]', "change", Events.changeMatchInfoForm);
 
 // Manipulace se základní sestavou (malou):
-Evnt.onAll("#block-result-lineup .lineup .lineup-list", "click", Events.clickPlayerLineup);
+//Evnt.onAll("#block-result-lineup .lineup .lineup-list", "click", Events.clickPlayerLineup);
 
 // Formulář pro vkládání událostí:
 Evnt.on('form[name="events"]', "change", Events.changeEventForm);
@@ -155,6 +150,7 @@ Evnt.onAll("ul.menu > li[data-target]", "click", (e) => {
 
     // Kliknuté položce manu nastavit class active:
     t.setAttribute("class", "active");
+
     // Zobrazit content navázaný na aktivní položku:
     panel.setAttribute("class", "block active");
 });
@@ -226,11 +222,11 @@ var players = [
     "Ding Dung",
     "Veselý",
     "Hubáček",
+    "Mazánek",
     "Nádeník",
     "Konipásek",
     "Kužel",
     "Luňák",
-    "Mažňák",
     "Křivánek"
 ];
 for (var el of document.querySelectorAll("#club-players tbody tr")) {
