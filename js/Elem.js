@@ -77,6 +77,11 @@ class Elem {
         return this;
     }
 
+    // Find closest element.
+    closest (query) {
+        return this.element.closest(query);
+    }
+
     // Place active element AFTER given element.
     after (el) {
         if (el instanceof Elem) {
