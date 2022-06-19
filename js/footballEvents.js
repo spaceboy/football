@@ -97,6 +97,8 @@ class Events {
         // Vlastní tým:
         let target = document.querySelector("#block-result-lineup .lineup .lineup-base .lineup-list");
         target.innerHTML = "";
+        let subs = document.querySelector("#info-substituties ul");
+        subs.innerHTML = "";
         var opts = ['<option value="">-- Vyberte hráče --</option>'];
         var plrs = ['<option>---</option>'];
         for (var el of document.querySelectorAll("#our-players tbody tr")) {
@@ -111,6 +113,11 @@ class Events {
             (Elem.create("p"))
                 .html(`<span class="number">${numb}</span><span class="name">${name}</span>`)
                 .appendTo(target);
+            // Vložíme hráče do seznamu náhradníků na rozestavení:
+            (Elem.create("li"))
+                .attr("data-number", numb)
+                .text(name)
+                .appendTo(subs);
         }
         if (document.getElementById("match-info-home").value === "home") {
             Events.optionListHome = opts.join("");
