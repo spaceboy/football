@@ -22,7 +22,8 @@ let shirtTypeList = {
     "halfHorizontal": "Půlené (vodorovně)",
     "halfSides": "Půlené (boky)",
     "stripesVertical": "Pruhované (svisle)",
-    "stripesHorizontal": "Pruhované (vodor.)"
+    "stripesHorizontal": "Pruhované (vodor.)",
+    "thinStripesHorizontal": "Tenké linky (vodor.)"
 };
 
 // Dresy hráčů v poli:
@@ -239,6 +240,9 @@ for (var el of document.querySelectorAll("#club-players tbody tr")) {
 // Vyvolání události, aby se hráči zpropagovali do zápasové sestavy:
 Evnt.trigger("#club-players input", "change");
 
+// Mock: Hráč Nádeník ke dnešnímu zápasu nenastupuje:
+(new Elem(document.querySelectorAll('#our-players input[name="player-number"]')[8].closest("tr"))).qs('input[name="player-on"]').checked = false;
+
 // Mock naplnění hráčů soupeře:
 for (var i = 1; i <= 10; i++) {
     Evnt.trigger("#partner-players tfoot .add", "click");
@@ -249,7 +253,6 @@ for (var el of document.querySelectorAll("#partner-players tbody tr")) {
     el.querySelector(".player-name").value = `Protihráč ${i}`;
     i++;
 }
-
 
 // Vypíšeme názvy týmů, rozhodčí, vytvoříme seznamy hráčů:
 Events.setCanvasTitle();

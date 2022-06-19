@@ -16,7 +16,8 @@ class Jersey {
         "halfHorizontal": "Half colors (H)",
         "halfSides": "Half (sides)",
         "stripesVertical": "Stripes (V)",
-        "stripesHorizontal": "Stripes (H)"
+        "stripesHorizontal": "Stripes (H)",
+        "thinStripesHorizontal": "Thin stripes (H)"
     };
 
     setColorBody (colorBody) {
@@ -65,6 +66,8 @@ class Jersey {
                 return `linear-gradient(to right, ${this.colorShirt1} 0%, ${this.colorShirt1} 20%, ${this.colorShirt2} 20%, ${this.colorShirt2} 40%, ${this.colorShirt1} 40%, ${this.colorShirt1} 60%, ${this.colorShirt2} 60%, ${this.colorShirt2} 80%, ${this.colorShirt1} 80%, ${this.colorShirt1} 100%)`;
             case "stripesHorizontal":
                 return `linear-gradient(to bottom, ${this.colorShirt1} 33%, ${this.colorShirt2} 33%, ${this.colorShirt2} 39%, ${this.colorShirt1} 39%, ${this.colorShirt1} 45%, ${this.colorShirt2} 45%, ${this.colorShirt2} 51%, ${this.colorShirt1} 51%, ${this.colorShirt1} 57%, ${this.colorShirt2} 57%, ${this.colorShirt2} 63%, ${this.colorShirt1} 63%`;
+            case "thinStripesHorizontal":
+                return `linear-gradient(to bottom, ${this.colorShirt1} 33%, ${this.colorShirt2} 33%, ${this.colorShirt2} 35%, ${this.colorShirt1} 35%, ${this.colorShirt1} 39%, ${this.colorShirt2} 39%, ${this.colorShirt2} 41%, ${this.colorShirt1} 41%, ${this.colorShirt1} 45%, ${this.colorShirt2} 45%, ${this.colorShirt2} 48%, ${this.colorShirt1} 48%, ${this.colorShirt1} 51%, ${this.colorShirt2} 51%, ${this.colorShirt2} 53%, ${this.colorShirt1} 53%, ${this.colorShirt1} 57%, ${this.colorShirt2} 57%, ${this.colorShirt2} 59%, ${this.colorShirt1} 59%, ${this.colorShirt1} 62%, ${this.colorShirt2} 62%, ${this.colorShirt2} 64%, ${this.colorShirt1} 64%`;
             case "compact":
             default:
                 return `linear-gradient(${this.colorShirt1}, ${this.colorShirt1})`;
