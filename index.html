@@ -10,17 +10,20 @@
         <link rel="stylesheet" href="css/global.css">
         <link rel="stylesheet" type="text/css" href="css/fa/styles/fontawesome.min.css?v=1">
         <link rel="stylesheet" type="text/css" href="css/fa/styles/solid.min.css?v=1">
-        <link rel="stylesheet" type="text/css" href="css/football.css?v=3">
+        <link rel="stylesheet" type="text/css" href="css/football.css?v=4">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,900&family=Sriracha&display=swap" rel="stylesheet">
+        <!--link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,900&family=Sriracha&display=swap" rel="stylesheet"-->
+        <script data-url-googlefonts="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,900&family=Sriracha&display=swap" src="js/FontLoad.js"></script>
         <script src="js/Jersey.js"></script>
-        <script src="js/Elem.js?v=3"></script>
+        <script src="js/Elem.js?v=4"></script>
         <script src="js/ColorTools.js"></script>
         <script src="js/ColorPicker.js?v=2"></script>
-        <script src="js/Evnt.js?v=3"></script>
-        <script src="js/footballEvents.js?v=3"></script>
+        <script src="js/Evnt.js?v=4"></script>
+        <script src="js/footballEvents.js?v=4"></script>
         <script src="js/Splash.js"></script>
+        <script src="js/DownloadFile.js"></script>
+        <script src="js/dom-to-image.js"></script>
     </head>
     <body>
 
@@ -32,7 +35,7 @@
                     <span class="btn-ghost download" id="download-global" title="Uloží vyplněné informace na disk"><i class="fas fa-download"></i></span>
                     <span class="btn-ghost upload" id="upload-global" title="Načte informace uložené na disku"><i class="fas fa-upload"></i></span>
                     <h1>Fotbalová grafika</h1>
-                    <ul class="menu" data-name="main-menu" data-default="block-lineup">
+                    <ul class="menu" data-name="main-menu" data-default="block-result">
                         <li data-target="block-club">Klub</li>
                         <li data-target="block-jersey">Dresy</li>
                         <li>&bull;</li>
@@ -865,6 +868,7 @@
     width: 620px;
     min-height: 465px;
     padding: 10px 10px 5px 10px;
+    position: relative;
 }
 
 .result .event {
@@ -929,7 +933,7 @@
                 <div class="row">
                     <div class="column width-7 text-center">
                         <div>
-                            <ul class="menu" data-name="events-menu" data-default="block-result-1st-half" style="margin: 0 0 1em 0;">
+                            <ul class="menu" data-name="events-menu" data-default="block-result-lineup" style="margin: 0 0 1em 0;">
                                 <li data-target="block-result-lineup">Sestava</li>
                                 <li data-target="block-result-1st-half">Poločas</li>
                                 <li data-target="block-result-2nd-half">Po 90 min</li>
@@ -986,7 +990,6 @@
     text-align: right;
     width: 1.6em;
 }
-
 </style>
                         <div class="block" id="block-result-lineup" data-name="events-menu">
                             <div class="result">
@@ -1413,6 +1416,9 @@ form[name="events"].edit-mode #events-close {
             <span id="template-event-ico-penalty-uns" class="ico penalty-uns"><i class="fas fa-futbol"></i></span>
             <span id="template-event-ico-other" class="ico penalty-uns"><i class="fas fa-exclamation-triangle"></i></span>
 
+            <div id="template-make-image" class="make-image" title="Stáhnout obrázek na disk"><i class="fa fas fa-download"></i></div>
+
+
         </div>
 
         <!--figure id="_template-player" style="display: none;">
@@ -1491,7 +1497,9 @@ form[name="events"].edit-mode #events-close {
 
         <div id="splash-screen"><div><i class="fas fa-hourglass"></div></i></div>
 
-        <script src="js/football.js?v=6"></script>
+        <script src="js/football.js?v=7"></script>
+
+        <img id="output" />
     </body>
 </html>
 

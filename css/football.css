@@ -129,6 +129,7 @@ div.block.active {
 }
 
 
+/* Splaysh screen */
 #splash-screen {
     align-items: center;
     background: #888e;
@@ -157,6 +158,13 @@ div.block.active {
     height: 2em;
     width: 2em;
     line-height: 2em;
+
+    animation: splash-screen 3s infinite;
+}
+@keyframes splash-screen {
+    0% {transform: rotate(0)}
+    85% {transform: rotate(0)}
+    100% {transform: rotate(180deg)}
 }
 
 
@@ -269,3 +277,29 @@ table.players .move-up, table.players .move-down {
     color: #cccccc;
 }
 
+/* Tlačítko pro stažení obrázku */
+div.result div.make-image {
+    background: #cfcc;
+    border-radius: .5em;
+    box-shadow: /*.125em .125em .25em #0008,*/ .125em .125em .25em #fff8 inset, -.125em -.125em .25em #0004 inset;
+    color: green;
+    cursor: pointer;
+    display: none;
+    height: 5em;
+    position: absolute;
+    right: .5em;
+    text-shadow: 0 0 1em greenyellow;
+    top: .5em;
+    width: 5em;
+}
+div.result div.make-image i {
+    font-size: 250%;
+    padding: .5em;
+    text-align: center;
+}
+div.result:hover div.make-image {
+    display: block;
+}
+div.result div.make-image.working {
+    display: none;
+}

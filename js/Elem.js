@@ -307,6 +307,20 @@ class Elem {
         return new Elem(this.element.querySelector(query));
     }
 
+    // Triggers event on active element.
+    // When event is instance of Event, triggers event,
+    // otherwise creates new Event on event name (event) and parameters (params).
+    trigger (event, params) {
+        console.log("trigger");
+        console.log(this.element);
+        console.log(event);
+        this.element.dispatchEvent(
+            event instanceof Event
+            ? event
+            : new Event(event, params)
+        );
+    }
+
     // Detect whether given object is a DOM object.
     static isDomObject (obj) {
         if (obj instanceof HTMLElement) {

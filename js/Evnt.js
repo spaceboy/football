@@ -16,7 +16,11 @@ class Evnt {
     static on (el, event, listener) {
         // Determine element
         if (!(el instanceof HTMLElement)) {
-            el = document.querySelector(el);
+            el = (
+                el instanceof Elem
+                ? el.get()
+                : document.querySelector(el)
+            );
             if (!el) {
                 return false;
             }

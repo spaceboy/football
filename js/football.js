@@ -254,3 +254,14 @@ for (var el of document.querySelectorAll("#partner-players tbody tr")) {
 Events.setCanvasTitle();
 Events.setReferee();
 Events.createPlayerLists();
+
+
+let button = (new Elem("#template-make-image")).clone(true).attrRemove("id");
+//button.appendTo("#canvas");
+button.clone(true).appendTo("#block-result-lineup div.result");
+button.clone(true).appendTo("#block-result-1st-half div.result");
+button.clone(true).appendTo("#block-result-2nd-half div.result");
+button.clone(true).appendTo("#block-result-extended div.result");
+//button.appendTo("#block-result-penalties div.result");
+
+Evnt.onAll("div.result div.make-image", "click", Events.clickImageDownloadButton);

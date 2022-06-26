@@ -765,4 +765,26 @@ class Events {
         Events.#eventLinesCopy();
     }
 
+    // Stažení obrázku.
+    static clickImageDownloadButton (e) {
+        Splash.show();
+        let el = (new Elem(e.currentTarget)).addClass("working");
+        domtoimage.toJpeg(
+            e.target.closest(".result"),
+            {
+                quality: 0.95
+            }
+        )
+        .then((dataUrl) => {
+            DownloadFile.download("footbal.jpg", dataUrl);
+        })
+        .catch((error) => {
+            alert("ERROR\n" + error);
+        })
+        .finally(() => {
+            el.removeClass("working");
+            Splash.hide();
+        });
+    }
+
 }
