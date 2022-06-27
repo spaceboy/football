@@ -212,6 +212,8 @@ class Events {
             default:
                 switch (t.name) {
                     case "player-on":
+                    case "player-name":
+                    case "player-number":
                         Events.createPlayerLists()
                         break;
                 }

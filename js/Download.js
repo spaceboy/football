@@ -14,7 +14,8 @@ class Download {
             "",
             " Warning: ",
             " This is Football Graphics data file. ",
-            " Don't edit it, unless you are sure what are you doing. ",
+            " Don't edit it, unless you are sure you know what are you doing. ",
+            " Frankly, you have no idea. Admit it. "
         ],
         "application": {
             "name": "Footbal Graphics",
