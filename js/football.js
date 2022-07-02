@@ -11,9 +11,7 @@ Evnt.trigger("#partner-players tfoot .add", "click");
 Events.addPlayerFigure(document.querySelector("#lineup .line-gol"));
 
 // Inicializuj Color pickery:
-for (var el of document.querySelectorAll("form input[data-type='color']")) {
-    new ColorPicker(el);
-}
+Each.all("form input[data-type='color']").do((el) => new ColorPicker(el));
 
 // Inicializuj zobrazování dresů:
 let shirtTypeList = {
@@ -31,7 +29,7 @@ let jerseyField = (new Jersey())
     .setShirtTypeList(shirtTypeList)
     .createOptions(document.getElementById("jersey-field-type"));
 Evnt.on(
-    "form#form-field",
+    "form#jersey-field",
     "change",
     (e) => {
         Events.jerseyChange(e, jerseyField);
@@ -43,7 +41,7 @@ let goalieField = (new Jersey())
     .setShirtTypeList(shirtTypeList)
     .createOptions(document.getElementById("jersey-goalie-type"));
 Evnt.on(
-    "form#form-goalie",
+    "form#jersey-goalie",
     "change",
     (e) => {
         Events.jerseyChange(e, goalieField);
@@ -51,13 +49,11 @@ Evnt.on(
 );
 
 // Nastav defaultní hodnoty:
-for (var el of document.querySelectorAll("form *[data-default-value]")) {
-    el.value = el.getAttribute("data-default-value");
-}
+Each.all("form *[data-default-value]").do((el) => el.value = el.getAttribute("data-default-value"));
 
 // Zpropaguj výchozí hodnoty z formulářů pro dresy do zobrazení dresu:
 Evnt.triggerAll(
-    "#form-field select, #form-field input, #form-goalie select, #form-goalie input",
+    "#jersey-field select, #jersey-field input, #jersey-goalie select, #jersey-goalie input",
     new Event(
         "change",
         {
@@ -136,17 +132,16 @@ Evnt.onAll("ul.menu > li[data-target]", "click", (e) => {
     }
 
     // Skrýt panely navázané na menu:
-    for (var el of document.querySelectorAll(
-        menu.hasAttribute("data-name")
-        ? `div.block[data-name=\"${menu.getAttribute("data-name")}\"]`
-        : "div.block"
-    )) {
-        el.setAttribute("class", "block");
-    }
+    Each
+        .all(
+            menu.hasAttribute("data-name")
+            ? `div.block[data-name=\"${menu.getAttribute("data-name")}\"]`
+            : "div.block"
+        )
+        .do((el) => el.setAttribute("class", "block"));
+
     // Skrýt položky menu:
-    for (var el of menu.querySelectorAll("li")) {
-        el.removeAttribute("class");
-    }
+    Each.all(menu, "li").do((el) => el.removeAttribute("class"));
 
     // Kliknuté položce manu nastavit class active:
     t.setAttribute("class", "active");
@@ -156,12 +151,12 @@ Evnt.onAll("ul.menu > li[data-target]", "click", (e) => {
 });
 
 // Menu: Otvírání defaultních panelů:
-for (var el of document.querySelectorAll("ul.menu")) {
+Each.all("ul.menu").do((el) => {
     if (!el.hasAttribute("data-default")) {
-        continue;
+        return;
     }
     Evnt.trigger(el.querySelector(`li[data-target=\"${el.getAttribute("data-default")}\"]`), "click");
-}
+});
 
 
 class Data {
@@ -229,10 +224,10 @@ var players = [
     "Luňák",
     "Křivánek"
 ];
-for (var el of document.querySelectorAll("#club-players tbody tr")) {
-    el.querySelector(".player-name").value = players[i];
-    el.querySelector(".player-number").value = ++i;
-}
+Each.all("#club-players tbody tr").do((el) => {
+    Elem.sel(el, ".player-name").value = players[i];
+    Elem.sel(el, ".player-number").value = ++i;
+});
 // Vyvolání události, aby se hráči zpropagovali do zápasové sestavy:
 Evnt.trigger("#club-players input", "change");
 
@@ -244,11 +239,11 @@ for (var i = 1; i <= 10; i++) {
     Evnt.trigger("#partner-players tfoot .add", "click");
 }
 var i = 1;
-for (var el of document.querySelectorAll("#partner-players tbody tr")) {
-    el.querySelector(".player-number").value = i;
-    el.querySelector(".player-name").value = `Protihráč ${i}`;
+Each.all("#partner-players tbody tr").do((el) => {
+    Elem.sel(el, ".player-number").value = i;
+    Elem.sel(el, ".player-name").value = `Protihráč ${i}`;
     i++;
-}
+});
 
 // Vypíšeme názvy týmů, rozhodčí, vytvoříme seznamy hráčů, místo a čas hry:
 Events.setCanvasTitle();

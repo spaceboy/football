@@ -363,6 +363,16 @@ class Elem {
         );
     }
 
+    // TOOL: Return HTML element (not instance of Elem!) by context (when given) and query selector.
+    // When not given explicit context, document is used as default context.
+    static sel (context, query) {
+        return (
+            query
+            ? context.querySelector(context, query)
+            : document.querySelector(context)
+        );
+    }
+
     // TOOL: Return HTML element's (selected by context (when given) and id) value.
     // When not given explicit context, document is used as default context.
     static valueById (context, id) {
