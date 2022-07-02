@@ -250,11 +250,11 @@ for (var el of document.querySelectorAll("#partner-players tbody tr")) {
     i++;
 }
 
-// Vypíšeme názvy týmů, rozhodčí, vytvoříme seznamy hráčů:
+// Vypíšeme názvy týmů, rozhodčí, vytvoříme seznamy hráčů, místo a čas hry:
 Events.setCanvasTitle();
 Events.setReferee();
 Events.createPlayerLists();
-
+Events.setMatchTimespace();
 
 let button = (new Elem("#template-make-image")).clone(true).attrRemove("id");
 //button.appendTo("#canvas");
