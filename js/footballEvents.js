@@ -64,12 +64,8 @@ class Events {
             ? `<span class="home bold">${teamWe}</span> vs. <span class="away">${teamThem}</span>`
             : `<span class="home">${teamThem}</span> vs. <span class="away bold">${teamWe}</span>`
         );
-        for (var el of document.querySelectorAll(".result .club-name")) {
-            el.innerHTML = (home === "home" ? teamWe : teamThem);
-        }
-        for (var el of document.querySelectorAll(".result .partner-name")) {
-            el.innerHTML = (home === "home" ? teamThem : teamWe);
-        }
+        Each.all(".result .club-name").do((el) => el.innerHTML = (home === "home" ? teamWe : teamThem));
+        Each.all(".result .partner-name").do((el) => el.innerHTML = (home === "home" ? teamThem : teamWe));
     }
 
     // Nastaví rozhodčí:
@@ -88,9 +84,7 @@ class Events {
             ref.push(`${document.getElementById("match-info-var").value} (VAR)`);
         }
         document.querySelector("#info-referees ul").innerHTML = "<li>" + ref.join("</li><li>") + "</li>";
-        for (var el of document.querySelectorAll("#block-result .events-referee")) {
-            el.innerHTML = "<p><b>Rozhodčí:</b> " + ref.join(", ") + "</p>";
-        }
+        Each.all("#block-result .events-referee").do((el) => el.innerHTML = "<p><b>Rozhodčí:</b> " + ref.join(", ") + "</p>");
     }
 
     // Nastaví čas a místo zápasu:
@@ -106,15 +100,9 @@ class Events {
         lineup.qsElem("ul li.place").text(place);
 
         // Nastavení místa a času v letácích:
-        for (var el of document.querySelectorAll("div.result div.match-info div.day .info")) {
-            el.innerText = timeDay;
-        }
-        for (var el of document.querySelectorAll("div.result div.match-info div.time .info")) {
-            el.innerText = timeTime;
-        }
-        for (var el of document.querySelectorAll("div.result div.match-info div.place .info")) {
-            el.innerText = place;
-        }
+        Each.all("div.result div.match-info div.day .info").do((el) => el.innerText = timeDay);
+        Each.all("div.result div.match-info div.time .info").do((el) => el.innerText = timeTime);
+        Each.all("div.result div.match-info div.place .info").do((el) => el.innerText = place);
     }
 
     static createPlayerLists () {
@@ -152,11 +140,11 @@ class Events {
 
         // Partnerský tým:
         var opts = ['<option value="">-- Vyberte hráče --</option>'];
-        for (var el of document.querySelectorAll("#partner-players tbody tr")) {
+        Each.all("#partner-players tbody tr").do((el) => {
             var name = el.querySelector('input[name="player-name"]').value;
             var numb = el.querySelector('input[name="player-number"]').value;
             opts.push(`<option value="${name}">${numb} ${name}</option>`);
-        }
+        });
         if (document.getElementById("match-info-home").value === "home") {
             Events.optionListAway = opts.join("");
         } else {
@@ -288,18 +276,18 @@ class Events {
         Evnt.on(r.qs(".move-down"), "click", Events.clickPlayerMoveDown);
         if (t.hasAttribute("data-target")) {
             Evnt.onAll(r.qsAll("input"), "change", (e) => {
-                // Zkopírujeme seznam hráčů
+                // Zkopírujeme seznam hráčů:
                 var tbd = e.currentTarget.closest("table > tbody");
                 var target = document.querySelector(t.getAttribute("data-target"));
                 target.innerHTML = "";
-                for (var row of tbd.querySelectorAll("tr")) {
+                Each.all(tbd, "tr").do((row) => {
                     var tr = (new Elem("#template-our-players"))
                         .clone(true)
                         .attrRemove("id");
                     tr.qs("input.player-number").value = row.querySelector("input.player-number").value;
                     tr.qs("input.player-name").value = row.querySelector("input.player-name").value;
                     tr.appendTo(target);
-                }
+                });
                 Events.createPlayerLists();
             });
         }
@@ -404,11 +392,11 @@ class Events {
     static checkLineCounts () {
         var c = 0;
         var p = [];
-        for (var el of document.querySelectorAll("#lineup > div.line")) {
+        Each.all("#lineup > div.line").do((el) => {
             var n = parseInt(el.childElementCount);
             c += n;
             p.push(n);
-        }
+        });
         document.getElementById("lineup").setAttribute("class", (c === 11 ? "" : "error"));
         var pp = document.getElementById("positions-preset");
         if (c !== 11) {
@@ -459,19 +447,17 @@ class Events {
         var line = [];
         var subs = [];
         // V sestavě:
-        for (var el of document.querySelectorAll("#lineup figure.player")) {
+        Each.all("#lineup figure.player").do(el => {
             if (!el.hasAttribute("data-player")) {
-                continue;
+                return;
             }
             var n = el.getAttribute("data-player").split(":");
             line[parseInt(n.shift())] = n.join(":");
-        }
+        });
         Events.resultLineupBaseShow(line);
 
         // Náhradníci:
-        for (var el of document.querySelectorAll("#info-substituties ul li")) {
-            subs[parseInt(el.getAttribute("data-number"))] = el.innerText;
-        }
+        Each.all("#info-substituties ul li").do((el) => subs[parseInt(el.getAttribute("data-number"))] = el.innerText);
         Events.resultLineupSubstitutesShow(subs);
     }
 
@@ -608,14 +594,14 @@ class Events {
                 // Vypnout/zapnout hráče:
                 var p = (o.hasAttribute("data-players") ? parseInt(o.getAttribute("data-players")) : 1);
                 var i = 0;
-                for (el of document.querySelectorAll("form[name=\"events\"] select.events-player")) {
+                Each.all("form[name=\"events\"] select.events-player").do((el) => {
                     if (++i <= p) {
                         el.disabled = false;
                     } else {
                         el.disabled = true;
                         el.value = "";
                     }
-                }
+                });
 
                 // Vypnout/zapnout textový komentář:
                 var c = f.querySelector("input[name=\"comment\"]");
@@ -678,11 +664,11 @@ class Events {
             "home": 0,
             "away": 0
         };
-        for (var el of target.querySelectorAll(".events .event")) {
+        Each.all(target, ".events .event").do ((el) => {
             if (el.getAttribute("data-type") === "goal" || el.getAttribute("data-type") === "penalty-succ") {
                 score[el.getAttribute("data-team")]++;
             }
-        }
+        });
         target.querySelector(".title .score").innerHTML = `${score["home"]}:${score["away"]}`;
     };
 
@@ -711,7 +697,7 @@ class Events {
         block1st.innerHTML = "";
         block2nd.innerHTML = "";
         blockExt.innerHTML = "";
-        for (var t of document.querySelectorAll("#event-line tbody tr")) {
+        Each.all("#event-line tbody tr").do((t) => {
             var data = {
                 "team": t.getAttribute("data-team"),
                 "time": t.getAttribute("data-time"),
@@ -729,7 +715,7 @@ class Events {
                 Events.#eventLineShow(block2nd, data);
             }
             Events.#eventLineShow(blockExt, data);
-        }
+        });
 
         Events.#countScore(block1st.closest("div.result"));
         Events.#countScore(block2nd.closest("div.result"));
@@ -739,19 +725,17 @@ class Events {
     // Vymazání formuláře událostí:
     static eventFormClear () {
         let form = document.querySelector('form[name="events"]');
-        for (var el of form.querySelectorAll('input:not([type="button"]):not([type="submit"]):not([type="radio"]), select')) {
-            el.value = "";
-        }
+        Each.all(form, 'input:not([type="button"]):not([type="submit"]):not([type="radio"]), select').do((el) => el.value = "");
         (new Elem(form)).removeClass("edit-mode");
     }
 
     // Odeslání formuláře událostí:
     static submitEventForm (e) {
         e.preventDefault();
-        var form = e.currentTarget.closest("form");
-        var data = {};
-        var valid = true;
-        for (var el of form.querySelectorAll('select:not([disabled]), input:not([name="submit"]):not([type="hidden"]):not([type="radio"])')) {
+        let form = e.currentTarget.closest("form");
+        let data = {};
+        let valid = true;
+        Each.all(form, 'select:not([disabled]), input:not([name="submit"]):not([type="hidden"]):not([type="radio"])').do((el) => {
             var element = new Elem(el);
             if (!el.value) {
                 element.addClass("form-error");
@@ -760,7 +744,7 @@ class Events {
                 element.removeClass("form-error");
                 data[el.name] = el.value;
             }
-        }
+        });
         if (!valid) {
             return;
         }
