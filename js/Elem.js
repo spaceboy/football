@@ -332,7 +332,7 @@ class Elem {
             && typeof obj.ownerDocument === "object";
     }
 
-    // Swap given nodes (DOM elements).
+    // TOOL: Swap given nodes (DOM elements) positions in DOM.
     static swapNodes (n1, n2) {
         // Find parents:
         var p1 = n1.parentNode;
@@ -351,6 +351,22 @@ class Elem {
         // Remove placeholders:
         p1.removeChild(ph1);
         p2.removeChild(ph2);
+    }
+
+    // TOOL: Return HTML element (not instance of Elem!) by context (when given) and id.
+    // When not given explicit context, document is used as default context.
+    static byId (context, id) {
+        return (
+            id
+            ? context.getElementById(id)
+            : document.getElementById(context)
+        );
+    }
+
+    // TOOL: Return HTML element's (selected by context (when given) and id) value.
+    // When not given explicit context, document is used as default context.
+    static valueById (context, id) {
+        return Elem.byId(context, id).value;
     }
 
     #getClassArray () {

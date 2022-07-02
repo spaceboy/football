@@ -33,7 +33,7 @@ class Events {
     // Vyber jméno a číslo hráče:
     static clickPlayer (e) {
         selectedPlayer = e.currentTarget;
-        document.getElementById("player-name-select").style.display = "block";
+        Elem.byId("player-name-select").style.display = "block";
     }
 
     // Posune hráče v rozestavení vpřed/vzad/na střed:
@@ -56,10 +56,10 @@ class Events {
 
     // Nastaví nadpisy informací o zápasu:
     static setCanvasTitle () {
-        let teamWe = document.getElementById("club-info-name").value;
-        let teamThem = document.getElementById("match-info-partner").value;
-        let home = document.getElementById("match-info-home").value;
-        document.getElementById("canvas-title").innerHTML = (
+        let teamWe = Elem.valueById("club-info-name");
+        let teamThem = Elem.valueById("match-info-partner");
+        let home = Elem.valueById("match-info-home");
+        Elem.byId("canvas-title").innerHTML = (
             home === "home"
             ? `<span class="home bold">${teamWe}</span> vs. <span class="away">${teamThem}</span>`
             : `<span class="home">${teamThem}</span> vs. <span class="away bold">${teamWe}</span>`
@@ -71,17 +71,17 @@ class Events {
     // Nastaví rozhodčí:
     static setReferee () {
         var ref = [];
-        if (document.getElementById("match-info-referee").value) {
-            ref.push(`<b>${document.getElementById("match-info-referee").value} (hlavní)</b>`);
+        if (Elem.valueById("match-info-referee")) {
+            ref.push(`<b>${Elem.valueById("match-info-referee")} (hlavní)</b>`);
         }
         for (var i = 0; i <= 2; i++) {
-            let v = document.getElementById(["match-info-referee2", "match-info-referee3", "match-info-referee4"][i]).value;
+            let v = Elem.valueById(["match-info-referee2", "match-info-referee3", "match-info-referee4"][i]);
             if (v) {
                 ref.push(v);
             }
         }
-        if (document.getElementById("match-info-var").value) {
-            ref.push(`${document.getElementById("match-info-var").value} (VAR)`);
+        if (Elem.valueById("match-info-var")) {
+            ref.push(`${Elem.valueById("match-info-var")} (VAR)`);
         }
         document.querySelector("#info-referees ul").innerHTML = "<li>" + ref.join("</li><li>") + "</li>";
         Each.all("#block-result .events-referee").do((el) => el.innerHTML = "<p><b>Rozhodčí:</b> " + ref.join(", ") + "</p>");
@@ -89,9 +89,9 @@ class Events {
 
     // Nastaví čas a místo zápasu:
     static setMatchTimespace () {
-        let place = document.getElementById("match-info-place").value;
-        let timeDay = document.getElementById("match-info-day").value;
-        let timeTime = document.getElementById("match-info-time").value;
+        let place = Elem.valueById("match-info-place");
+        let timeDay = Elem.valueById("match-info-day");
+        let timeTime = Elem.valueById("match-info-time");
 
         // Nastavení místa a času v plakátu rozestavení:
         let lineup = new Elem("#info-place-time");
@@ -131,12 +131,12 @@ class Events {
                 .text(name)
                 .appendTo(subs);
         }
-        if (document.getElementById("match-info-home").value === "home") {
+        if (Elem.valueById("match-info-home") === "home") {
             Events.optionListHome = opts.join("");
         } else {
             Events.optionListAway = opts.join("");
         }
-        document.getElementById("player-name-list").innerHTML = plrs.join("");
+        Elem.byId("player-name-list").innerHTML = plrs.join("");
 
         // Partnerský tým:
         var opts = ['<option value="">-- Vyberte hráče --</option>'];
@@ -145,7 +145,7 @@ class Events {
             var numb = el.querySelector('input[name="player-number"]').value;
             opts.push(`<option value="${name}">${numb} ${name}</option>`);
         });
-        if (document.getElementById("match-info-home").value === "home") {
+        if (Elem.valueById("match-info-home") === "home") {
             Events.optionListAway = opts.join("");
         } else {
             Events.optionListHome = opts.join("");
@@ -264,7 +264,7 @@ class Events {
         var t = e.currentTarget.closest("table");
 
         // Vytvoř element:
-        var r = (new Elem(document.getElementById(e.currentTarget.getAttribute("data-template"))))
+        var r = (new Elem(Elem.byId(e.currentTarget.getAttribute("data-template"))))
             .clone(true)
             .attrRemove("id")
             .appendTo(t.querySelector("tbody"));
@@ -300,9 +300,9 @@ class Events {
             return;
         }
         var line = [
-            document.getElementById("positions-def"),
-            document.getElementById("positions-mid"),
-            document.getElementById("positions-str")
+            Elem.byId("positions-def"),
+            Elem.byId("positions-mid"),
+            Elem.byId("positions-str")
         ];
         for (var i = 0; i < 3; ++i) {
             line[i].value = l[i];
@@ -336,10 +336,10 @@ class Events {
 
     // Přidání formulářových polí pro hráčovo číslo a jméno:
     static addPlayerForm () {
-        var el = document.getElementById("template-lineup-name").cloneNode(true);
+        var el = Elem.byId("template-lineup-name").cloneNode(true);
         el.removeAttribute("id");
         el.removeAttribute("style");
-        document.getElementById("club-players").appendChild(el);
+        Elem.byId("club-players").appendChild(el);
         /*
         Evnt.onAll(el.querySelectorAll("input"), "change", (e) => {
             console.log(e.currentTarget.value);
@@ -367,12 +367,12 @@ class Events {
 
     // Změna počtu hráčů v řadě:
     static changePositionLine (count, line) {
-        var t = document.getElementById("lineup").querySelector(line);
+        var t = Elem.byId("lineup").querySelector(line);
 
         // Nastavíme počet hráčů v řadě v poli rozestavení:
         Events.createChildElements(
             count,
-            document.getElementById("lineup").querySelector(line),
+            Elem.byId("lineup").querySelector(line),
             Events.addPlayerFigure,
             Events.removeLastChild
         );
@@ -397,8 +397,8 @@ class Events {
             c += n;
             p.push(n);
         });
-        document.getElementById("lineup").setAttribute("class", (c === 11 ? "" : "error"));
-        var pp = document.getElementById("positions-preset");
+        Elem.byId("lineup").setAttribute("class", (c === 11 ? "" : "error"));
+        var pp = Elem.byId("positions-preset");
         if (c !== 11) {
             pp.value = "";
             return false;
@@ -475,7 +475,7 @@ class Events {
 
         // Odstraníme hráče ze selektu, select resetujeme, odstraníme hráče ze seznamu náhradníků:
         (new Elem(e.currentTarget)).qsElem(`option[value="${e.currentTarget.value}"]`).remove();
-        document.getElementById("player-name-list").value = "";
+        Elem.byId("player-name-list").value = "";
         (new Elem(`#info-substituties ul li[data-number="${numb}"]`)).remove();
 
         // Pokud hráče měníme (nedáváme nového), vrátíme původního na seznam náhradníků i seznam hráčů:
@@ -485,14 +485,14 @@ class Events {
         }
 
         // Skryjeme okno výběru hráče:
-        document.getElementById("player-name-select").style.display = "none";
+        Elem.byId("player-name-select").style.display = "none";
 
         Events.propagatePlayersToLineup();
     }
 
     // Zkopíruj rozložení barev do sestavy:
     static copyJerseyColors () {
-        document.getElementById("style-jersey").textContent =
+        Elem.byId("style-jersey").textContent =
             "#lineup .player .jersey i {background-image: " + document.querySelector("#player-field .jersey i").style.backgroundImage + ";} " +
             "#lineup .line-gol .player .jersey i {background-image: " + document.querySelector("#player-goalie .jersey i").style.backgroundImage + ";}";
     }
@@ -547,12 +547,12 @@ class Events {
     static #propagatePlayersLists () {
         switch(document.querySelector('form[name="events"]').elements["team"].value) {
             case "home":
-                document.getElementById("events-player1").innerHTML = Events.optionListHome;
-                document.getElementById("events-player2").innerHTML = Events.optionListHome;
+                Elem.byId("events-player1").innerHTML = Events.optionListHome;
+                Elem.byId("events-player2").innerHTML = Events.optionListHome;
                 break;
             case "away":
-                document.getElementById("events-player1").innerHTML = Events.optionListAway;
-                document.getElementById("events-player2").innerHTML = Events.optionListAway;
+                Elem.byId("events-player1").innerHTML = Events.optionListAway;
+                Elem.byId("events-player2").innerHTML = Events.optionListAway;
             break;
         }
     }
