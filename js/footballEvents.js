@@ -98,12 +98,13 @@ class Events {
         let place = document.getElementById("match-info-place").value;
         let timeDay = document.getElementById("match-info-day").value;
         let timeTime = document.getElementById("match-info-time").value;
+
         // Nastavení místa a času v plakátu rozestavení:
         let lineup = new Elem("#info-place-time");
-        console.log(lineup.qsElem("ul li.day"));
         lineup.qsElem("ul li.day").text(timeDay);
         lineup.qsElem("ul li.time").text(timeTime);
         lineup.qsElem("ul li.place").text(place);
+
         // Nastavení místa a času v letácích:
         for (var el of document.querySelectorAll("div.result div.match-info div.day .info")) {
             el.innerText = timeDay;
