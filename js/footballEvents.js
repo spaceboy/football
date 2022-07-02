@@ -93,6 +93,29 @@ class Events {
         }
     }
 
+    // Nastaví čas a místo zápasu:
+    static setMatchTimespace () {
+        let place = document.getElementById("match-info-place").value;
+        let timeDay = document.getElementById("match-info-day").value;
+        let timeTime = document.getElementById("match-info-time").value;
+        // Nastavení místa a času v plakátu rozestavení:
+        let lineup = new Elem("#info-place-time");
+        console.log(lineup.qsElem("ul li.day"));
+        lineup.qsElem("ul li.day").text(timeDay);
+        lineup.qsElem("ul li.time").text(timeTime);
+        lineup.qsElem("ul li.place").text(place);
+        // Nastavení místa a času v letácích:
+        for (var el of document.querySelectorAll("div.result div.match-info div.day .info")) {
+            el.innerText = timeDay;
+        }
+        for (var el of document.querySelectorAll("div.result div.match-info div.time .info")) {
+            el.innerText = timeTime;
+        }
+        for (var el of document.querySelectorAll("div.result div.match-info div.place .info")) {
+            el.innerText = place;
+        }
+    }
+
     static createPlayerLists () {
         // Vlastní tým:
         let target = document.querySelector("#block-result-lineup .lineup .lineup-base .lineup-list");
@@ -201,6 +224,11 @@ class Events {
             case "match-info-partner":
                 Events.setCanvasTitle();
                 document.querySelector("#lineup-match-partner h3").innerText = `Soupiska ${val}`;
+                break;
+            case "match-info-day":
+            case "match-info-place":
+            case "match-info-time":
+                Events.setMatchTimespace();
                 break;
             case "match-info-referee":
             case "match-info-referee2":

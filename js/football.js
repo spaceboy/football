@@ -196,7 +196,7 @@ Data.load({
     "match-info": {
         "type": "ligové utkání",
         "partner": "FC Real Horní Lhota",
-        "place": "Dřevona arena Dolní Lhota",
+        "place": "hřiště Dolní Lhota",
         "day": "sobotu 7.6.",
         "time": "17:00",
         "match-info-referee": "Roman Berbr",

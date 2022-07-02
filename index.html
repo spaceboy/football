@@ -553,9 +553,9 @@
                                     <div id="info-place-time">
                                         <h3>Výkop</h3>
                                         <ul>
-                                            <li class="day">Sobota 8.6.</li>
-                                            <li class="time">v 17:00</li>
-                                            <li class="place" style="font-weight: bold;">Hřiště FC Horní Dolní</li>
+                                            <li class="day"></li>
+                                            <li class="time"></li>
+                                            <li class="place" style="font-weight: bold;"></li>
                                         </ul>
                                     </div>
                                     <div id="info-substituties">
@@ -990,6 +990,23 @@
     text-align: right;
     width: 1.6em;
 }
+
+.result .match-info {
+    padding-left: 2em;
+    padding-right: 1em;
+    text-align: right;
+    flex: 2.5;
+    flex-flow: column;
+    display: flex;
+    justify-content: space-around;
+    color: darkgreen;
+    font-weight: bold;
+}
+.result .match-info div i.fa {
+    float: right;
+    padding-left: .67em;
+}
+
 </style>
                         <div class="block" id="block-result-lineup" data-name="events-menu">
                             <div class="result">
@@ -998,18 +1015,18 @@
                                         <h2 class="club-name"></h2>
                                         <h2 class="partner-name"></h2>
                                     </div>
-                                    <div style="padding-left: 2em; padding-right: 1em; text-align: right; flex: 2.5; flex-flow: column; display: flex; justify-content: space-around; color: darkgreen; font-weight: bold;">
+                                    <div class="match-info">
                                         <div class="day">
-                                            <i class="fa fa-calendar" style="float: right; padding-left: .67em;"></i>
-                                            <span class="info">v sobotu</span>
+                                            <i class="fa fa-calendar"></i>
+                                            <span class="info"></span>
                                         </div>
                                         <div class="time">
-                                            <i class="fa fa-clock" style="float: right; padding-left: .67em;"></i>
-                                            <span class="info">ve 14:00</span>
+                                            <i class="fa fa-clock"></i>
+                                            <span class="info"></span>
                                         </div>
-                                        <div class="day">
-                                            <i class="fas fa-globe-africa" style="float: right; padding-left: .67em;"></i>
-                                            <span class="info">Sportovní aréna</span>
+                                        <div class="place">
+                                            <i class="fa fa-globe-africa"></i>
+                                            <span class="info"></span>
                                         </div>
                                     </div>
                                 </div>
