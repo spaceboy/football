@@ -42,17 +42,29 @@ class Each {
         switch (Each.method) {
             case "for":
                 for (var i = 0, l = Each.source.length; i < l; ++i) {
+                    var source = Each.source;
+                    var method = Each.method;
                     callback(Each.source[i], i, Each.source);
+                    Each.method = method;
+                    Each.source = source;
                 }
                 break;
             case "in":
                 for (var i in Each.source) {
+                    var source = Each.source;
+                    var method = Each.method;
                     callback(Each.source[i], i, Each.source);
+                    Each.method = method;
+                    Each.source = source;
                 }
                 break;
             case "of":
                 for (var i of Each.source) {
+                    var source = Each.source;
+                    var method = Each.method;
                     callback(i, Each.source);
+                    Each.method = method;
+                    Each.source = source;
                 }
                 break;
         }

@@ -206,7 +206,7 @@ class Events {
                 Events.setCanvasTitle();
                 Events.createPlayerLists();
                 Evnt.trigger(
-                    'form[name="events"] input[name="team"]',
+                    'form[name="event-editor"] input[name="team"]',
                     new Event("change", {"bubbles": true})
                 );
                 break;
@@ -545,7 +545,7 @@ class Events {
 
     // Zobrazí ve formuláři událostí seznamy aktuálních hráčů:
     static #propagatePlayersLists () {
-        switch(document.querySelector('form[name="events"]').elements["team"].value) {
+        switch(Elem.sel('form[name="event-editor"]').elements["team"].value) {
             case "home":
                 Elem.byId("events-player1").innerHTML = Events.optionListHome;
                 Elem.byId("events-player2").innerHTML = Events.optionListHome;
@@ -561,7 +561,7 @@ class Events {
     static #clickedEventListEdit (e) {
         e.stopPropagation();
         var t = e.currentTarget;
-        var f = document.querySelector('form[name="events"]');
+        var f = Elem.sel('form[name="event-editor"]');
         (new Elem(f)).addClass("edit-mode");
         f.elements["team"].value = t.getAttribute("data-team");
         Events.#propagatePlayersLists();
@@ -594,7 +594,7 @@ class Events {
                 // Vypnout/zapnout hráče:
                 var p = (o.hasAttribute("data-players") ? parseInt(o.getAttribute("data-players")) : 1);
                 var i = 0;
-                Each.all("form[name=\"events\"] select.events-player").do((el) => {
+                Each.all('form[name="event-editor"] select.events-player').do((el) => {
                     if (++i <= p) {
                         el.disabled = false;
                     } else {
@@ -604,7 +604,7 @@ class Events {
                 });
 
                 // Vypnout/zapnout textový komentář:
-                var c = f.querySelector("input[name=\"comment\"]");
+                var c = f.querySelector('input[name="comment"]');
                 if (o.hasAttribute("data-comment")) {
                     c.disabled = false;
                 } else {
@@ -615,33 +615,33 @@ class Events {
                 // Změna jiná:
                 var f = e.currentTarget.closest("form");
                 var comment = "";
-                switch (f.querySelector('select[name="type"]').value) {
+                switch (Elem.sel(f, 'select[name="type"]').value) {
                     case "goal":
-                        comment = f.querySelector('select[name="player1"]').value;
+                        comment = Elem.sel(f, 'select[name="player1"]').value;
                         break;
                     case "substitution":
-                        comment = `${f.querySelector('select[name="player1"]').value} (${f.querySelector('select[name="player2"]').value})`;
+                        comment = `${Elem.sel(f, 'select[name="player1"]').value} (${f.querySelector('select[name="player2"]').value})`;
                         break;
                     case "card-yellow-1st":
-                        comment = f.querySelector('select[name="player1"]').value;
+                        comment = Elem.sel(f, 'select[name="player1"]').value;
                         break;
                     case "card-yellow-2nd":
-                        comment = f.querySelector('select[name="player1"]').value;
+                        comment = Elem.sel(f, 'select[name="player1"]').value;
                         break;
                     case "card-red":
-                        comment = f.querySelector('select[name="player1"]').value;
+                        comment = Elem.sel(f, 'select[name="player1"]').value;
                         break;
                     case "penalty-succ":
-                        comment = `${f.querySelector('select[name="player1"]').value} (P)`;
+                        comment = `${Elem.sel(f, 'select[name="player1"]').value} (P)`;
                         break;
                     case "penalty-uns":
-                        comment = f.querySelector('select[name="player1"]').value;
+                        comment = Elem.sel(f, 'select[name="player1"]').value;
                         break;
                     case "other":
-                        comment = f.querySelector('input[name="comment"]').value.trim();
+                        comment = Elem.sel(f, 'input[name="comment"]').value.trim();
                         break;
                 }
-                f.querySelector("input[name=\"comment\"]").value = comment;
+                Elem.sel(f, 'input[name="comment"]').value = comment;
         }
     }
 
@@ -724,7 +724,7 @@ class Events {
 
     // Vymazání formuláře událostí:
     static eventFormClear () {
-        let form = document.querySelector('form[name="events"]');
+        let form = document.querySelector('form[name="event-editor"]');
         Each.all(form, 'input:not([type="button"]):not([type="submit"]):not([type="radio"]), select').do((el) => el.value = "");
         (new Elem(form)).removeClass("edit-mode");
     }

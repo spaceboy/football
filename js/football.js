@@ -52,17 +52,19 @@ Evnt.on(
 Each.all("form *[data-default-value]").do((el) => el.value = el.getAttribute("data-default-value"));
 
 // Zpropaguj výchozí hodnoty z formulářů pro dresy do zobrazení dresu:
-Evnt.triggerAll(
-    "#jersey-field select, #jersey-field input, #jersey-goalie select, #jersey-goalie input",
-    new Event(
-        "change",
-        {
-            "bubbles": true,
-            "currentTarget": el.closest("form"),
-            "target": el
-        }
-    )
-);
+Each
+    .all("#jersey-field select, #jersey-field input, #jersey-goalie select, #jersey-goalie input")
+    .do((el) => Evnt.trigger(
+        el,
+        new Event(
+            "change",
+            {
+                "bubbles": true,
+                "currentTarget": el.closest("form"),
+                "target": el
+            }
+        )
+    ));
 
 // Posunutí hráče vpřed/vzad:
 Evnt.onAll("#lineup .line .player .position", "click", Events.clickPlayerPosition);
@@ -116,9 +118,14 @@ Evnt.on('form[name="match-info"]', "change", Events.changeMatchInfoForm);
 //Evnt.onAll("#block-result-lineup .lineup .lineup-list", "click", Events.clickPlayerLineup);
 
 // Formulář pro vkládání událostí:
-Evnt.on('form[name="events"]', "change", Events.changeEventForm);
-Evnt.on('form[name="events"] #events-close', "click", Events.eventFormClear);
-Evnt.on('form[name="events"] input[name="submit"]', "click", Events.submitEventForm);
+Evnt.on('form[name="event-editor"]', "change", Events.changeEventForm);
+Evnt.on('form[name="event-editor"] #events-close', "click", Events.eventFormClear);
+Evnt.on('form[name="event-editor"] input[name="submit"]', "click", Events.submitEventForm);
+
+
+// Download and upload:
+Evnt.onAll("span.download", "click", Download.clickDownload);
+Evnt.onAll("span.upload", "click", Download.clickUpload);
 
 // Aktivace menu:
 Evnt.onAll("ul.menu > li[data-target]", "click", (e) => {
@@ -228,6 +235,7 @@ Each.all("#club-players tbody tr").do((el) => {
     Elem.sel(el, ".player-name").value = players[i];
     Elem.sel(el, ".player-number").value = ++i;
 });
+
 // Vyvolání události, aby se hráči zpropagovali do zápasové sestavy:
 Evnt.trigger("#club-players input", "change");
 
@@ -251,6 +259,7 @@ Events.setReferee();
 Events.createPlayerLists();
 Events.setMatchTimespace();
 
+// Vložení buttonů pro stažení obrázků:
 let button = (new Elem("#template-make-image")).clone(true).attrRemove("id");
 //button.appendTo("#canvas");
 button.clone(true).appendTo("#block-result-lineup div.result");
@@ -259,4 +268,5 @@ button.clone(true).appendTo("#block-result-2nd-half div.result");
 button.clone(true).appendTo("#block-result-extended div.result");
 //button.appendTo("#block-result-penalties div.result");
 
+// Stáhnout obrázek:
 Evnt.onAll("div.result div.make-image", "click", Events.clickImageDownloadButton);

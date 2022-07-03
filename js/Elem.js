@@ -368,7 +368,7 @@ class Elem {
     static sel (context, query) {
         return (
             query
-            ? context.querySelector(context, query)
+            ? context.querySelector(query)
             : document.querySelector(context)
         );
     }
