@@ -645,8 +645,28 @@ class Events {
         }
     }
 
+    // Naplní řádek pracovního seznamu událostí
+    static fillEventListItem (row, data) {
+        row.qs(".ico").setAttribute("class", "ico " + data["type"]);
+        row.qs(".time").innerText = data["time"];
+        row.qs(".comment").innerText = data["comment"];
+        row.attr({
+            "data-team": data["team"],
+            "data-time": data["time"],
+            "data-type": data["type"],
+            "data-player1": data["player1"],
+            "data-player2": (data["player2"] === undefined ? "" : data["player2"]),
+            "data-comment": data["comment"],
+            "data-edit": (data.hasOwnProperty("edit") ? data["edit"] : Events.eventId++)
+        })
+        .class(data["team"]);
+
+        // Zkopírujeme řádek na zobrazovací plochu:
+        Events.#eventLinesCopy();
+    }
+
     // Vytvoří nový řádek pracovního seznamu událostí:
-    static #appendEventListItem (data) {
+    static appendEventListItem (data) {
         var el = (new Elem("#template-event-work"))
             .clone(true)
             .attrRemove("id")
@@ -760,24 +780,9 @@ class Events {
         var row = (
             data.hasOwnProperty("edit")
             ? new Elem(`#event-line tbody tr[data-edit="${data["edit"]}"]`)
-            : Events.#appendEventListItem(data)
+            : Events.appendEventListItem(data)
         );
-        row.qs(".ico").setAttribute("class", "ico " + data["type"]);
-        row.qs(".time").innerText = data["time"];
-        row.qs(".comment").innerText = data["comment"];
-        row.attr({
-            "data-team": data["team"],
-            "data-time": data["time"],
-            "data-type": data["type"],
-            "data-player1": data["player1"],
-            "data-player2": (data["player2"] === undefined ? "" : data["player2"]),
-            "data-comment": data["comment"],
-            "data-edit": (data.hasOwnProperty("edit") ? data["edit"] : Events.eventId++)
-        })
-        .class(data["team"]);
-
-        // Vložíme řádek na zobrazovací plochu:
-        Events.#eventLinesCopy();
+        Events.fillEventListItem(row, data);
     }
 
     // Stažení obrázku.

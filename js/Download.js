@@ -45,6 +45,13 @@ class Download {
         return JSON.stringify(Download.data, null, 4);
     }
 
+    static getUploader () {
+        if (!Download.uploader) {
+            Download.uploader = (new UploadFileText("application/json", {})).onLoad(Download.onUpload);
+        }
+        return Download.uploader;
+    }
+
     // Naplnění informací o klubu:
     static getClubData () {
         let form = Elem.sel('form[name="club-info"]');
@@ -144,7 +151,6 @@ class Download {
 
     // Download informací o zápasových událostech:
     static downloadEvents () {
-        console.log("downloadEvents");
         Download.data = Download.dataDefault;
         Download.getEventsData();
         DownloadFile.downloadText("datafile.events.json", Download.getJson());
@@ -162,8 +168,45 @@ class Download {
 
     static uploadClub () {}
     static uploadJersey () {}
-    static uploadMatch () {}
-    static uploadEvents () {}
+
+    // Upload match info:
+    static uploadMatch (data) {
+        if (!data.hasOwnProperty("data") || !data["data"].hasOwnProperty("match-info")) {
+            return alert("Data jsou nepoužitelná.");
+        }
+        let form = Elem.sel('form[name="match-info"]');
+        Each.in(data["data"]["match-info"]).do((val, name) => {
+            if (name === "our-players" || name === "partner-players") {
+                return;
+            }
+            Elem.sel(form, `[name="${name}"]`).value = val;
+        });
+
+        //Elem.sel("#our-players tbody").innerHTML = "";
+
+        // Načteme hráče soupeře:
+        Elem.sel("#partner-players tbody").innerHTML = "";
+        let buttonAdd = Elem.sel("#partner-players tfoot .add");
+        Each.for(data["data"]["match-info"]["partner-players"]).do((el, i) => {
+            Evnt.trigger(buttonAdd, "click");
+            var row = Elem.sel("#partner-players tbody tr:last-child");
+            Elem.sel(row, '[name="player-number"]').value = el["player-number"];
+            Elem.sel(row, '[name="player-name"]').value = el["player-name"];
+        });
+    }
+
+    // Upload match events:
+    static uploadEvents (data) {
+        if (!data.hasOwnProperty("data") || !data["data"].hasOwnProperty("match-events")) {
+            return alert("Data jsou nepoužitelná.");
+        }
+        Elem.sel("div.result div.events").innerHTML = "";
+        Elem.sel("#event-line tbody").innerHTML = "";
+        Events.eventFormClear();
+        Each.for(data["data"]["match-events"]).do((data) => {
+            Events.fillEventListItem(Events.appendEventListItem(data), data);
+        });
+    }
 
     static uploadGlobal () {
         Download.uploadClub();
@@ -177,9 +220,13 @@ class Download {
         Download.#runMethod(e.currentTarget.getAttribute("data-method"));
     }
 
+    static onUpload (content, file, method) {
+        Download[method](JSON.parse(content));
+    }
+
     // Upload button click event handler:
     static clickUpload (e) {
-        Download.#runMethod(e.currentTarget.getAttribute("data-method"));
+        Download.getUploader().upload(e.currentTarget.getAttribute("data-method"));
     }
 
     // Run method if exists:

@@ -19,6 +19,10 @@ class Elem {
         return new Elem(document.createElement(name));
     }
 
+    static from (el) {
+        return new Elem(el);
+    }
+
     get () {
         return this.element;
     }
