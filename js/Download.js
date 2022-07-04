@@ -113,6 +113,28 @@ class Download {
         Download.data["data"]["match-info"] = data;
     }
 
+    // Naplnění informací o rozestavení:
+    static getLineupData () {
+        var lineup = {};
+        Each.for(["line-gol", "line-def", "line-mid", "line-str"]).do((className) => {
+            lineup[className] = [];
+            Each.all(`#canvas div.${className} figure > div`).do((el) => {
+                lineup[id].push({
+                    "position": (el.style.alignSelf ?? "center_"),
+                    "number": Elem.sel(el, ".number").innerText,
+                    "name": Elem.sel(el, "figcaption").innerText
+                })
+            });
+        });
+        Download.data["data"]["lineup"] = {
+            "lineup": lineup,
+        }
+        let form = Elem.sel('form[name="formation"]');
+        Each.all(form, "select, input").do((el) => {
+            Download.data["data"]["lineup"][el.getAttribute("id")] = el.value;
+        });
+    }
+
     // Naplnění informací o zápasových událostech:
     static getEventsData () {
         Download.data["data"]["match-events"] = [];
@@ -142,6 +164,13 @@ class Download {
         DownloadFile.downloadText("datafile.jersey.json", Download.getJson());
     }
 
+    // Download rozestavení:
+    static downloadLineup () {
+        Download.data = Download.dataDefault;
+        Download.getLineupData();
+        DownloadFile.downloadText("datafile.lineup.json", Download.getJson());
+    }
+
     // Download informací o zápasu:
     static downloadMatch () {
         Download.data = Download.dataDefault;
@@ -162,6 +191,7 @@ class Download {
         Download.getClubData();
         Download.getJerseyData();
         Download.getMatchData();
+        Download.getLineupData();
         Download.getEventsData();
         DownloadFile.downloadText("datafile.json", Download.getJson());
     }
