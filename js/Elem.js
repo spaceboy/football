@@ -179,32 +179,6 @@ class Elem {
         return Elem.removeElement(this.element);
     }
 
-    // Remove given element from DOM.
-    // Return bool:
-    // TRUE element removed
-    // FALSE element not removed
-    static removeElement (el) {
-        if (Elem.isDomObject(el)) {
-            if (el.parentNode) {
-                el.parentNode.removeChild(el);
-            }
-            return true;
-        }
-        if (el instanceof Elem) {
-            var e = el.get();
-            if (e.parentNode) {
-                e.parentNode.removeChild(e);
-            }
-            return true;
-        }
-        var e = document.querySelector(el);
-        if (e.parentNode) {
-            e.parentNode.removeChild(e);
-            return true;
-        }
-        return false;
-    }
-
     // Wrap given element by active element.
     wrap (el) {
         if (el instanceof Elem) {
@@ -325,7 +299,7 @@ class Elem {
         );
     }
 
-    // Detect whether given object is a DOM object.
+    // TOOL: Detect whether given object is a DOM object.
     static isDomObject (obj) {
         if (obj instanceof HTMLElement) {
             return true;
@@ -334,6 +308,38 @@ class Elem {
             && obj.nodeType === 1
             && typeof obj.style === "object"
             && typeof obj.ownerDocument === "object";
+    }
+
+    // TOOL: Remove given element from DOM.
+    // Return bool:
+    // TRUE element removed
+    // FALSE element not removed
+    static removeElement (el) {
+        if (Elem.isDomObject(el)) {
+            if (el.parentNode) {
+                el.parentNode.removeChild(el);
+            }
+            return true;
+        }
+        if (el instanceof Elem) {
+            var e = el.get();
+            if (e.parentNode) {
+                e.parentNode.removeChild(e);
+            }
+            return true;
+        }
+        var e = document.querySelector(el);
+        if (e.parentNode) {
+            e.parentNode.removeChild(e);
+            return true;
+        }
+        return false;
+    }
+
+    // TOOL: Remove last child of given element.
+    static removeLastChild (context, el) {
+        var parent = Elem.getElement(context, el);
+        parent.removeChild(parent.lastElementChild);
     }
 
     // TOOL: Swap given nodes (DOM elements) positions in DOM.
@@ -381,6 +387,24 @@ class Elem {
     // When not given explicit context, document is used as default context.
     static valueById (context, id) {
         return Elem.byId(context, id).value;
+    }
+
+    // TOOL: Return DOM element.
+    // When first parameter is DOM object, return this DOM object.
+    // When first parameter is instance of Elem, return DOM object of this Elem.
+    // Otherwise return querySelector - when not given context (method called with one parameter only), querySelector is called on document.
+    static getElement (context, el) {
+        if (Elem.isDomObject(context)) {
+            return context;
+        }
+        if (context instanceof Elem) {
+            return context.get();
+        }
+        return (
+            el
+            ? context.querySelector(el)
+            : document.querySelector(context)
+        );
     }
 
     #getClassArray () {

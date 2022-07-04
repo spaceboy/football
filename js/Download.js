@@ -166,13 +166,43 @@ class Download {
         DownloadFile.downloadText("datafile.json", Download.getJson());
     }
 
+    static #checkData (data, required) {
+        if (!data.hasOwnProperty("data")) {
+            alert("V souboru chybí datová sekce.");
+            return false;
+        }
+        if (!data["data"].hasOwnProperty(required)) {
+            alert(`V souboru chybí datová sekce (${required}).`);
+            return false;
+        }
+        return true;
+    }
+
     static uploadClub () {}
-    static uploadJersey () {}
+
+    static uploadJersey (data) {
+        if (!Download.#checkData(data, "jersey-field")) {
+            return;
+        }
+        if (!Download.#checkData(data, "jersey-goalie")) {
+            return;
+        }
+
+        // Apply jersey colours:
+        Each.for(["jersey-field", "jersey-goalie"]).do((section) => {
+            var form = Elem.byId(section);
+            Each.in(data["data"][section]).do((val, name) => {
+                var el = Elem.sel(form, `[name="${name}"]`);
+                el.value = val;
+                Evnt.trigger(el, "change", true);
+            });
+        });
+    }
 
     // Upload match info:
     static uploadMatch (data) {
-        if (!data.hasOwnProperty("data") || !data["data"].hasOwnProperty("match-info")) {
-            return alert("Data jsou nepoužitelná.");
+        if (!Download.#checkData(data, "match-info")) {
+            return;
         }
         let form = Elem.sel('form[name="match-info"]');
         Each.in(data["data"]["match-info"]).do((val, name) => {
@@ -204,8 +234,8 @@ class Download {
 
     // Upload match events:
     static uploadEvents (data) {
-        if (!data.hasOwnProperty("data") || !data["data"].hasOwnProperty("match-events")) {
-            return alert("Data jsou nepoužitelná.");
+        if (!Download.#checkData(data, "match-events")) {
+            return;
         }
         Elem.sel("div.result div.events").innerHTML = "";
         Elem.sel("#event-line tbody").innerHTML = "";
