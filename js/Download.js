@@ -166,6 +166,7 @@ class Download {
         DownloadFile.downloadText("datafile.json", Download.getJson());
     }
 
+    // Test required data fields:
     static #checkData (data, required) {
         if (!data.hasOwnProperty("data")) {
             alert("V souboru chybí datová sekce.");
@@ -178,8 +179,35 @@ class Download {
         return true;
     }
 
-    static uploadClub () {}
+    // Upload club info:
+    static uploadClub (data) {
+        if (!Download.#checkData(data, "club-info")) {
+            return;
+        }
 
+        // Basic info load:
+        let form = Elem.sel('form[name="club-info"]');
+        Each.in(data["data"]["club-info"]).do((val, name) => {
+            if (name === "players") {
+                return;
+            }
+            Elem.sel(form, `[name="${name}"]`).value = val;
+        });
+
+        // Player list load:
+        let buttonAdd = Elem.sel("#club-players tfoot .add");
+        let table = Elem.sel("#club-players tbody");
+        table.innerHTML = "";
+        Each.for(data["data"]["club-info"]["players"]).do((player) => {
+            Evnt.trigger(buttonAdd, "click");
+            var row = Elem.sel(table, "tr:last-child");
+            Elem.sel(row, 'input[name="player-number"]').value = player["number"];
+            Elem.sel(row, 'input[name="player-name"]').value = player["name"];
+        });
+        Evnt.trigger("#club-players input", "change");
+    }
+
+    // Upload jerseys:
     static uploadJersey (data) {
         if (!Download.#checkData(data, "jersey-field")) {
             return;
