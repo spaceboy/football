@@ -182,17 +182,24 @@ class Download {
             Elem.sel(form, `[name="${name}"]`).value = val;
         });
 
-        //Elem.sel("#our-players tbody").innerHTML = "";
+        // Načteme hráče našeho týmu:
+        Elem.sel("#our-players tbody").innerHTML = "";
+        Each.for(data["data"]["match-info"]["our-players"]).do((player) => {
+            Events.addPlayerToMatchInfo(player);
+        });
 
         // Načteme hráče soupeře:
         Elem.sel("#partner-players tbody").innerHTML = "";
         let buttonAdd = Elem.sel("#partner-players tfoot .add");
-        Each.for(data["data"]["match-info"]["partner-players"]).do((el, i) => {
+        Each.for(data["data"]["match-info"]["partner-players"]).do((player) => {
             Evnt.trigger(buttonAdd, "click");
             var row = Elem.sel("#partner-players tbody tr:last-child");
-            Elem.sel(row, '[name="player-number"]').value = el["player-number"];
-            Elem.sel(row, '[name="player-name"]').value = el["player-name"];
+            Elem.sel(row, '[name="player-number"]').value = player["player-number"];
+            Elem.sel(row, '[name="player-name"]').value = player["player-name"];
         });
+
+        // Zpropagujeme hráče do seznamů:
+        Events.createPlayerLists();
     }
 
     // Upload match events:

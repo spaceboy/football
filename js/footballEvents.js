@@ -259,6 +259,17 @@ class Events {
         }
     }
 
+    // Přidá hráče našeho týmu do seznamu v zápasu:
+    static addPlayerToMatchInfo (player) {
+        var template = (new Elem("#template-our-players"))
+            .clone(true)
+            .attrRemove("id");
+        template.qs('input[name="player-on"]').checked = player["player-on"];
+        template.qs('input[name="player-number"]').value = player["player-number"];
+        template.qs('input[name="player-name"]').value = player["player-name"];
+        template.appendTo(Elem.sel("#our-players tbody"));
+    }
+
     // Vloží řádek do formuláře hráčů:
     static clickPlayerAdd (e) {
         var t = e.currentTarget.closest("table");
@@ -281,12 +292,11 @@ class Events {
                 var target = document.querySelector(t.getAttribute("data-target"));
                 target.innerHTML = "";
                 Each.all(tbd, "tr").do((row) => {
-                    var tr = (new Elem("#template-our-players"))
-                        .clone(true)
-                        .attrRemove("id");
-                    tr.qs("input.player-number").value = row.querySelector("input.player-number").value;
-                    tr.qs("input.player-name").value = row.querySelector("input.player-name").value;
-                    tr.appendTo(target);
+                    Events.addPlayerToMatchInfo({
+                        "player-on": true,
+                        "player-number": Elem.sel(row, "input.player-number").value,
+                        "player-name": Elem.sel(row, "input.player-name").value,
+                    });
                 });
                 Events.createPlayerLists();
             });
