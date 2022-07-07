@@ -26,6 +26,7 @@
         <script src="js/UploadFile.js"></script>
         <script src="js/Download.js"></script>
         <script src="js/Each.js"></script>
+        <script src="js/Menu.js"></script>
         <script src="js/dom-to-image.js"></script>
     </head>
     <body>
@@ -38,22 +39,22 @@
                     <span class="btn-ghost download" id="download-global" title="Uloží vyplněné informace na disk" data-method="downloadGlobal"><i class="fas fa-download"></i></span>
                     <span class="btn-ghost upload" id="upload-global" title="Načte informace uložené na disku" data-method="uploadGlobal"><i class="fas fa-upload"></i></span>
                     <h1>Fotbalová grafika</h1>
-                    <ul class="menu" data-name="main-menu" data-default="block-result">
-                        <li data-target="block-club">Klub</li>
-                        <li data-target="block-jersey">Dresy</li>
+                    <ul class="menu" data-menu-name="main-menu" data-menu-default="#block-flyers">
+                        <li data-menu-target="#block-club">Klub</li>
+                        <li data-menu-target="#block-jersey">Dresy</li>
                         <li>&bull;</li>
-                        <li data-target="block-match">Zápas</li>
+                        <li data-menu-target="#block-match">Zápas</li>
                         <li>&raquo;</li>
-                        <li data-target="block-lineup">Rozestavení</li>
-                        <li data-target="block-result">Události</li>
+                        <li data-menu-target="#block-lineup">Rozestavení</li>
+                        <li data-menu-target="#block-flyers">Letáky</li>
                         <li>&bull;</li>
-                        <li data-target="block-tutorial">Nápověda</li>
+                        <li data-menu-target="#block-tutorial">Nápověda</li>
                     </ul>
                 </div>
             </div>
         </div><!-- /.container -->
 
-        <div class="block" id="block-club" data-name="main-menu">
+        <div class="block" id="block-club" data-menu-name="main-menu">
             <div class="container align-center">
                 <div class="row">
                     <div class="column width-12">
@@ -127,7 +128,7 @@
             </div><!-- /.container-->
         </div><!-- /#block-club-->
 
-        <div class="block" id="block-jersey" data-name="main-menu">
+        <div class="block" id="block-jersey" data-menu-name="main-menu">
             <div class="container">
                 <div class="row">
                     <div class="column width-12 text-center">
@@ -275,7 +276,7 @@
         </div><!-- /#block-jersey -->
 
 
-        <div class="block" id="block-match" data-name="main-menu">
+        <div class="block" id="block-match" data-menu-name="main-menu">
             <form name="match-info">
                 <div class="container">
                     <div class="row">
@@ -503,9 +504,16 @@
     opacity: 1;
 }
 </style>
-        <div class="block" id="block-lineup" data-name="main-menu">
+        <div class="block" id="block-lineup" data-menu-name="main-menu">
 
             <div class="container">
+                <div class="row">
+                    <div class="column width-12 text-center">
+                        <span class="btn-ghost download" id="download-lineup" title="Uloží vyplněné informace na disk" data-method="downloadLineup"><i class="fas fa-download"></i></span>
+                        <span class="btn-ghost upload" id="upload-lineup" title="Načte informace uložené na disku" data-method="uploadLineup"><i class="fas fa-upload"></i></span>
+                        <h2>Detailní rozestavení</h2>
+                    </div><!-- /.column -->
+                </div><!-- /.row -->
                 <div class="row">
                     <div class="column width-12 text-center">
                         <div id="canvas">
@@ -922,45 +930,82 @@
     margin-left: .2em;
     text-align: left;
 }
+
+.menu.menu-flyers {
+    margin: 0 0 1em 0;
+}
 </style>
 
-        <div class="block" id="block-result" data-name="main-menu">
+        <div class="block" id="block-flyers" data-menu-name="main-menu">
             <div class="container">
+
                 <div class="row">
                     <div class="column width-12 text-center">
                         <span class="btn-ghost download" id="download-result" title="Uloží vyplněné informace na disk" data-method="downloadEvents"><i class="fas fa-download"></i></span>
                         <span class="btn-ghost upload" id="upload-result" title="Načte informace uložené na disku" data-method="uploadEvents"><i class="fas fa-upload"></i></span>
                         <h2>Sestava &bull; události &bull; výsledek</h2>
                     </div>
+                    <div>
+                        <ul class="menu menu-flyers" data-menu-name="events-menu" data-menu-default="#block-flyers-datetime">
+                            <li data-menu-target="#block-flyers-datetime" data-menu-onclick="showFlyerInvitation">Pozvánka</li>
+                            <li data-menu-target="#block-flyers-lineup">Sestava</li>
+                            <li data-menu-target="#block-flyers-1st-half" data-menu-onclick="showFlyerEvents">Poločas</li>
+                            <li data-menu-target="#block-flyers-2nd-half" data-menu-onclick="showFlyerEvents">Po 90 min</li>
+                            <li data-menu-target="#block-flyers-extended" data-menu-onclick="showFlyerEvents">Po prodloužení</li>
+                            <li data-menu-target="#block-flyers-penalties" data-menu-onclick="showFlyerPenalties">Po penaltách</li>
+                        </ul>
+                    </div>
+
                 </div>
                 <div class="row">
                     <div class="column width-7 text-center">
-                        <div>
-                            <ul class="menu" data-name="events-menu" data-default="block-result-lineup" style="margin: 0 0 1em 0;">
-                                <li data-target="block-result-lineup">Sestava</li>
-                                <li data-target="block-result-1st-half">Poločas</li>
-                                <li data-target="block-result-2nd-half">Po 90 min</li>
-                                <li data-target="block-result-extended">Po prodloužení</li>
-                                <li data-target="block-result-penalties">Po penaltách</li>
-                            </ul>
-                        </div>
+
+                        <div class="block" id="block-flyers-datetime" data-menu-name="events-menu">
+                            <div class="result">
+                                <div class="title">
+                                    <div class="team-names">
+                                        <h2 class="club-name"></h2>
+                                        <h2 class="partner-name"></h2>
+                                    </div>
+                                </div>
+                                <div class="content">
+                                    <div class="subtitle">
+                                        <h3 data-js="match-type">mistrovský zápas</h3>
+                                    </div>
+                                    <div class="match-info">
+                                        <div class="day">
+                                            <i class="fa fa-calendar"></i>
+                                            <span class="info">---</span>
+                                        </div>
+                                        <div class="time">
+                                            <i class="fa fa-clock"></i>
+                                            <span class="info">---</span>
+                                        </div>
+                                        <div class="place">
+                                            <i class="fa fa-globe-africa"></i>
+                                            <span class="info">---</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><!-- /.result -->
+                        </div><!-- /#block-flyers-datetime -->
 
 <style>
 
-#block-result-lineup .lineup {
+#block-flyers-lineup .lineup {
     background: white;
     /*border: 2px solid darkgreen;*/
     margin: 1em;
     transform: skewY(-2deg);
 }
-#block-result-lineup .lineup-wrap {
+#block-flyers-lineup .lineup-wrap {
     float: left;
     width: 50%;
 }
-#block-result-lineup .lineup-wrap .subtitle {
+#block-flyers-lineup .lineup-wrap .subtitle {
     background-color: darkgreen;
 }
-#block-result-lineup .lineup-wrap h3 {
+#block-flyers-lineup .lineup-wrap h3 {
     color: white;
     font-family: Roboto;
     font-size: 32px;
@@ -971,11 +1016,11 @@
     text-shadow: none;
     text-transform: uppercase;
 }
-#block-result-lineup .lineup-wrap .lineup-list {
+#block-flyers-lineup .lineup-wrap .lineup-list {
     margin: 0;
     padding: .5em;
 }
-#block-result-lineup .lineup-wrap .lineup-list p {
+#block-flyers-lineup .lineup-wrap .lineup-list p {
     color: darkgreen;
     cursor: pointer;
     font-size: 150%;
@@ -983,7 +1028,7 @@
     line-height: 150%;
     margin: 0 0 .25em 0;
 }
-#block-result-lineup .lineup-wrap .lineup-list p span.number {
+#block-flyers-lineup .lineup-wrap .lineup-list p span.number {
     background: darkgreen;
     color: white;
     display: inline-block;
@@ -1011,7 +1056,7 @@
 }
 
 </style>
-                        <div class="block" id="block-result-lineup" data-name="events-menu">
+                        <div class="block" id="block-flyers-lineup" data-menu-name="events-menu">
                             <div class="result">
                                 <div class="title">
                                     <div class="team-names">
@@ -1051,7 +1096,7 @@
                             </div><!-- /.result -->
                         </div>
 
-                        <div class="block" id="block-result-1st-half" data-name="events-menu">
+                        <div class="block" id="block-flyers-1st-half" data-menu-name="events-menu">
                             <div class="result">
                                 <div class="title">
                                     <div class="team-names">
@@ -1066,9 +1111,9 @@
                                 <div class="events"></div>
                                 <div class="events-referee" style="text-align: center;"></div>
                             </div><!-- /.result -->
-                        </div><!-- /block #block-result-1st-half -->
+                        </div><!-- /block #block-flyers-1st-half -->
 
-                        <div class="block" id="block-result-2nd-half" data-name="events-menu">
+                        <div class="block" id="block-flyers-2nd-half" data-menu-name="events-menu">
                             <div class="result">
                                 <div class="title">
                                     <div class="team-names">
@@ -1085,7 +1130,7 @@
                             </div><!-- /.result -->
                         </div>
 
-                        <div class="block" id="block-result-extended" data-name="events-menu">
+                        <div class="block" id="block-flyers-extended" data-menu-name="events-menu">
                             <div class="result">
                                 <div class="title">
                                     <div class="team-names">
@@ -1100,13 +1145,11 @@
                                 <div class="events"></div>
                                 <div class="events-referee" style="text-align: center;"></div>
                             </div><!-- /.result -->
-                        </div>
+                        </div><!-- /#block-flyers-extended -->
 
-                        <div class="block" id="block-result-penalties" data-name="events-menu">
+                        <div class="block" id="block-flyers-penalties" data-menu-name="events-menu">
                             penaltový rozstřel
-                        </div>
-
-
+                        </div><!-- /#block-flyers-penalties -->
 
                     </div><!-- /.column -->
 
@@ -1281,96 +1324,100 @@ form[name="event-editor"].edit-mode #events-close {
 </style>
 
                     <div class="column width-5 text-center">
-                        <table id="event-line">
-                            <thead>
-                                <tr>
-                                    <td colspan="2">
-                                        <h3>Události</h3>
-                                    </td>
-                                </tr>
-                            </thead>
-                            <tbody></tbody>
-                        </table>
-                        <form name="event-editor" data-skip="skip">
-                            <table style="text-align: left;">
+                        <div class="block" id="block-flyer-editor-datetitme"></div><!-- /#block-flyer-editor-datetitme -->
+                        <div class="block" id="block-flyer-editor-events">
+                            <table id="event-line">
                                 <thead>
                                     <tr>
-                                        <td colspan="4" style="text-align: center;">
-                                            <i id="events-edit" class="fas fa-edit"></i>
-                                            <i id="events-close" class="fas fa-times-circle"></i>
-                                            <h3>Vložte událost:</h3>
+                                        <td colspan="2">
+                                            <h3>Události</h3>
                                         </td>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                        <th>
-                                            <label for="events-time">Čas</label>
-                                        </th>
-                                        <td>
-                                            <input id="events-time" class="events-time" name="time" placeholder="45+2">
-                                        </td>
-                                        <td colspan="2">
-                                            <label><input type="radio" name="team" value="home"> Domácí</label>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th>
-                                            <label for="events-type">Událost</label>
-                                        </th>
-                                        <td>
-                                            <select id="events-type" class="events-type" name="type">
-                                                <option value="" data-players="0">---</option>
-                                                <option value="goal">Gól</option>
-                                                <option value="substitution" data-players="2">Střídání</option>
-                                                <option value="card-yellow-1st">1. ŽK</option>
-                                                <option value="card-yellow-2nd">2. ŽK (=ČK)</option>
-                                                <option value="card-red">ČK</option>
-                                                <option value="penalty-succ">Penalta / gól</option>
-                                                <option value="penalty-uns">Penalta / neúspěšná</option>
-                                                <option value="other" data-players="0" data-comment="ok">Jiné</option>
-                                            </select>
-                                        </td>
-                                        <td colspan="2">
-                                            <label><input type="radio" name="team" value="away"> Hosté</label>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th>
-                                            <label>Hráč(i)</label>
-                                        </th>
-                                        <td colspan="2">
-                                            <select name="player1" id="events-player1" class="events-player" disabled></select>
-                                        </td>
-                                        <td>
-                                            <select name="player2" id="events-player2" class="events-player" disabled></select>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th>
-                                            <label for="events-comment">Komentář</label>
-                                        </th>
-                                        <td colspan="3">
-                                            <input id="events-comment" class="events-comment" name="comment" disabled>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="3">
-                                            <input type="hidden" name="edit">
-                                        </td>
-                                        <td>
-                                            <input name="submit" type="button" value="Vložit">
-                                        </td>
-                                    </tr>
-                                </tbody>
+                                <tbody></tbody>
                             </table>
-                        </form>
+                            <form name="event-editor" data-skip="skip">
+                                <table style="text-align: left;">
+                                    <thead>
+                                        <tr>
+                                            <td colspan="4" style="text-align: center;">
+                                                <i id="events-edit" class="fas fa-edit"></i>
+                                                <i id="events-close" class="fas fa-times-circle"></i>
+                                                <h3>Vložte událost:</h3>
+                                            </td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th>
+                                                <label for="events-time">Čas</label>
+                                            </th>
+                                            <td>
+                                                <input id="events-time" class="events-time" name="time" placeholder="45+2">
+                                            </td>
+                                            <td colspan="2">
+                                                <label><input type="radio" name="team" value="home"> Domácí</label>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>
+                                                <label for="events-type">Událost</label>
+                                            </th>
+                                            <td>
+                                                <select id="events-type" class="events-type" name="type">
+                                                    <option value="" data-players="0">---</option>
+                                                    <option value="goal">Gól</option>
+                                                    <option value="substitution" data-players="2">Střídání</option>
+                                                    <option value="card-yellow-1st">1. ŽK</option>
+                                                    <option value="card-yellow-2nd">2. ŽK (=ČK)</option>
+                                                    <option value="card-red">ČK</option>
+                                                    <option value="penalty-succ">Penalta / gól</option>
+                                                    <option value="penalty-uns">Penalta / neúspěšná</option>
+                                                    <option value="other" data-players="0" data-comment="ok">Jiné</option>
+                                                </select>
+                                            </td>
+                                            <td colspan="2">
+                                                <label><input type="radio" name="team" value="away"> Hosté</label>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>
+                                                <label>Hráč(i)</label>
+                                            </th>
+                                            <td colspan="2">
+                                                <select name="player1" id="events-player1" class="events-player" disabled></select>
+                                            </td>
+                                            <td>
+                                                <select name="player2" id="events-player2" class="events-player" disabled></select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>
+                                                <label for="events-comment">Komentář</label>
+                                            </th>
+                                            <td colspan="3">
+                                                <input id="events-comment" class="events-comment" name="comment" disabled>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3">
+                                                <input type="hidden" name="edit">
+                                            </td>
+                                            <td>
+                                                <input name="submit" type="button" value="Vložit">
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </form>
+                        </div><!-- /#block-flyer-editor-events -->
+                        <div class="block" id="block-flyer-editor-penalties"></div><!-- /#block-flyer-editor-penalties -->
                     </div><!-- /.column -->
                 </div>
             </div><!-- /.container-->
-        </div><!-- /#block-result -->
+        </div><!-- /#block-flyers -->
 
-        <div class="block" id="block-tutorial" data-name="main-menu">
+        <div class="block" id="block-tutorial" data-menu-name="main-menu">
             <div class="container">
                 <div class="row">
                     <div class="column width-12 text-center">
