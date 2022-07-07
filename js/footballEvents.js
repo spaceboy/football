@@ -84,7 +84,7 @@ class Events {
             ref.push(`${Elem.valueById("match-info-var")} (VAR)`);
         }
         document.querySelector("#info-referees ul").innerHTML = "<li>" + ref.join("</li><li>") + "</li>";
-        Each.all("#block-result .events-referee").do((el) => el.innerHTML = "<p><b>Rozhodčí:</b> " + ref.join(", ") + "</p>");
+        Each.all("#block-flyers .events-referee").do((el) => el.innerHTML = "<p><b>Rozhodčí:</b> " + ref.join(", ") + "</p>");
     }
 
     // Nastaví čas a místo zápasu:
@@ -107,7 +107,7 @@ class Events {
 
     static createPlayerLists () {
         // Vlastní tým:
-        let target = document.querySelector("#block-result-lineup .lineup .lineup-base .lineup-list");
+        let target = document.querySelector("#block-flyers-lineup .lineup .lineup-base .lineup-list");
         target.innerHTML = "";
         let subs = document.querySelector("#info-substituties ul");
         subs.innerHTML = "";
@@ -170,12 +170,12 @@ class Events {
 
     // Vloží do sestavy seznam hráčů:
     static resultLineupBaseShow (list) {
-        Events.#resultLineupShow(new Elem("#block-result-lineup .lineup-base .lineup-list"), list);
+        Events.#resultLineupShow(new Elem("#block-flyers-lineup .lineup-base .lineup-list"), list);
     }
 
     // Vloží k náhradníkům seznam hráčů:
     static resultLineupSubstitutesShow (list) {
-        Events.#resultLineupShow(new Elem("#block-result-lineup .lineup-substitute .lineup-list"), list);
+        Events.#resultLineupShow(new Elem("#block-flyers-lineup .lineup-substitute .lineup-list"), list);
     }
 
     /*
@@ -720,9 +720,9 @@ class Events {
     }
 
     static #eventLinesCopy () {
-        let block1st = document.querySelector("#block-result-1st-half .events");
-        let block2nd = document.querySelector("#block-result-2nd-half .events");
-        let blockExt = document.querySelector("#block-result-extended .events");
+        let block1st = document.querySelector("#block-flyers-1st-half .events");
+        let block2nd = document.querySelector("#block-flyers-2nd-half .events");
+        let blockExt = document.querySelector("#block-flyers-extended .events");
 
         block1st.innerHTML = "";
         block2nd.innerHTML = "";

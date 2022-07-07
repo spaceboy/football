@@ -115,7 +115,7 @@ Events.copyJerseyColors();
 Evnt.on('form[name="match-info"]', "change", Events.changeMatchInfoForm);
 
 // Manipulace se základní sestavou (malou):
-//Evnt.onAll("#block-result-lineup .lineup .lineup-list", "click", Events.clickPlayerLineup);
+//Evnt.onAll("#block-flyers-lineup .lineup .lineup-list", "click", Events.clickPlayerLineup);
 
 // Formulář pro vkládání událostí:
 Evnt.on('form[name="event-editor"]', "change", Events.changeEventForm);
@@ -127,44 +127,8 @@ Evnt.on('form[name="event-editor"] input[name="submit"]', "click", Events.submit
 Evnt.onAll("span.download", "click", Download.clickDownload);
 Evnt.onAll("span.upload", "click", Download.clickUpload);
 
-// Aktivace menu:
-Evnt.onAll("ul.menu > li[data-target]", "click", (e) => {
-    var t = e.currentTarget;
-    var menu = t.closest("ul.menu");
-
-    // Pokud neexistuje cílový panel, zruš akci:
-    var panel = document.getElementById(t.getAttribute("data-target"));
-    if (!panel) {
-        return;
-    }
-
-    // Skrýt panely navázané na menu:
-    Each
-        .all(
-            menu.hasAttribute("data-name")
-            ? `div.block[data-name=\"${menu.getAttribute("data-name")}\"]`
-            : "div.block"
-        )
-        .do((el) => el.setAttribute("class", "block"));
-
-    // Skrýt položky menu:
-    Each.all(menu, "li").do((el) => el.removeAttribute("class"));
-
-    // Kliknuté položce manu nastavit class active:
-    t.setAttribute("class", "active");
-
-    // Zobrazit content navázaný na aktivní položku:
-    panel.setAttribute("class", "block active");
-});
-
-// Menu: Otvírání defaultních panelů:
-Each.all("ul.menu").do((el) => {
-    if (!el.hasAttribute("data-default")) {
-        return;
-    }
-    Evnt.trigger(el.querySelector(`li[data-target=\"${el.getAttribute("data-default")}\"]`), "click");
-});
-
+FootballMenu.init("ul.menu");
+//FootballMenu.test();
 
 class Data {
     static load (data) {
@@ -262,11 +226,11 @@ Events.setMatchTimespace();
 // Vložení buttonů pro stažení obrázků:
 let button = (new Elem("#template-make-image")).clone(true).attrRemove("id");
 //button.appendTo("#canvas");
-button.clone(true).appendTo("#block-result-lineup div.result");
-button.clone(true).appendTo("#block-result-1st-half div.result");
-button.clone(true).appendTo("#block-result-2nd-half div.result");
-button.clone(true).appendTo("#block-result-extended div.result");
-//button.appendTo("#block-result-penalties div.result");
+button.clone(true).appendTo("#block-flyers-lineup div.result");
+button.clone(true).appendTo("#block-flyers-1st-half div.result");
+button.clone(true).appendTo("#block-flyers-2nd-half div.result");
+button.clone(true).appendTo("#block-flyers-extended div.result");
+//button.appendTo("#block-flyers-penalties div.result");
 
 // Stáhnout obrázek:
 Evnt.onAll("div.result div.make-image", "click", Events.clickImageDownloadButton);

@@ -115,11 +115,12 @@ class Download {
 
     // Naplnění informací o rozestavení:
     static getLineupData () {
+        // Players in lines:
         var lineup = {};
         Each.for(["line-gol", "line-def", "line-mid", "line-str"]).do((className) => {
             lineup[className] = [];
             Each.all(`#canvas div.${className} figure > div`).do((el) => {
-                lineup[id].push({
+                lineup[className].push({
                     "position": (el.style.alignSelf ?? "center_"),
                     "number": Elem.sel(el, ".number").innerText,
                     "name": Elem.sel(el, "figcaption").innerText
@@ -129,6 +130,23 @@ class Download {
         Download.data["data"]["lineup"] = {
             "lineup": lineup,
         }
+
+        // Date and place info:
+        var data = {};
+        Each.all("#info-place-time ul li").do((el) => data[el.getAttribute("class")] = el.innerText);
+        Download.data["data"]["lineup"]["info-place-time"] = data;
+
+        // Substituties:
+        var data = {};
+        Each.all("#info-substituties ul li").do((el) => data[el.getAttribute("data-number")] = el.innerText);
+        Download.data["data"]["lineup"]["info-substituties"] = data;
+
+        // Referees:
+        var data = [];
+        Each.all("#info-referees ul li").do((el) => data.push(el.innerHTML));
+        Download.data["data"]["lineup"]["info-referees"] = data;
+
+        // Data from form:
         let form = Elem.sel('form[name="formation"]');
         Each.all(form, "select, input").do((el) => {
             Download.data["data"]["lineup"][el.getAttribute("id")] = el.value;
@@ -290,6 +308,58 @@ class Download {
         Events.createPlayerLists();
     }
 
+    // Upload lineup:
+    static uploadLineup (data) {
+        if (!Download.#checkData(data, "lineup")) {
+            return;
+        }
+
+        // Upload form settings:
+        let form = Elem.sel('form[name="formation"]');
+        Each.in(data["data"]["lineup"]).do((val, id) => {
+            if (id === "lineup") {
+                return;
+            } else if (id === "info-place-time") {
+                Elem.sel("#info-place-time li.day").innerHTML = val["day"];
+                Elem.sel("#info-place-time li.time").innerHTML = val["time"];
+                Elem.sel("#info-place-time li.place").innerHTML = val["place"];
+            } else if (id === "info-substituties") {
+                var ul = Elem.from("#info-substituties ul");
+                ul.html("");
+                Each.in(val).do((name, number) => {
+                    Elem
+                        .create("li")
+                        .attr("data-number", number)
+                        .html(name)
+                        .appendTo(ul);
+                });
+            } else if (id === "info-referees") {
+                var ul = Elem.from("#info-referees ul");
+                ul.html("");
+                Each.for(val).do((name) => {
+                    Elem
+                        .create("li")
+                        .html(name)
+                        .appendTo(ul);
+                });
+            }
+            var el = Elem.byId(id);
+            el.value = val;
+            Evnt.trigger(el, "change");
+        });
+
+        Each.in(data["data"]["lineup"]["lineup"]).do((line, id) => {
+            var playerElem = Elem.sel(`#lineup .line.${id} figure`);
+            Each.for(line).do((playerData) => {
+                playerElem.querySelector("figcaption").innerText = playerData["name"];
+                playerElem.querySelector(".number").innerText = playerData["number"];
+                playerElem.querySelector("div").style.alignSelf = playerData["position"];
+                playerElem = playerElem.nextElementSibling;
+            });
+        });
+
+    }
+
     // Upload match events:
     static uploadEvents (data) {
         if (!Download.#checkData(data, "match-events")) {
@@ -303,11 +373,12 @@ class Download {
         });
     }
 
-    static uploadGlobal () {
-        Download.uploadClub();
-        Download.uploadJersey();
-        Download.uploadMatch();
-        Download.uploadEvents();
+    static uploadGlobal (data) {
+        Download.uploadClub(data);
+        Download.uploadJersey(data);
+        Download.uploadMatch(data);
+        Download.uploadLineup(data);
+        Download.uploadEvents(data);
     }
 
     // Download button click event handler:
