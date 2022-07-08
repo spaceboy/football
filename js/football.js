@@ -122,29 +122,102 @@ Evnt.on('form[name="event-editor"]', "change", Events.changeEventForm);
 Evnt.on('form[name="event-editor"] #events-close', "click", Events.eventFormClear);
 Evnt.on('form[name="event-editor"] input[name="submit"]', "click", Events.submitEventForm);
 
+function penaltiesCountScore () {
+    var scoreHome = 0;
+    var scoreAway = 0;
+    Each.all("#block-flyers-penalties .events .event").do((el) => {
+        if (Elem.from(el, ".home .ico .ico").hasClass("goal")) {
+            ++scoreHome;
+        }
+        if (Elem.from(el, ".away .ico .ico").hasClass("goal")) {
+            ++scoreAway;
+        }
+    });
+    Elem.sel("#block-flyers-penalties .score").innerText = `${scoreHome}:${scoreAway}`;
+}
+
+function penaltiesEditRow (e) {
+    let form = Elem.from('form[name="penalties-editor"]');
+    let row = Elem.from(e.currentTarget);
+
+    form.qs("th.number").innerText = row.attr("data-number");
+    Elem.from(form, 'select[name="home-player"]').val(row.qs(".home .comment").innerText);
+    form.qs('input[name="home-success"]').checked = Elem.from(row, ".home .ico .ico").hasClass("goal");
+    Elem.from(form, 'select[name="away-player"]').val(row.qs(".away .comment").innerText);
+    form.qs('input[name="away-success"]').checked = Elem.from(row, ".away .ico .ico").hasClass("goal");
+    form.addClass("edit");
+}
+
+function penaltiesSetRow (rowNum, data) {
+    var row = Elem.from(`#block-flyers-penalties .events .event[data-number="${rowNum}"]`);
+    if (!row) {
+        row = Elem.from("#template-event-show").clone(true).attrRemove("id");
+        row.appendTo(Elem.sel("#block-flyers-penalties .events"));
+        Evnt.on(row, "click", penaltiesEditRow);
+    }
+
+    row.qs(".home .comment").innerText = data["home-player"];
+    row.qs(".home .ico").innerHTML = "";
+    row.qs(".away .ico").innerHTML = "";
+    if (data["home-success"]) {
+        Elem.from("#template-penalities-goal").clone(true).attrRemove("id").appendTo(row.qs(".home .ico"));
+    } else {
+        Elem.from("#template-penalities-miss").clone(true).attrRemove("id").appendTo(row.qs(".home .ico"));
+    }
+
+    row.qs(".away .comment").innerText = data["away-player"];
+    if (data["away-success"]) {
+        Elem.from("#template-penalities-goal").clone(true).attrRemove("id").appendTo(row.qs(".away .ico"));
+    } else {
+        Elem.from("#template-penalities-miss").clone(true).attrRemove("id").appendTo(row.qs(".away .ico"));
+    }
+
+    row.qs(".time").innerText = rowNum;
+    row.attr("data-number", rowNum);
+
+    penaltiesCountScore();
+}
+
 Evnt.onAll('form[name="penalties-editor"] button', "click", (e) => {
     e.preventDefault();
     switch (e.currentTarget.getAttribute("class")) {
         case "submit":
             let form = Elem.from(e.currentTarget.closest("form"));
-            let row = Elem.from("#template-event-show").clone(true).attrRemove("id");
+            let err = false;
 
-            row.qs(".home .comment").innerText = form.qs('select[name="home-player"]').value;
-            if (form.qs('input[name="home-success"]').checked) {
-                Elem.from("#template-penalities-goal").clone(true).appendTo(row.qs(".home .ico"));
+            var playerHomeSel = Elem.from(form, 'select[name="home-player"]');
+            if (!playerHomeSel.value()) {
+                err = true;
+                playerHomeSel.addClass("form-error");
             } else {
-                Elem.from("#template-penalities-miss").clone(true).appendTo(row.qs(".home .ico"));
+                playerHomeSel.removeClass("form-error");
             }
 
-            row.qs(".away .comment").innerText = form.qs('select[name="away-player"]').value;
-            if (form.qs('input[name="home-success"]').checked) {
-                Elem.from("#template-penalities-goal").clone(true).appendTo(row.qs(".away .ico"));
+            var playerAwaySel = Elem.from(form, 'select[name="away-player"]');
+            if (!playerAwaySel.value()) {
+                err = true;
+                playerAwaySel.addClass("form-error");
             } else {
-                Elem.from("#template-penalities-miss").clone(true).appendTo(row.qs(".away .ico"));
+                playerAwaySel.removeClass("form-error");
             }
 
-            row.qs(".time").innerText = "1";
-            row.appendTo(Elem.sel("#block-flyers-penalties .events"));
+            if (err) {
+                return;
+            }
+
+            penaltiesSetRow(
+                parseInt(form.qs("th.number").innerText),
+                {
+                    "home-player": playerHomeSel.value(),
+                    "home-success": form.qs('input[name="home-success"]').checked,
+                    "away-player": playerAwaySel.value(),
+                    "away-success": form.qs('input[name="away-success"]').checked
+                }
+            );
+
+            form.removeClass("edit");
+            form.get().reset();
+            form.qs("th.number").innerText = Elem.sel("#block-flyers-penalties .events").childElementCount + 1;
             break;
         case "cancel":
             break;

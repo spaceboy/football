@@ -2,25 +2,38 @@ class Elem {
 
     element;
 
-    constructor (el) {
-        if (Elem.isDomObject(el)) {
-            this.element = el;
-            return this;
-        }
-        el = document.querySelector(el);
-        if (!el) {
+    constructor (context, el) {
+        if (Elem.isDomObject(context)) {
+            if (!el) {
+                this.element = context;
+                return;
+            }
+            var element = context.querySelector(el);
+            if (!element) {
+                return;
+            }
+            this.element = element;
             return;
         }
-        this.element = el;
-        return this;
+        var element = (
+            el
+            ? (context instanceof Elem ? context.get() : context).querySelector(el)
+            : document.querySelector(context)
+        );
+        if (!element) {
+            return;
+        }
+        this.element = element;
+        return;
     }
 
     static create (name) {
         return new Elem(document.createElement(name));
     }
 
-    static from (el) {
-        return new Elem(el);
+    static from (context, el) {
+        var element = new Elem(context, el);
+        return (element.get() ? element : false);
     }
 
     get () {
@@ -262,6 +275,11 @@ class Elem {
         return this;
     }
 
+    // Shortcut for Elem.val.
+    value (value) {
+        return this.val(value);
+    }
+
     // Swap with given node
     swapWithNode (node) {
         if (node instanceof Elem) {
@@ -289,9 +307,6 @@ class Elem {
     // When event is instance of Event, triggers event,
     // otherwise creates new Event on event name (event) and parameters (params).
     trigger (event, params) {
-        console.log("trigger");
-        console.log(this.element);
-        console.log(event);
         this.element.dispatchEvent(
             event instanceof Event
             ? event
