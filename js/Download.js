@@ -166,6 +166,17 @@ class Download {
                 "comment": tr.getAttribute("data-comment")
             })
         );
+
+        // Penalty shootout:
+        Download.data["data"]["penalty-shootout"] = [];
+        Each.all("#block-flyers-penalties .events .event").do((row) => {
+            Download.data["data"]["penalty-shootout"].push({
+                "home-player": Elem.sel(row, ".home .comment").innerText,
+                "home-success": Elem.from(row, ".home .ico .ico").hasClass("goal"),
+                "away-player": Elem.sel(row, ".away .comment").innerText,
+                "away-success": Elem.from(row, ".away .ico .ico").hasClass("goal")
+            });
+        });
     }
 
     // Download informací o klubu:
@@ -371,6 +382,11 @@ class Download {
         Each.for(data["data"]["match-events"]).do((data) => {
             Events.fillEventListItem(Events.appendEventListItem(data), data);
         });
+
+        Elem.sel("#block-flyers-penalties .events").innerHTML = "";
+        if (data["data"].hasOwnProperty("penalty-shootout")) {
+            Each.for(data["data"]["penalty-shootout"]).do((row, i) => Events.penaltiesSetRow(i + 1, row));
+        }
     }
 
     static uploadGlobal (data) {

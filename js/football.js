@@ -233,7 +233,7 @@ button.clone(true).appendTo("#block-flyers-lineup div.result");
 button.clone(true).appendTo("#block-flyers-1st-half div.result");
 button.clone(true).appendTo("#block-flyers-2nd-half div.result");
 button.clone(true).appendTo("#block-flyers-extended div.result");
-//button.appendTo("#block-flyers-penalties div.result");
+button.clone(true).appendTo("#block-flyers-penalties div.result");
 
 // Stáhnout obrázek:
 Evnt.onAll("div.result div.make-image", "click", Events.clickImageDownloadButton);
