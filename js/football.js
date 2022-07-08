@@ -125,6 +125,7 @@ Evnt.on('form[name="event-editor"] input[name="submit"]', "click", Events.submit
 function penaltiesCountScore () {
     var scoreHome = 0;
     var scoreAway = 0;
+    var row = 1;
     Each.all("#block-flyers-penalties .events .event").do((el) => {
         if (Elem.from(el, ".home .ico .ico").hasClass("goal")) {
             ++scoreHome;
@@ -132,6 +133,9 @@ function penaltiesCountScore () {
         if (Elem.from(el, ".away .ico .ico").hasClass("goal")) {
             ++scoreAway;
         }
+        el.setAttribute("data-number", row);
+        Elem.from(el, ".time").html(row);
+        ++row;
     });
     Elem.sel("#block-flyers-penalties .score").innerText = `${scoreHome}:${scoreAway}`;
 }
@@ -145,6 +149,7 @@ function penaltiesEditRow (e) {
     form.qs('input[name="home-success"]').checked = Elem.from(row, ".home .ico .ico").hasClass("goal");
     Elem.from(form, 'select[name="away-player"]').val(row.qs(".away .comment").innerText);
     form.qs('input[name="away-success"]').checked = Elem.from(row, ".away .ico .ico").hasClass("goal");
+    form.qs(".delete").disabled = false;
     form.addClass("edit-mode");
 }
 
@@ -182,6 +187,7 @@ function penaltiesEditorReset () {
     let form = Elem.from('form[name="penalties-editor"]');
     form.removeClass("edit-mode");
     form.get().reset();
+    form.qs(".delete").disabled = true;
     form.qs("th.number").innerText = Elem.sel("#block-flyers-penalties .events").childElementCount + 1;
 }
 
@@ -224,9 +230,16 @@ Evnt.onAll('form[name="penalties-editor"] button', "click", (e) => {
 
             penaltiesEditorReset();
             break;
-        case "cancel":
+        case "delete":
+            var rowNumber = Elem.sel(e.currentTarget.closest("form"), ".number").innerText;
+            Elem.from(`#block-flyers-penalties .events .event[data-number="${rowNumber}"]`).remove();
+            penaltiesCountScore();
+            penaltiesEditorReset();
             break;
     }
+});
+Evnt.on("#penalties-close", "click", (e) => {
+    penaltiesEditorReset();
 });
 
 // Download and upload:

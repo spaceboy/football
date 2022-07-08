@@ -1469,11 +1469,11 @@ table.penalties button.submit {
 table.penalties button.submit:hover {
     color: greenyellow;
 }
-table.penalties button.cancel {
+table.penalties button.delete {
     color: darkred;
     width: 2.5em;
 }
-table.penalties button.cancel:hover {
+table.penalties button.delete:hover {
     color: orangered;
 }
 
@@ -1506,6 +1506,12 @@ form[name="penalties-editor"] #penalties-close {
 form[name="penalties-editor"].edit-mode #penalties-close {
     opacity: 1;
     transition: .3s;
+}
+form[name="penalties-editor"] button {
+    cursor: pointer;
+}
+form[name="penalties-editor"] button[disabled] {
+    cursor: not-allowed;
 }
 
 </style>
@@ -1546,7 +1552,7 @@ form[name="penalties-editor"].edit-mode #penalties-close {
                                             <td><input name="away-success" type="checkbox"></td>
                                             <td class="away"><select name="away-player"></select></td>
                                             <td><button class="submit"><i class="fas fa-check"></i></button></td>
-                                            <td><button class="cancel"><i class="fas fa-times"></i></button></td>
+                                            <td><button class="delete" disabled><i class="fas fa-trash"></i></button></td>
                                         </tr>
                                     </tbody>
                                 </table>
