@@ -1454,6 +1454,10 @@ table.penalties-head h3 {
     padding: 0;
 }
 
+table.penalties h3 {
+    margin: 0;
+    padding: 0;
+}
 table.penalties th {
     padding: 0;
     text-align: center;
@@ -1480,6 +1484,30 @@ form[name="penalties-editor"] {
     -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .05);
     padding: .5em .5em 1em .5em;
 }
+form[name="penalties-editor"] #penalties-edit {
+    color: #337ab7;
+    float: left;
+    font-size: 22px;
+    opacity: 0;
+    padding: .25em;
+}
+form[name="penalties-editor"].edit-mode #penalties-edit {
+    opacity: 1;
+    transition: .3s;
+}
+form[name="penalties-editor"] #penalties-close {
+    color: red;
+    cursor: pointer;
+    float: right;
+    font-size: 22px;
+    opacity: 0;
+    padding: .25em;
+}
+form[name="penalties-editor"].edit-mode #penalties-close {
+    opacity: 1;
+    transition: .3s;
+}
+
 </style>
 
                         <div class="block" id="block-flyer-editor-penalties">
@@ -1495,6 +1523,15 @@ form[name="penalties-editor"] {
                             </table>
                             <form name="penalties-editor" data-skip="skip">
                                 <table class="penalties">
+                                    <thead>
+                                        <tr>
+                                            <td colspan="7">
+                                                <i id="penalties-edit" class="fas fa-edit"></i>
+                                                <i id="penalties-close" class="fas fa-times-circle"></i>
+                                                <h3>Kolo rozstřelu</h3>
+                                            </td>
+                                        </tr>
+                                    </thead>
                                     <tbody>
                                         <tr>
                                             <th>#</th>

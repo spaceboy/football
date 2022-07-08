@@ -145,7 +145,7 @@ function penaltiesEditRow (e) {
     form.qs('input[name="home-success"]').checked = Elem.from(row, ".home .ico .ico").hasClass("goal");
     Elem.from(form, 'select[name="away-player"]').val(row.qs(".away .comment").innerText);
     form.qs('input[name="away-success"]').checked = Elem.from(row, ".away .ico .ico").hasClass("goal");
-    form.addClass("edit");
+    form.addClass("edit-mode");
 }
 
 function penaltiesSetRow (rowNum, data) {
@@ -176,6 +176,13 @@ function penaltiesSetRow (rowNum, data) {
     row.attr("data-number", rowNum);
 
     penaltiesCountScore();
+}
+
+function penaltiesEditorReset () {
+    let form = Elem.from('form[name="penalties-editor"]');
+    form.removeClass("edit-mode");
+    form.get().reset();
+    form.qs("th.number").innerText = Elem.sel("#block-flyers-penalties .events").childElementCount + 1;
 }
 
 Evnt.onAll('form[name="penalties-editor"] button', "click", (e) => {
@@ -215,9 +222,7 @@ Evnt.onAll('form[name="penalties-editor"] button', "click", (e) => {
                 }
             );
 
-            form.removeClass("edit");
-            form.get().reset();
-            form.qs("th.number").innerText = Elem.sel("#block-flyers-penalties .events").childElementCount + 1;
+            penaltiesEditorReset();
             break;
         case "cancel":
             break;
