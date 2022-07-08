@@ -1147,8 +1147,30 @@
                             </div><!-- /.result -->
                         </div><!-- /#block-flyers-extended -->
 
+<style>
+
+.event .ico.miss {
+    color: red;
+    text-align: center;
+    width: 1.3em;
+}
+</style>
+
                         <div class="block" id="block-flyers-penalties" data-menu-name="events-menu">
-                            penaltový rozstřel
+                            <div class="result">
+                                <div class="title">
+                                    <div class="team-names">
+                                        <h2 class="club-name"></h2>
+                                        <h2 class="partner-name"></h2>
+                                    </div>
+                                    <div class="score">0:0</div>
+                                </div>
+                                <div class="subtitle" style="text-align: center;">
+                                    <h3>Penaltový rozstřel</h3>
+                                </div>
+                                <div class="events"></div>
+                                <div class="events-referee" style="text-align: center;"></div>
+                            </div><!-- /.result -->
                         </div><!-- /#block-flyers-penalties -->
 
                     </div><!-- /.column -->
@@ -1324,7 +1346,9 @@ form[name="event-editor"].edit-mode #events-close {
 </style>
 
                     <div class="column width-5 text-center">
-                        <div class="block" id="block-flyer-editor-datetitme"></div><!-- /#block-flyer-editor-datetitme -->
+                        <div class="block" id="block-flyer-editor-datetitme">
+                            Datetime editor
+                        </div><!-- /#block-flyer-editor-datetitme -->
                         <div class="block" id="block-flyer-editor-events">
                             <table id="event-line">
                                 <thead>
@@ -1411,7 +1435,77 @@ form[name="event-editor"].edit-mode #events-close {
                                 </table>
                             </form>
                         </div><!-- /#block-flyer-editor-events -->
-                        <div class="block" id="block-flyer-editor-penalties"></div><!-- /#block-flyer-editor-penalties -->
+
+<style>
+table.penalties-head {
+    width: 100%;
+}
+table.penalties-head h3 {
+    margin: 0;
+    padding: 0;
+}
+
+table.penalties th {
+    padding: 0;
+    text-align: center;
+}
+table.penalties button.submit {
+    color: darkgreen;
+    width: 2.5em;
+}
+table.penalties button.submit:hover {
+    color: greenyellow;
+}
+table.penalties button.cancel {
+    color: darkred;
+    width: 2.5em;
+}
+table.penalties button.cancel:hover {
+    color: orangered;
+}
+
+form[name="penalties-editor"] {
+    border-radius: .25em;
+    border: 1px solid #e3e3e3;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .05);
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .05);
+    padding: .5em .5em 1em .5em;
+}
+</style>
+
+                        <div class="block" id="block-flyer-editor-penalties">
+                            <table class="penalties-head">
+                                <thead>
+                                    <tr>
+                                        <td>
+                                            <h3>Penaltový rozstřel</h3>
+                                        </td>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                            <form name="penalties-editor" data-skip="skip">
+                                <table class="penalties">
+                                    <tbody>
+                                        <tr>
+                                            <th>#</th>
+                                            <th colspan="2">Domácí</th>
+                                            <th colspan="2">Hosté</th>
+                                            <th colspan="2"></th>
+                                        </tr>
+                                        <tr>
+                                            <td class="number">1</td>
+                                            <td class="home"><select name="home-player"></select></td>
+                                            <td><input name="home-success" type="checkbox"></td>
+                                            <td><input name="away-success" type="checkbox"></td>
+                                            <td class="away"><select name="away-player"></select></td>
+                                            <td><button class="submit"><i class="fas fa-check"></i></button></td>
+                                            <td><button class="cancel"><i class="fas fa-times"></i></button></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </form>
+                        </div><!-- /#block-flyer-editor-penalties -->
                     </div><!-- /.column -->
                 </div>
             </div><!-- /.container-->
@@ -1510,6 +1604,9 @@ form[name="event-editor"].edit-mode #events-close {
             <span id="template-event-ico-other" class="ico penalty-uns"><i class="fas fa-exclamation-triangle"></i></span>
 
             <div id="template-make-image" class="make-image" title="Stáhnout obrázek na disk"><i class="fa fas fa-download"></i></div>
+
+            <span id="template-penalities-goal" class="ico goal"><i class="fas fa-futbol"></i></span>
+            <span id="template-penalities-miss" class="ico miss"><i class="fas fa-times"></i></span>
 
 
         </div>

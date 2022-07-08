@@ -565,6 +565,8 @@ class Events {
                 Elem.byId("events-player2").innerHTML = Events.optionListAway;
             break;
         }
+        Elem.sel('form[name="penalties-editor"] select[name="home-player"]').innerHTML = Events.optionListHome;
+        Elem.sel('form[name="penalties-editor"] select[name="away-player"]').innerHTML = Events.optionListAway;
     }
 
     // List událostí -- edit:

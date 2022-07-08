@@ -122,6 +122,34 @@ Evnt.on('form[name="event-editor"]', "change", Events.changeEventForm);
 Evnt.on('form[name="event-editor"] #events-close', "click", Events.eventFormClear);
 Evnt.on('form[name="event-editor"] input[name="submit"]', "click", Events.submitEventForm);
 
+Evnt.onAll('form[name="penalties-editor"] button', "click", (e) => {
+    e.preventDefault();
+    switch (e.currentTarget.getAttribute("class")) {
+        case "submit":
+            let form = Elem.from(e.currentTarget.closest("form"));
+            let row = Elem.from("#template-event-show").clone(true).attrRemove("id");
+
+            row.qs(".home .comment").innerText = form.qs('select[name="home-player"]').value;
+            if (form.qs('input[name="home-success"]').checked) {
+                Elem.from("#template-penalities-goal").clone(true).appendTo(row.qs(".home .ico"));
+            } else {
+                Elem.from("#template-penalities-miss").clone(true).appendTo(row.qs(".home .ico"));
+            }
+
+            row.qs(".away .comment").innerText = form.qs('select[name="away-player"]').value;
+            if (form.qs('input[name="home-success"]').checked) {
+                Elem.from("#template-penalities-goal").clone(true).appendTo(row.qs(".away .ico"));
+            } else {
+                Elem.from("#template-penalities-miss").clone(true).appendTo(row.qs(".away .ico"));
+            }
+
+            row.qs(".time").innerText = "1";
+            row.appendTo(Elem.sel("#block-flyers-penalties .events"));
+            break;
+        case "cancel":
+            break;
+    }
+});
 
 // Download and upload:
 Evnt.onAll("span.download", "click", Download.clickDownload);
