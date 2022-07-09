@@ -303,6 +303,33 @@ class Events {
         }
     }
 
+    // Setřídění našich hráčů podle čísel:
+    static clickSortPlayersOur () {
+        // Načteme seznam hráčů:
+        var arr = [];
+        Each.all("#club-players tbody tr").do((tr) =>
+            arr.push({
+                "player-number": Elem.sel(tr, "input.player-number").value,
+                "player-name": Elem.sel(tr, "input.player-name").value
+            })
+        );
+
+        // Uspořádáme seznam podle čísel:
+        arr.sort((a, b) => {
+            return parseInt(a["player-number"]) - parseInt(b["player-number"]);
+        });
+
+        // Vložíme data zpět do formuláře:
+        Each.all("#club-players tbody tr").do((tr) => {
+            var p = arr.shift();
+            Elem.sel(tr, "input.player-number").value = p["player-number"];
+            Elem.sel(tr, "input.player-name").value = p["player-name"];
+        });
+
+        // Vyvoláme událost, aby se změna zpropagovala dále:
+        Evnt.trigger("#club-players input", "change");
+    }
+
     // Změna rozestavaní: standardy
     static changePositionsPreset (e) {
         var l = e.currentTarget.value.split(":");

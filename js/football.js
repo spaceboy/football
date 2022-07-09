@@ -7,6 +7,9 @@ Evnt.onAll("table.players tfoot .add", "click", Events.clickPlayerAdd);
 Evnt.trigger("#club-players tfoot .add", "click");
 Evnt.trigger("#partner-players tfoot .add", "click");
 
+// Ovládání tlačítka pro setřídění hráčů podle čísel:
+Evnt.on("#club-players-sort", "click", Events.clickSortPlayersOur);
+
 // Vlož na hřiště figuru brankáře:
 Events.addPlayerFigure(document.querySelector("#lineup .line-gol"));
 
