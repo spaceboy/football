@@ -227,7 +227,7 @@ class Events {
                 document.querySelector("#lineup-match-partner h3").innerText = `Soupiska ${val}`;
                 break;
             case "match-info-type":
-                Events.setMatchType(val);
+                Events.setMatchType();
                 break;
             case "match-info-day":
             case "match-info-place":
@@ -246,7 +246,7 @@ class Events {
                     case "player-on":
                     case "player-name":
                     case "player-number":
-                        Events.createPlayerLists()
+                        Events.createPlayerLists();
                         break;
                 }
         }

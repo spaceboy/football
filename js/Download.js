@@ -274,7 +274,12 @@ class Download {
             Elem.sel(row, 'input[name="player-number"]').value = player["number"];
             Elem.sel(row, 'input[name="player-name"]').value = player["name"];
         });
-        Evnt.trigger("#club-players input", "change");
+
+        Events.setCanvasTitle();
+        Events.setMatchType();
+        Events.setMatchTimespace();
+        Events.setReferee();
+        Events.createPlayerLists();
     }
 
     // Upload jerseys:
