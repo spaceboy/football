@@ -117,6 +117,9 @@ Events.copyJerseyColors();
 // Formulář informací o zápasu:
 Evnt.on('form[name="match-info"]', "change", Events.changeMatchInfoForm);
 
+// Formulář pro úpravu letáku pozvánky:
+Evnt.on('form[name="flyer-datetime"]', "change", Events.changeFlyerDatetimeEditor);
+
 // Manipulace se základní sestavou (malou):
 //Evnt.onAll("#block-flyers-lineup .lineup .lineup-list", "click", Events.clickPlayerLineup);
 
@@ -228,10 +231,12 @@ Events.setCanvasTitle();
 Events.setReferee();
 Events.createPlayerLists();
 Events.setMatchTimespace();
+Events.setMatchType();
 
 // Vložení buttonů pro stažení obrázků:
 let button = (new Elem("#template-make-image")).clone(true).attrRemove("id");
 //button.appendTo("#canvas");
+button.clone(true).appendTo("#block-flyers-datetime div.result");
 button.clone(true).appendTo("#block-flyers-lineup div.result");
 button.clone(true).appendTo("#block-flyers-1st-half div.result");
 button.clone(true).appendTo("#block-flyers-2nd-half div.result");

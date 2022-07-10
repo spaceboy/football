@@ -8,8 +8,9 @@
         <title>Fotbalová grafika</title>
         <link rel="icon" type="image/png" href="gfx/icon-32.png">
         <link rel="stylesheet" href="css/global.css">
-        <link rel="stylesheet" type="text/css" href="css/fa/styles/fontawesome.min.css?v=1">
-        <link rel="stylesheet" type="text/css" href="css/fa/styles/solid.min.css?v=1">
+        <link rel="stylesheet" type="text/css" href="css/fa/styles/fontawesome.min.css">
+        <link rel="stylesheet" type="text/css" href="css/fa/styles/solid.min.css">
+        <link rel="stylesheet" type="text/css" href="css/fa/styles/brands.min.css">
         <link rel="stylesheet" type="text/css" href="css/football.css?v=4">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -937,6 +938,59 @@
 .menu.menu-flyers {
     margin: 0 0 1em 0;
 }
+
+
+#block-flyers-datetime .result .title .team-names {
+    display: block;
+    text-align: center;
+}
+#block-flyers-datetime .result .content {
+    display: flex;
+    flex: 1;
+    flex-flow: column;
+
+    background: white;
+    /*border: 2px solid darkgreen;*/
+    margin: 1em;
+    transform: skewY(-2deg);
+}
+#block-flyers-datetime .result .content .match-info {
+    padding: .5em 0;
+}
+#block-flyers-datetime .result .content .subtitle,
+#block-flyers-datetime .result .content .bottom {
+    background: darkgreen;
+}
+#block-flyers-datetime .result .content .subtitle h3,
+#block-flyers-datetime .result .content .bottom h3 {
+    color: white;
+    font-family: Roboto;
+    font-size: 32px;
+    font-variant: petite-caps;
+    margin: 0;
+    padding: .25em;
+    text-align: center;
+    text-shadow: none;
+    text-transform: uppercase;
+}
+#block-flyers-datetime .result .content .match-info {
+    display: flex;
+    flex-flow: column;
+    font-size: 22px;
+    text-align: center;
+}
+#block-flyers-datetime .result .content .match-info i.ico {
+    background: darkgreen;
+    border-radius: 50%;
+    color: white;
+    float: none;
+    height: 1.6em;
+    line-height: 1.6em;
+    margin-right: .5em;
+    padding: 0;
+    text-align: center;
+    width: 1.6em;
+}
 </style>
 
         <div class="block" id="block-flyers" data-menu-name="main-menu">
@@ -973,21 +1027,18 @@
                                 </div>
                                 <div class="content">
                                     <div class="subtitle">
-                                        <h3 data-js="match-type">mistrovský zápas</h3>
+                                        <h3 class="info"></h3>
                                     </div>
                                     <div class="match-info">
-                                        <div class="day">
-                                            <i class="fa fa-calendar"></i>
-                                            <span class="info">---</span>
-                                        </div>
-                                        <div class="time">
-                                            <i class="fa fa-clock"></i>
-                                            <span class="info">---</span>
-                                        </div>
-                                        <div class="place">
-                                            <i class="fa fa-globe-africa"></i>
-                                            <span class="info">---</span>
-                                        </div>
+                                        <div class="day"><i class="ico fa fa-calendar"></i><span class="info"></span></div>
+                                        <div class="time"><i class="ico fa fa-clock"></i><span class="info"></span></div>
+                                        <div class="place"><i class="ico fa fa-globe-africa"></i><span class="info"></span></div>
+                                        <div class="fb" style="display: none;"><i class="ico fab fa-facebook"></i><span class="info"></span></div>
+                                        <div class="twitter" style="display: none;"><i class="ico fab fa-twitter"></i><span class="info"></span></div>
+                                        <div class="hashtag" style="display: none;"><i class="ico fas fa-hashtag"></i><span class="info"></span></div>
+                                    </div>
+                                    <div class="bottom" style="display: none;">
+                                        <h3 class="info"></h3>
                                     </div>
                                 </div>
                             </div><!-- /.result -->
@@ -1350,7 +1401,64 @@ form[name="event-editor"].edit-mode #events-close {
 
                     <div class="column width-5 text-center">
                         <div class="block" id="block-flyer-editor-datetitme">
-                            Datetime editor
+                            <form name="flyer-datetime">
+                                <table id="block-flyer-editor-datetitme-table">
+                                    <thead>
+                                        <tr>
+                                            <td colspan="3">
+                                                <h3>Řádky pozvánky</h3>
+                                            </td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th>Řádek</th>
+                                            <th>Obsah</th>
+                                            <th>Zobrazení</th>
+                                        </tr>
+                                        <tr>
+                                            <th>Utkání</th>
+                                            <td><input name="info[subtitle]" type="text" disabled></td>
+                                            <td><input name="show[subtitle]" type="checkbox" checked disabled></td>
+                                        </tr>
+                                        <tr>
+                                            <th><i class="fa fa-calendar"></i></th>
+                                            <td><input name="info[day]" type="text" disabled></td>
+                                            <td><input name="show[day]" type="checkbox" checked disabled></td>
+                                        </tr>
+                                        <tr>
+                                            <th><i class="fa fa-clock"></i></th>
+                                            <td><input name="info[time]" type="text" disabled></td>
+                                            <td><input name="show[time]" type="checkbox" checked disabled></td>
+                                        </tr>
+                                        <tr>
+                                            <th><i class="fa fa-globe-africa"></i></th>
+                                            <td><input name="info[place]" type="text" disabled></td>
+                                            <td><input name="show[place]" type="checkbox" checked disabled></td>
+                                        </tr>
+                                        <tr>
+                                            <th><i class="fab fa-facebook"></i></th>
+                                            <td><input name="info[fb]" type="text" placeholder="/SlavojHouslice"></td>
+                                            <td><input name="show[fb]" type="checkbox"></td>
+                                        </tr>
+                                        <tr>
+                                            <th><i class="fab fa-twitter"></i></th>
+                                            <td><input name="info[twitter]" type="text" placeholder="@slavoj_houslice"></td>
+                                            <td><input name="show[twitter]" type="checkbox"></td>
+                                        </tr>
+                                        <tr>
+                                            <th><i class="fas fa-hashtag"></i></th>
+                                            <td><input name="info[hashtag]" type="text" placeholder="#houslice_do_toho"></td>
+                                            <td><input name="show[hashtag]" type="checkbox"></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Spodní text</th>
+                                            <td><input name="info[bottom]" type="text" placeholder="Houslice, do toho!"></td>
+                                            <td><input name="show[bottom]" type="checkbox"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </form>
                         </div><!-- /#block-flyer-editor-datetitme -->
                         <div class="block" id="block-flyer-editor-events">
                             <table id="event-line">

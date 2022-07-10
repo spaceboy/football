@@ -87,6 +87,13 @@ class Events {
         Each.all("#block-flyers .events-referee").do((el) => el.innerHTML = "<p><b>Rozhodčí:</b> " + ref.join(", ") + "</p>");
     }
 
+    // Nastaví typ zápasu:
+    static setMatchType () {
+        var type = Elem.valueById("match-info-type");
+        Elem.sel("#block-flyers-datetime .content .subtitle .info").innerText = type;
+        Elem.sel('form[name="flyer-datetime"] input[name="info[subtitle]"]').value = type;
+    }
+
     // Nastaví čas a místo zápasu:
     static setMatchTimespace () {
         let place = Elem.valueById("match-info-place");
@@ -98,6 +105,11 @@ class Events {
         lineup.qsElem("ul li.day").text(timeDay);
         lineup.qsElem("ul li.time").text(timeTime);
         lineup.qsElem("ul li.place").text(place);
+
+        // Zkopírování informace o místu a času do editoru letáku pozvánky:
+        Elem.sel('#block-flyer-editor-datetitme-table input[name="info[day]"]').value = timeDay;
+        Elem.sel('#block-flyer-editor-datetitme-table input[name="info[time]"]').value = timeTime;
+        Elem.sel('#block-flyer-editor-datetitme-table input[name="info[place]"]').value = place;
 
         // Nastavení místa a času v letácích:
         Each.all("div.result div.match-info div.day .info").do((el) => el.innerText = timeDay);
@@ -199,7 +211,7 @@ class Events {
         let val = t.value;
         switch (t.id) {
             case "club-info-name":
-                EventssetCanvasTitle();
+                Events.setCanvasTitle();
                 document.querySelector("#lineup-match-club h3").innerText = `Soupiska ${val}`;
                 break;
             case "match-info-home":
@@ -213,6 +225,9 @@ class Events {
             case "match-info-partner":
                 Events.setCanvasTitle();
                 document.querySelector("#lineup-match-partner h3").innerText = `Soupiska ${val}`;
+                break;
+            case "match-info-type":
+                Events.setMatchType(val);
                 break;
             case "match-info-day":
             case "match-info-place":
@@ -532,6 +547,19 @@ class Events {
         Elem.byId("style-jersey").textContent =
             "#lineup .player .jersey i {background-image: " + document.querySelector("#player-field .jersey i").style.backgroundImage + ";} " +
             "#lineup .line-gol .player .jersey i {background-image: " + document.querySelector("#player-goalie .jersey i").style.backgroundImage + ";}";
+    }
+
+    // Změna v editoru letáku pozvánky
+    static changeFlyerDatetimeEditor (e) {
+        let name = e.target.name.match(/\[([a-z0-9\_\-]*)\]/)[1];
+        let tr = e.target.closest("tr");
+        let div = Elem.sel(`#block-flyers-datetime .${name}`);
+        Elem.sel(div, ".info").innerHTML = Elem.sel(tr, 'input[type="text"]').value;
+        div.style.display = (
+            Elem.sel(tr, 'input[type="checkbox"]').checked
+            ? "block"
+            : "none"
+        );
     }
 
     // Formulář událostí -- manipulace input[name="time"]:

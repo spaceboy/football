@@ -177,6 +177,17 @@ class Download {
                 "away-success": Elem.from(row, ".away .ico .ico").hasClass("goal")
             });
         });
+
+        // Invitation (day, time, place):
+        var data = {};
+        Each.all('form[name="flyer-datetime"] input').do((input) => {
+	        var m = input.name.match(/([^\[]*)\[([^\]]*)\]/);
+            if (!data.hasOwnProperty(m[2])) {
+                data[m[2]] = {};
+            }
+            data[m[2]][m[1]] = (input.type === "checkbox" ? input.checked : input.value);
+        });
+        Download.data["data"]["datetime"] = data;
     }
 
     // Download informací o klubu:
@@ -386,6 +397,16 @@ class Download {
         Elem.sel("#block-flyers-penalties .events").innerHTML = "";
         if (data["data"].hasOwnProperty("penalty-shootout")) {
             Each.for(data["data"]["penalty-shootout"]).do((row, i) => Events.penaltiesSetRow(i + 1, row));
+        }
+
+        // Show invitation (datetime):
+        if (data["data"].hasOwnProperty("datetime")) {
+            Each.in(data["data"]["datetime"]).do((row, name) => {
+                Elem.sel(`form[name="flyer-datetime"] input[name="info[${name}]"]`).value = row["info"];
+                var cb = Elem.sel(`form[name="flyer-datetime"] input[name="show[${name}]"]`);
+                cb.checked = row["show"];
+                Evnt.trigger(cb, "change", true);
+            });
         }
     }
 
